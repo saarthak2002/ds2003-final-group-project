@@ -9,7 +9,7 @@ library(shiny)
 library(tidyverse)
 library(leaflet)
 library(plotly)
-library("shinyWidgets")
+library(shinyWidgets)
 
 ####################### Setup #######################
 dateInput2 <- function(inputId, label, minview = "days", maxview = "decades", ...) {
@@ -75,7 +75,7 @@ ui <- page_navbar(
   underline=T,
   
   ####################### PLOT 1 #######################
-  tabPanel("Time Series",
+  tabPanel("County Level",
     fluidPage(
       titlePanel("Accident Time Series"),
       mainPanel(
@@ -85,7 +85,7 @@ ui <- page_navbar(
       ),
       layout_columns(
         card(
-          dateRangeInput2("plot1_dateSlider", h4("Select Date Range"), startview = "year", minview = "months", maxview = "decades", start = "2015-01", end = "2024-01", format = "yyyy-mm"),
+          dateRangeInput2("plot1_dateSlider", h4("Select Date Range"), startview = "year", minview = "months", maxview = "decades", start = "2015-01", end = "2024-01", format = "yyyy-mm", min = "2015-01", max="2024-01"),
           "Label Months",
           switchInput(
             inputId = "plot1_labelMonths",
@@ -111,7 +111,7 @@ ui <- page_navbar(
   ######################################################
   
   ####################### PLOT 2 #######################
-  tabPanel("Plot 2",
+  tabPanel("Greater Virginia",
            fluidPage(
              # Application title
              titlePanel("Plot 2"),
@@ -258,7 +258,7 @@ server <- function(input, output) {
     
     p <- ggplot(filtered_data) +
       scale_color_manual(values = c("Motorists Injured" = "deepskyblue", "Motorists Killed" = "darkred", "Pedestrians Injured" = "dodgerblue4", "Pedestrians Killed" = "coral")) +
-      labs(title = paste("Persons Injured/Killed Time Series in ", trimws(gsub("[^[:alpha:] ]", "", input$plot1_countyInput))),
+      labs(title = paste("Persons Injured/Killed in", trimws(gsub("[^[:alpha:] ]", "", input$plot1_countyInput)), "Crashes"),
            x = "Date",
            y = "Persons Affected",
            color = "Outcome"
@@ -267,28 +267,32 @@ server <- function(input, output) {
       theme(axis.text=element_text(size=15), legend.text = element_text(size=15))
     
     if("Motorists Injured" %in% input$plot1_crashAffect) {
-      p <- p + geom_line(aes(x = MM_YYYY, y = Persons_Injured_sum, color = "Motorists Injured"))
+      p <- p + geom_line(aes(x = MM_YYYY, y = Persons_Injured_sum, color = "Motorists Injured", 
+        text=paste("Date:", format(MM_YYYY, "%B %Y"), "\nInjuries:", Persons_Injured_sum, "\nOutcome: Motorists Injured"), group=1))
     }
     if("Motorists Killed" %in% input$plot1_crashAffect) {
-      p <- p + geom_line(aes(x = MM_YYYY, y = K_people_sum, color = "Motorists Killed"))
+      p <- p + geom_line(aes(x = MM_YYYY, y = K_people_sum, color = "Motorists Killed",
+        text=paste("Date:", format(MM_YYYY, "%B %Y"), "\nDeaths:", K_people_sum, "\nOutcome: Motorists Killed"), group=1))
     }
     
     if("Pedestrians Injured" %in% input$plot1_crashAffect) {
-      p <- p + geom_line(aes(x = MM_YYYY, y = Pedestrians_Injured_sum, color = "Pedestrians Injured"))
+      p <- p + geom_line(aes(x = MM_YYYY, y = Pedestrians_Injured_sum, color = "Pedestrians Injured",
+        text=paste("Date:", format(MM_YYYY, "%B %Y"), "\nInjuries:", Pedestrians_Injured_sum, "\nOutcome: Pedestrians Injured"), group=1))
     }
     
     if("Pedestrians Killed" %in% input$plot1_crashAffect) {
-      p <- p + geom_line(aes(x = MM_YYYY, y = Pedestrians_Killed_sum, color = "Pedestrians Killed"))
+      p <- p + geom_line(aes(x = MM_YYYY, y = Pedestrians_Killed_sum, color = "Pedestrians Killed",
+        text=paste("Date:", format(MM_YYYY, "%B %Y"), "\nDeaths:", Pedestrians_Killed_sum, "\nOutcome: Pedestrians Killed"), group=1))
     }
     
     if(input$plot1_labelMonths) {
-      p <- p+ theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.text=element_text(size=10), legend.text = element_text(size=15))
+      p <- p + theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.text=element_text(size=10), legend.text = element_text(size=15))
       p <- p + scale_x_date(date_breaks = "3 months", date_labels = "%b-%Y")
     }
     else {
       p <- p
     }
-    ggplotly(p)
+    ggplotly(p, tooltip="text")
   })
   
   output$dateRangeText <- renderText({
