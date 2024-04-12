@@ -91,6 +91,11 @@ ggplot(arlington_data) +
 
 ## Data Prep for Plot 2
 
+```{r}
+
+```
+
+
 ## Data Prep for Plot 3
 
 ```{r}
@@ -102,6 +107,11 @@ export_data <- export_data %>%
 # Export the selected columns to a CSV file
 write.csv(export_data, file = "plot_3_data.csv", row.names = FALSE)
 ```
+
+```{r}
+export_data
+```
+
 
 ```{r}
 alc <- unique(data$Alcohol.)

@@ -8,6 +8,7 @@ library(ggplot2)
 library(shiny)
 library(tidyverse)
 library(leaflet)
+library(plotly)
 library("shinyWidgets")
 
 ####################### Setup #######################
@@ -78,7 +79,7 @@ ui <- page_navbar(
     fluidPage(
       titlePanel("Accident Time Series"),
       mainPanel(
-        plotOutput("distPlot1"),
+        plotlyOutput("distPlot1"),
         htmlOutput("dateRangeText"),
         width = "100%"
       ),
@@ -252,7 +253,7 @@ server <- function(input, output) {
     return(filtered_data)
   })
   
-  output$distPlot1 <- renderPlot({
+  output$distPlot1 <- renderPlotly({
     filtered_data <- plot_1_dynamic_data()
     
     p <- ggplot(filtered_data) +
@@ -282,11 +283,12 @@ server <- function(input, output) {
     
     if(input$plot1_labelMonths) {
       p <- p+ theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.text=element_text(size=10), legend.text = element_text(size=15))
-      p + scale_x_date(date_breaks = "3 months", date_labels = "%b-%Y")
+      p <- p + scale_x_date(date_breaks = "3 months", date_labels = "%b-%Y")
     }
     else {
-      p
+      p <- p
     }
+    ggplotly(p)
   })
   
   output$dateRangeText <- renderText({
