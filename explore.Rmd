@@ -65,10 +65,62 @@ write.csv(summarized_data, file = "plot_1_data.csv", row.names = FALSE)
 
 
 
+## Plot 3 Data Prep
+
+```{r}
+export_data <- data[, c("x", "y", "Crash.Severity", "Physical.Juris.Name", "Crash.Military.Time", "Persons.Injured", "K_People", "Pedestrians.Injured", "Pedestrians.Killed", "Vehicle.Count", "Collision.Type", "Weather.Condition", "Light.Condition", "Roadway.Surface.Condition", "Roadway.Defect", "Roadway.Description", "Intersection.Type", "Alcohol.", "Unrestrained.", "Distracted.", "RTE.Name", "Crash.Date")]
+
+export_data <- export_data %>%
+  filter(Physical.Juris.Name == "104. City of Charlottesville")
+
+# Export the selected columns to a CSV file
+# write.csv(export_data, file = "plot_3_data.csv", row.names = FALSE)
+```
+
+```{r}
+alc <- unique(data$Alcohol.)
+alc
+```
+
+```{r}
+belted <- unique(data$Unrestrained.)
+belted
+```
+
+```{r}
+Collision_Type <- unique(data$Collision.Type)
+Collision_Type
+```
+```{r}
+Weather_Condition <- unique(export_data$Weather.Condition)
+Weather_Condition
+```
+
+```{r}
+Light_Condition <- unique(export_data$Light.Condition)
+Light_Condition
+```
+
+```{r}
+Intersection_Type <- unique(export_data$Intersection.Type)
+Intersection_Type
+```
+
+```{r}
+Roadway_Surface_Condition <- unique(export_data$Roadway.Surface.Condition)
+Roadway_Surface_Condition
+```
+
+```{r}
+Roadway_Description <- unique(export_data$Roadway.Description)
+Roadway_Description
+```
 
 
-
-
+```{r}
+Roadway_Defect <- unique(export_data$Roadway.Defect)
+Roadway_Defect
+```
 
 ```{r}
 filtered_data <- data %>%

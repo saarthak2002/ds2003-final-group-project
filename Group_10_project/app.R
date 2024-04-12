@@ -21,6 +21,10 @@ dateRangeInput2 <- function(inputId, label, minview = "days", maxview = "decades
   d
 }
 
+levels <- c("O", "C", "B", "A", "K")
+colors <- c("red", "orange", "yellow", "blue", "green")
+pal <- colorFactor(colors, levels)
+
 translate_crash_severity_to_code <- function(severity_name) {
   severity_code <- switch(severity_name,
                           "Property Damage" = "O",
@@ -46,50 +50,51 @@ translate_code_to_crash_severity <- function(severity_code) {
 plot_1_data <- read.csv("../plot_1_data.csv")
 
 plot_3_data <- read.csv("../plot_3_data.csv")
-weather_conditions <- unique(plot_3_data$Weather.Condition)
-weather_conditions <- c("0. Any", weather_conditions)
-weather_conditions <- sort(weather_conditions)
+collision_type <- c("0. Any", "1. Rear End", "2. Angle", "3. Head On", "4. Sideswipe - Same Direction",
+            "5. Sideswipe - Opposite Direction", "6. Fixed Object in Road", "7. Train",
+            "8. Non-Collision", "9. Fixed Object - Off Road", "10. Deer", 
+            "11. Other Animal", "12. Ped", "13. Bicyclist", "14. Motorcyclist",
+            "15. Backed Into", "16. Other", "Not Applicable")
+light_conditions <- c("0. Any", "1. Dawn", "2. Daylight", "3. Dusk", "4. Darkness - Road Lighted", "5. Darkness - Road Not Lighted", "6. Darkness - Unknown Road Lighting", "7. Unknown")
+weather_conditions <- c("0. Any", "1. No Adverse Condition (Clear/Cloudy)", "3. Fog", "4. Mist", "5. Rain", "6. Snow", "7. Sleet/Hail", "9. Other", "10. Blowing Sand, Soil, Dirt, or Snow", "11. Severe Crosswinds")
+intersection_types <- c("0. Any", "1. Not at Intersection", "2. Two Approaches", "3. Three Approaches", "4. Four Approaches", "5. Five-Point, or More", "6. Roundabout")
+road_surface_conditions <- c("0. Any", "1. Dry", "2. Wet", "3. Snowy", "4. Icy", "5. Slush", "6. Oil/Other Fluids", "7. Sand, Dirt, Gravel", "8. Other", "9. Water (Standing, Moving)")
+roadway_descriptions <- c("0. Any", "1. Two-Way, Not Divided", "2. Two-Way, Divided, Unprotected Median", "3. Two-Way, Divided, Positive Median Barrier", "4. One-Way, Not Divided", "5. Unknown")
+roadway_defects <- c("0. Any", "1. No Defects", "2. Holes, Ruts, Bumps", "3. Slick Pavement", "4. Under Repair", "5. Loose Material", "6. Restricted Width", "7. Roadway Obstructed", "8. Edge Pavement Drop Off", "9. Other")
+
 
 
 ui <- page_navbar(
   title="Virginia Car Crash Data",
   underline=T,
+  
   ####################### PLOT 1 #######################
   tabPanel("Time Series",
-           fluidPage(
-             # Application title
-             titlePanel("Plot 1"),
-             mainPanel(
-               plotOutput("distPlot1"),
-               htmlOutput("dateRangeText"),
-               width = "100%"
-             ),
-             # sidebarLayout(
-               layout_columns(
-                 card(
-                   dateRangeInput2("plot1_dateSlider", h4("Select Date Range"), startview = "year", minview = "months", maxview = "decades", start = "2015-01", end = "2024-01", format = "yyyy-mm"),
-                 ),
-                 card(
-                   selectInput("plot1_countyInput", h4("Select County"), unique(plot_1_data$Physical.Juris.Name)),
-                 ),
-                 card(
-                   checkboxGroupInput("plot1_crashAffect", h4("Select Injured/Killed"), c("Motorists Injured", "Motorists Killed", "Pedestrians Injured", "Pedestrians Killed"), c("Motorists Injured", "Motorists Killed")),
-                 ),
-                 height = "200px"
-                 
-               ),
-             
-             # Debug Info comment out
-             textOutput("testingTest"),
-               # Sidebar with a slider input
-               # sidebarPanel(
-                 
-               # ),
-               
-               # Show a plot of the generated distribution
-               
-             # )
-           ) 
+    fluidPage(
+      titlePanel("Accident Time Series"),
+      mainPanel(
+        plotOutput("distPlot1"),
+        htmlOutput("dateRangeText"),
+        width = "100%"
+      ),
+      layout_columns(
+        card(
+          dateRangeInput2("plot1_dateSlider", h4("Select Date Range"), startview = "year", minview = "months", maxview = "decades", start = "2015-01", end = "2024-01", format = "yyyy-mm"),
+        ),
+        card(
+          selectInput("plot1_countyInput", h4("Select County"), unique(plot_1_data$Physical.Juris.Name)),
+        ),
+        card(
+          checkboxGroupInput("plot1_crashAffect", h4("Select Injured/Killed"), c("Motorists Injured", "Motorists Killed", "Pedestrians Injured", "Pedestrians Killed"), c("Motorists Injured", "Motorists Killed")),
+        ),
+        height = "200px"
+      ),
+      # DEBUG Info comment out
+      textOutput("test11"),
+      textOutput("test12"),
+      textOutput("test13"),
+      
+    ) 
   ),
   ######################################################
   
@@ -126,7 +131,7 @@ ui <- page_navbar(
                   margin-bottom: 20px;
                 }
              ")),
-             titlePanel("Dangerous Roads in Charlottesville"),
+             titlePanel("Dangerous Roads in Charlottesville, VA"),
              leafletOutput("mymap"),
              layout_columns(
                card(
@@ -170,20 +175,33 @@ ui <- page_navbar(
                      status = "danger"
                    )
                  ),
+                 selectInput("plot3_collisionType", "Collision Type", collision_type),
                ),
                card(
-                 "Weather Conditions",
+                 "Environment Conditions",
                  selectInput("plot3_weatherCondition", "Weather", weather_conditions),
-                 selectInput("plot3_lightCondition", "Light", weather_conditions),
+                 selectInput("plot3_lightCondition", "Light", light_conditions),
                ),
                card(
-                 "Road Conditions"
+                 "Road Conditions",
+                 selectInput("plot3_intersectionType", "Intersection Type", intersection_types),
+                 selectInput("plot3_roadwayDescription", "Roadway Type", roadway_descriptions),
+                 selectInput("plot3_roadSurfaceCondition", "Roadway Surface Condition", road_surface_conditions),
+                 selectInput("plot3_roadwayDefects", "Roadway Defect", roadway_defects),
                ),
              ),
+             # DEBUG Info comment out
              textOutput("test31"),
              textOutput("test32"),
              textOutput("test33"),
              textOutput("test34"),
+             textOutput("test35"),
+             textOutput("test36"),
+             textOutput("test37"),
+             textOutput("test38"),
+             textOutput("test39"),
+             textOutput("test310"),
+             textOutput("test311"),
            )
   ),
   
@@ -226,7 +244,7 @@ server <- function(input, output) {
     
     p <- ggplot(filtered_data) +
       scale_color_manual(values = c("Motorists Injured" = "deepskyblue", "Motorists Killed" = "darkred", "Pedestrians Injured" = "dodgerblue4", "Pedestrians Killed" = "coral")) +
-      labs(title = paste("Persons Injured Time Series in ", input$plot1_countyInput),
+      labs(title = paste("Persons Injured/Killed Time Series in ", gsub("[^[:alpha:] ]", "", input$plot1_countyInput)),
            x = "Date",
            y = "Persons Affected",
            color = "Outcome"
@@ -270,7 +288,10 @@ server <- function(input, output) {
     
   })
   
-  output$testingTest <- renderText(input$plot1_crashAffect)
+  # DEBUG Info Comment Out
+  output$test13 <- renderText(input$plot1_crashAffect)
+  output$test12 <- renderText(input$plot1_countyInput)
+  output$test11 <- renderText(input$plot1_dateSlider)
   ######################################################
   
   ####################### PLOT 2 #######################
@@ -281,18 +302,75 @@ server <- function(input, output) {
   
   ######################################################
   
+  ####################### PLOT 3 #######################
   plot_3_dynamic_data <- reactive({
     crashSeverity <- translate_crash_severity_to_code(input$plot3_crashSeverity)
     crashMilitaryTimeStart <- input$plot3_crashMilitaryTime[1]
     crashMilitaryTimeEnd <- input$plot3_crashMilitaryTime[2]
     beltedUnbelted <- input$plot3_beltedUnbelted
     alcohol <- input$plot3_alcohol
+    collision_type <- input$plot3_collisionType
+    weather_condition <- input$plot3_weatherCondition
+    light_condition <- input$plot3_lightCondition
+    intersection_type <- input$plot3_intersectionType
+    road_surface_condition <- input$plot3_roadSurfaceCondition
+    roadway_description <- input$plot3_roadwayDescription
+    roadway_defect <- input$plot3_roadwayDefects
     
     filtered_data <- plot_3_data
     
+    # Crash severity
     if (crashSeverity != "All") {
       filtered_data <- filtered_data %>%
         filter(Crash.Severity == crashSeverity)
+    }
+    
+    # Time of Day
+    filtered_data <- filtered_data %>%
+      filter(Crash.Military.Time >= crashMilitaryTimeStart & 
+               Crash.Military.Time <= crashMilitaryTimeEnd)
+    
+    # Alcohol
+    filtered_data <- filtered_data %>%
+      filter(Alcohol. %in% alcohol)
+    
+    # Belted/Unbelted
+    filtered_data <- filtered_data %>%
+      filter(Unrestrained. %in% beltedUnbelted)
+    
+    if(collision_type != "0. Any") {
+      filtered_data <- filtered_data %>%
+        filter(Collision.Type == collision_type)
+    }
+    
+    if(weather_condition != "0. Any") {
+      filtered_data <- filtered_data %>%
+        filter(Weather.Condition == weather_condition)
+    }
+    
+    if(light_condition != "0. Any") {
+      filtered_data <- filtered_data %>%
+        filter(Light.Condition == light_condition)
+    }
+    
+    if(intersection_type != "0. Any") {
+      filtered_data <- filtered_data %>%
+        filter(Intersection.Type == intersection_type)
+    }
+    
+    if(roadway_description != "0. Any") {
+      filtered_data <- filtered_data %>%
+        filter(Roadway.Description == roadway_description)
+    }
+    
+    if(road_surface_condition != "0. Any") {
+      filtered_data <- filtered_data %>%
+        filter(Roadway.Surface.Condition == road_surface_condition)
+    }
+    
+    if(roadway_defect != "0. Any") {
+      filtered_data <- filtered_data %>%
+        filter(Roadway.Defect == roadway_defect)
     }
     
     return(filtered_data)
@@ -305,10 +383,15 @@ server <- function(input, output) {
     leaflet() %>% 
       setView(lat=38.036084, lng=-78.49456, zoom = 14) %>%
       addTiles() %>%
-      addMarkers(
+      addCircleMarkers(
         data = plot_3_filtered_data, 
         lng = ~x, 
-        lat = ~y, 
+        lat = ~y,
+        color = "black",
+        fillColor = ~pal(Crash.Severity),
+        radius = ~(Vehicle.Count*3.5),
+        stroke = TRUE,
+        fillOpacity = 0.9,
         popup = paste(
           "<b>Crash Severity:</b> ", plot_3_filtered_data$Crash.Severity, "<br>",
           "<b>Collision Type:</b> ", plot_3_filtered_data$Collision.Type, "<br>",
@@ -334,10 +417,18 @@ server <- function(input, output) {
   })
   
   # DEBUG - Comment Out
-  output$test31 <- renderText({translate_crash_severity_to_code(input$plot3_crashSeverity)})
-  output$test32 <- renderText({input$plot3_crashMilitaryTime})
-  output$test33 <- renderText({input$plot3_beltedUnbelted})
-  output$test34 <- renderText({input$plot3_alcohol})
+  # output$test31 <- renderText({translate_crash_severity_to_code(input$plot3_crashSeverity)})
+  # output$test32 <- renderText({input$plot3_crashMilitaryTime})
+  # output$test33 <- renderText({input$plot3_beltedUnbelted})
+  # output$test34 <- renderText({input$plot3_alcohol})
+  # output$test35 <- renderText({input$plot3_collisionType})
+  # output$test36 <- renderText({input$plot3_weatherCondition})
+  # output$test37 <- renderText({input$plot3_lightCondition})
+  # output$test38 <- renderText({input$plot3_intersectionType})
+  # output$test39 <- renderText({input$plot3_roadwayDescription})
+  # output$test310 <- renderText({input$plot3_roadwayDefects})
+  # output$test311 <- renderText({input$plot3_roadSurfaceCondition})
+  ######################################################
   
 }
 
