@@ -1,2 +1,7 @@
 .DS_Store
 *.csv
+!plot_1_data.csv
+!plot_2_data.csv
+!plot_3_data.csv
+.RData
+.Rhistory
