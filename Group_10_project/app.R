@@ -1,3 +1,8 @@
+# Note: Install these packages:
+# install.packages("bslib")
+# install.packages("leaflet")
+# install.packages("shinyWidgets")
+
 library(bslib)
 library(ggplot2)
 library(shiny)
@@ -5,6 +10,7 @@ library(tidyverse)
 library(leaflet)
 library("shinyWidgets")
 
+####################### Setup #######################
 dateInput2 <- function(inputId, label, minview = "days", maxview = "decades", ...) {
   d <- shiny::dateInput(inputId, label, ...)
   d$children[[2L]]$attribs[["data-date-min-view-mode"]] <- minview
@@ -61,8 +67,7 @@ intersection_types <- c("0. Any", "1. Not at Intersection", "2. Two Approaches",
 road_surface_conditions <- c("0. Any", "1. Dry", "2. Wet", "3. Snowy", "4. Icy", "5. Slush", "6. Oil/Other Fluids", "7. Sand, Dirt, Gravel", "8. Other", "9. Water (Standing, Moving)")
 roadway_descriptions <- c("0. Any", "1. Two-Way, Not Divided", "2. Two-Way, Divided, Unprotected Median", "3. Two-Way, Divided, Positive Median Barrier", "4. One-Way, Not Divided", "5. Unknown")
 roadway_defects <- c("0. Any", "1. No Defects", "2. Holes, Ruts, Bumps", "3. Slick Pavement", "4. Under Repair", "5. Loose Material", "6. Restricted Width", "7. Roadway Obstructed", "8. Edge Pavement Drop Off", "9. Other")
-
-
+######################################################
 
 ui <- page_navbar(
   title="Virginia Car Crash Data",
@@ -130,86 +135,88 @@ ui <- page_navbar(
   ),
   ######################################################
   
+  ####################### PLOT 3 #######################
   tabPanel("Charlottesville",
-           fluidPage(
-             tags$style(HTML("
-                #mymap {
-                  margin-bottom: 20px;
-                }
-             ")),
-             titlePanel("Dangerous Roads in Charlottesville, VA"),
-             leafletOutput("mymap"),
-             layout_columns(
-               card(
-                 "Crash Parameters",
-                 sliderTextInput(
-                   inputId = "plot3_crashSeverity", 
-                   label = "Crash Severity:", 
-                   grid = TRUE, 
-                   force_edges = TRUE,
-                   choices = c(
-                     "All",
-                     "Property Damage",
-                     "Possible Injury",
-                     "Minor Injury", 
-                     "Serious Injury", 
-                     "Fatality"
-                   ),
-                   width = "100%" 
-                 ),
-                 sliderInput(
-                   "plot3_crashMilitaryTime", 
-                   label = "Crash Time", 
-                   min = 0, 
-                   max = 2400, 
-                   value = c(0, 2359), 
-                   step=100,
-                   width = "100%" 
-                 ),
-                 layout_columns(
-                   checkboxGroupButtons(
-                     inputId = "plot3_beltedUnbelted",
-                     label = "Belted or Unbelted", 
-                     choices = c("Belted", "Unbelted"),
-                     selected = c("Belted", "Unbelted"),
-                   ),
-                   checkboxGroupButtons(
-                     inputId = "plot3_alcohol",
-                     label = "Alcohol Involved", 
-                     choices = c("Yes", "No"),
-                     selected = c("Yes", "No"),
-                     status = "danger"
-                   )
-                 ),
-                 selectInput("plot3_collisionType", "Collision Type", collision_type),
-               ),
-               card(
-                 "Environment Conditions",
-                 selectInput("plot3_weatherCondition", "Weather", weather_conditions),
-                 selectInput("plot3_lightCondition", "Light", light_conditions),
-               ),
-               card(
-                 "Road Conditions",
-                 selectInput("plot3_intersectionType", "Intersection Type", intersection_types),
-                 selectInput("plot3_roadwayDescription", "Roadway Type", roadway_descriptions),
-                 selectInput("plot3_roadSurfaceCondition", "Roadway Surface Condition", road_surface_conditions),
-                 selectInput("plot3_roadwayDefects", "Roadway Defect", roadway_defects),
-               ),
-             ),
-             # DEBUG Info comment out
-             textOutput("test31"),
-             textOutput("test32"),
-             textOutput("test33"),
-             textOutput("test34"),
-             textOutput("test35"),
-             textOutput("test36"),
-             textOutput("test37"),
-             textOutput("test38"),
-             textOutput("test39"),
-             textOutput("test310"),
-             textOutput("test311"),
+   fluidPage(
+     tags$style(HTML("
+        #mymap {
+          margin-bottom: 20px;
+        }
+     ")),
+     titlePanel("Dangerous Roads in Charlottesville, VA"),
+     leafletOutput("mymap"),
+     layout_columns(
+       card(
+         "Crash Parameters",
+         sliderTextInput(
+           inputId = "plot3_crashSeverity", 
+           label = "Crash Severity:", 
+           grid = TRUE, 
+           force_edges = TRUE,
+           choices = c(
+             "All",
+             "Property Damage",
+             "Possible Injury",
+             "Minor Injury", 
+             "Serious Injury", 
+             "Fatality"
+           ),
+           width = "100%" 
+         ),
+         sliderInput(
+           "plot3_crashMilitaryTime", 
+           label = "Crash Time", 
+           min = 0, 
+           max = 2400, 
+           value = c(0, 2359), 
+           step=100,
+           width = "100%" 
+         ),
+         layout_columns(
+           checkboxGroupButtons(
+             inputId = "plot3_beltedUnbelted",
+             label = "Belted or Unbelted", 
+             choices = c("Belted", "Unbelted"),
+             selected = c("Belted", "Unbelted"),
+           ),
+           checkboxGroupButtons(
+             inputId = "plot3_alcohol",
+             label = "Alcohol Involved", 
+             choices = c("Yes", "No"),
+             selected = c("Yes", "No"),
+             status = "danger"
            )
+         ),
+         selectInput("plot3_collisionType", "Collision Type", collision_type),
+       ),
+       card(
+         "Environment Conditions",
+         selectInput("plot3_weatherCondition", "Weather", weather_conditions),
+         selectInput("plot3_lightCondition", "Light", light_conditions),
+       ),
+       card(
+         "Road Conditions",
+         selectInput("plot3_intersectionType", "Intersection Type", intersection_types),
+         selectInput("plot3_roadwayDescription", "Roadway Type", roadway_descriptions),
+         selectInput("plot3_roadSurfaceCondition", "Roadway Surface Condition", road_surface_conditions),
+         selectInput("plot3_roadwayDefects", "Roadway Defect", roadway_defects),
+       ),
+     ),
+     # DEBUG Info comment out
+     textOutput("test31"),
+     textOutput("test32"),
+     textOutput("test33"),
+     textOutput("test34"),
+     textOutput("test35"),
+     textOutput("test36"),
+     textOutput("test37"),
+     textOutput("test38"),
+     textOutput("test39"),
+     textOutput("test310"),
+     textOutput("test311"),
+   )
   ),
+  ######################################################
   
   # footer=tags$footer(
   #   style = "background-color: #2C3E50; padding: 0px; text-align: center; position: fixed; bottom: 0; width: 100%; color: white",
@@ -441,6 +448,7 @@ server <- function(input, output) {
   # output$test39 <- renderText({input$plot3_roadwayDescription})
   # output$test310 <- renderText({input$plot3_roadwayDefects})
   # output$test311 <- renderText({input$plot3_roadSurfaceCondition})
+  
   ######################################################
   
 }
