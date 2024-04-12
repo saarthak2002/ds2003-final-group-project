@@ -162,16 +162,16 @@ ui <- page_navbar(
              "Serious Injury", 
              "Fatality"
            ),
-           width = "100%" 
+           width = "100%",
          ),
          sliderInput(
            "plot3_crashMilitaryTime", 
            label = "Crash Time", 
            min = 0, 
-           max = 2400, 
-           value = c(0, 2359), 
-           step=100,
-           width = "100%" 
+           max = 24, 
+           value = c(0, 24),
+           post = ":00",
+           width = "100%"
          ),
          layout_columns(
            checkboxGroupButtons(
@@ -223,11 +223,24 @@ ui <- page_navbar(
   #   style = "background-color: #2C3E50; padding: 0px; text-align: center; position: fixed; bottom: 0; width: 100%; color: white",
   #   "DS 2003 \u00A0 | \u00A0 Group 10 \u00A0 | \u00A0 Gabe Silverstein, Saarthak Gupta, Hasita Nalluri"
   # ),
-  theme=bs_theme(
+  theme = bs_theme(
     bootswatch="flatly",
     primary="#18BC9C",
     success="#2C3E50"
-  )
+  ),
+  tags$head(tags$style
+    (HTML(".irs--shiny .irs-bar {
+              background: #18BC9C;
+              border-top: 1px solid #18BC9C;
+              border-bottom: 1px solid #18BC9C;
+            }
+                            
+            .irs--shiny .irs-single { background-color: #18BC9C; }
+            
+            .irs--shiny .irs-to { background-color: #18BC9C; }
+            
+            .irs--shiny .irs-from { background-color: #18BC9C; } 
+            ")))
 )
 
 # Server logic
@@ -331,8 +344,8 @@ server <- function(input, output) {
   ####################### PLOT 3 #######################
   plot_3_dynamic_data <- reactive({
     crashSeverity <- translate_crash_severity_to_code(input$plot3_crashSeverity)
-    crashMilitaryTimeStart <- input$plot3_crashMilitaryTime[1]
-    crashMilitaryTimeEnd <- input$plot3_crashMilitaryTime[2]
+    crashMilitaryTimeStart <- input$plot3_crashMilitaryTime[1]*100
+    crashMilitaryTimeEnd <- input$plot3_crashMilitaryTime[2]*100
     beltedUnbelted <- input$plot3_beltedUnbelted
     alcohol <- input$plot3_alcohol
     collision_type <- input$plot3_collisionType
