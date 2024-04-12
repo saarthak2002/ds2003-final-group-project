@@ -1,11 +1,10 @@
 ---
 title: "R Notebook"
 output: html_notebook
+group: 10
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+This is an R Markdown notebook for the data cleaning, engineering, and test visualization steps of our project.
 
 ## Setup
 
@@ -63,9 +62,36 @@ summarized_data
 write.csv(summarized_data, file = "plot_1_data.csv", row.names = FALSE)
 ```
 
+#### Sample plot
+```{r}
+library(dplyr)
+library(ggplot2)
+library(lubridate)
 
+# Assuming you have already defined "summarized_data"
 
-## Plot 3 Data Prep
+arlington_data <- summarized_data %>%
+  filter(Physical.Juris.Name == "000. Arlington County") %>%
+  mutate(MM_YYYY = dmy(paste("01-", MM_YYYY, sep = ""))) %>% # Convert MM_YYYY to datetime format
+  arrange(MM_YYYY) # Sort by MM_YYYY
+
+# Plot a time series
+ggplot(arlington_data) +
+  geom_line(aes(x = MM_YYYY, y = Persons_Injured_sum, color = "Persons Injured")) +
+  geom_line(aes(x = MM_YYYY, y = K_people_sum, color = "Persons Killed")) +
+  scale_color_manual(values = c("Persons Injured" = "red", "Persons Killed" = "blue")) +
+  labs(title = "Persons Injured Time Series in 000. Arlington County",
+       x = "Date",
+       y = "Persons Injured",
+       color = "Outcome"
+  ) +
+  theme_minimal()
+
+```
+
+## Data Prep for Plot 2
+
+## Data Prep for Plot 3
 
 ```{r}
 export_data <- data[, c("x", "y", "Crash.Severity", "Physical.Juris.Name", "Crash.Military.Time", "Persons.Injured", "K_People", "Pedestrians.Injured", "Pedestrians.Killed", "Vehicle.Count", "Collision.Type", "Weather.Condition", "Light.Condition", "Roadway.Surface.Condition", "Roadway.Defect", "Roadway.Description", "Intersection.Type", "Alcohol.", "Unrestrained.", "Distracted.", "RTE.Name", "Crash.Date")]
@@ -74,7 +100,7 @@ export_data <- export_data %>%
   filter(Physical.Juris.Name == "104. City of Charlottesville")
 
 # Export the selected columns to a CSV file
-# write.csv(export_data, file = "plot_3_data.csv", row.names = FALSE)
+write.csv(export_data, file = "plot_3_data.csv", row.names = FALSE)
 ```
 
 ```{r}
@@ -122,136 +148,16 @@ Roadway_Defect <- unique(export_data$Roadway.Defect)
 Roadway_Defect
 ```
 
-```{r}
-filtered_data <- data %>%
-        filter(Crash.Severity == crashSeverity)
-```
-
 
 ```{r}
-weather_conditions <- unique(data$Weather.Condition)
-weather_conditions <- c("0. Any", weather_conditions)
-weather_conditions <- sort(weather_conditions)
-weather_conditions
-```
-
-
-
-```{r}
-# Find the minimum value of the column
 min_value <- min(data$Crash.Military.Time)
-
-# Find the maximum value of the column
 max_value <- max(data$Crash.Military.Time)
 
-# Print the minimum and maximum values
 print(min_value)
 print(max_value)
 ```
 
-
-```{r}
-head(data)
-```
-
-
-```{r}
-export_data <- data[, c("x", "y", "Crash.Severity", "Physical.Juris.Name")]
-write.csv(export_data, file = "plot_3_test_ALLVA.csv", row.names = FALSE)
-```
-
-
-```{r}
-export_data <- data[, c("x", "y", "Crash.Severity", "Physical.Juris.Name", "Crash.Military.Time", "Persons.Injured", "K_People", "Pedestrians.Injured", "Pedestrians.Killed", "Vehicle.Count", "Collision.Type", "Weather.Condition", "Light.Condition", "Roadway.Surface.Condition", "Roadway.Defect", "Roadway.Description", "Intersection.Type", "Alcohol.", "Unrestrained.", "Distracted.", "RTE.Name", "Crash.Date")]
-
-export_data <- export_data %>%
-  filter(Physical.Juris.Name == "104. City of Charlottesville")
-
-# Export the selected columns to a CSV file
-write.csv(export_data, file = "plot_3_data.csv", row.names = FALSE)
-```
-
-```{r}
-export_data
-```
-```{r}
-write.csv(export_data, file = "plot_3_test.csv", row.names = FALSE)
-```
-
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
-
-
-
-
-```{r}
-head(data)
-```
-
-
-
-```{r}
-head(data)
-```
-
-
-
-```{r}
-arlington_data
-```
-
-```{r}
-library(dplyr)
-library(ggplot2)
-library(lubridate)
-
-# Assuming you have already defined "summarized_data"
-
-arlington_data <- summarized_data %>%
-  filter(Physical.Juris.Name == "000. Arlington County") %>%
-  mutate(MM_YYYY = dmy(paste("01-", MM_YYYY, sep = ""))) %>% # Convert MM_YYYY to datetime format
-  arrange(MM_YYYY) # Sort by MM_YYYY
-
-# Plot a time series
-ggplot(arlington_data) +
-  geom_line(aes(x = MM_YYYY, y = Persons_Injured_sum, color = "Persons Injured")) +
-  geom_line(aes(x = MM_YYYY, y = K_people_sum, color = "Persons Killed")) +
-  scale_color_manual(values = c("Persons Injured" = "red", "Persons Killed" = "blue")) +
-  labs(title = "Persons Injured Time Series in 000. Arlington County",
-       x = "Date",
-       y = "Persons Injured",
-       color = "Outcome"
-  ) +
-  theme_minimal()
-
-```
-
-
-```{r}
-# Filter the data for 000. Arlington County
-arlington_data <- summarized_data %>%
-  filter(Physical.Juris.Name == "000. Arlington County") %>%
-  mutate(MM_YYYY = mdy(paste("01-", MM_YYYY, sep = "")))
-
-# Plot a time series
-# ggplot(arlington_data, aes(x = MM_YYYY, y = Persons_Injured_sum)) +
-#   geom_line() +
-#   labs(title = "Persons Injured Time Series in 000. Arlington County",
-#        x = "MM_YYYY",
-#        y = "Persons Injured") +
-#   theme_minimal()
-ggplot(arlington_data, aes(x = MM_YYYY, y = Persons_Injured_sum)) +
-  geom_line() +
-  labs(title = "Persons Injured Time Series in 000. Arlington County",
-       x = "Date",
-       y = "Persons Injured") +
-  theme_minimal()
-```
-
+## Other
 ```{r}
 # Load the required library
 library(ggplot2)
