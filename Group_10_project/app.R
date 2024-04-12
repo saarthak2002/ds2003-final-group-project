@@ -80,6 +80,11 @@ ui <- page_navbar(
       layout_columns(
         card(
           dateRangeInput2("plot1_dateSlider", h4("Select Date Range"), startview = "year", minview = "months", maxview = "decades", start = "2015-01", end = "2024-01", format = "yyyy-mm"),
+          "Label Months",
+          switchInput(
+            inputId = "plot1_labelMonths",
+            value = FALSE
+          )
         ),
         card(
           selectInput("plot1_countyInput", h4("Select County"), unique(plot_1_data$Physical.Juris.Name)),
@@ -93,6 +98,7 @@ ui <- page_navbar(
       textOutput("test11"),
       textOutput("test12"),
       textOutput("test13"),
+      textOutput("test14"),
       
     ) 
   ),
@@ -244,7 +250,7 @@ server <- function(input, output) {
     
     p <- ggplot(filtered_data) +
       scale_color_manual(values = c("Motorists Injured" = "deepskyblue", "Motorists Killed" = "darkred", "Pedestrians Injured" = "dodgerblue4", "Pedestrians Killed" = "coral")) +
-      labs(title = paste("Persons Injured/Killed Time Series in ", gsub("[^[:alpha:] ]", "", input$plot1_countyInput)),
+      labs(title = paste("Persons Injured/Killed Time Series in ", trimws(gsub("[^[:alpha:] ]", "", input$plot1_countyInput))),
            x = "Date",
            y = "Persons Affected",
            color = "Outcome"
@@ -267,7 +273,13 @@ server <- function(input, output) {
       p <- p + geom_line(aes(x = MM_YYYY, y = Pedestrians_Killed_sum, color = "Pedestrians Killed"))
     }
     
-    p
+    if(input$plot1_labelMonths) {
+      p <- p+ theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.text=element_text(size=10), legend.text = element_text(size=15))
+      p + scale_x_date(date_breaks = "3 months", date_labels = "%b-%Y")
+    }
+    else {
+      p
+    }
   })
   
   output$dateRangeText <- renderText({
@@ -289,9 +301,10 @@ server <- function(input, output) {
   })
   
   # DEBUG Info Comment Out
-  output$test13 <- renderText(input$plot1_crashAffect)
-  output$test12 <- renderText(input$plot1_countyInput)
-  output$test11 <- renderText(input$plot1_dateSlider)
+  # output$test13 <- renderText(input$plot1_crashAffect)
+  # output$test12 <- renderText(input$plot1_countyInput)
+  # output$test11 <- renderText(input$plot1_dateSlider)
+  # output$test14 <- renderText(input$plot1_labelMonths)
   ######################################################
   
   ####################### PLOT 2 #######################
