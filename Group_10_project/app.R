@@ -10,14 +10,8 @@ library(tidyverse)
 library(leaflet)
 library(plotly)
 library(shinyWidgets)
-library('googleVis')
 
 ####################### Setup #######################
-
-dat <- data.frame(From=c(rep("A",3), rep("B", 3)), 
-                  To=c(rep(c("X", "Y", "Z"),2)), 
-                  Weight=c(5,7,6,2,9,4))
-
 dateInput2 <- function(inputId, label, minview = "days", maxview = "decades", ...) {
   d <- shiny::dateInput(inputId, label, ...)
   d$children[[2L]]$attribs[["data-date-min-view-mode"]] <- minview
