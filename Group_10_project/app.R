@@ -271,15 +271,21 @@ ui <- page_navbar(
          }
          else this.className += " active";
        });
-     } 
+     }
     '
   ))
 )
 
 # Server logic
-server <- function(input, output) {
+server <- function(input, output, session) {
   
   ####################### PLOT 1 #######################
+  observe({
+    if (input$plot1_dateSlider[2] < input$plot1_dateSlider[1]) {
+      updateDateRangeInput(session, inputId="plot1_dateSlider", end=input$plot1_dateSlider[1])
+    }
+  })
+  
   plot_1_dynamic_data <- reactive({
     # Read in UI inputs
     county_name <- input$plot1_countyInput
