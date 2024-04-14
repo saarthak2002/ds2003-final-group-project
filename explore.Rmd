@@ -25,6 +25,8 @@ data <- data[complete.cases(data$X, data$Y), ]
 head(data)
 ```
 
+
+
 ## Data Prep for Plot 1
 
 ```{r}
@@ -92,9 +94,15 @@ ggplot(arlington_data) +
 ## Data Prep for Plot 2
 
 ```{r}
+export_data <- data[, c("Crash.Severity", "Max.Speed.Diff", "Speed.", "Alcohol.", "Drowsy.", "Distracted.")]
 
+export_data <- export_data %>%
+  rename(Alcohol = `Alcohol.`) %>%
+  rename(Drowsy = `Drowsy.`) %>%
+  rename(Distracted = `Distracted.`)
+
+write.csv(export_data, file = "plot_2_data.csv", row.names = FALSE)
 ```
-
 
 ## Data Prep for Plot 3
 
@@ -181,5 +189,22 @@ ggplot(data, aes(x = x, y = y, color = Crash.Severity)) +
        color = "Crash Severity") +
   theme_minimal()
 
+```
+
+
+```{r}
+library('googleVis')
+dat <- data.frame(From=c(rep("A",3), rep("B", 3)), 
+                  To=c(rep(c("X", "Y", "Z"),2)), 
+                  Weight=c(5,7,6,2,9,4))
+
+sk1 <- gvisSankey(dat, from="From", to="To", weight="Weight")
+plot(sk1)
+
+sk2 <- gvisSankey(dat, from="From", to="To", weight="Weight",
+                options=list(sankey="{link: {color: { fill: '#d799ae' } },
+                                     node: { color: { fill: '#a61d4c' },
+                                     label: { color: '#871b47' } }}"))
+plot(sk2)
 ```
 

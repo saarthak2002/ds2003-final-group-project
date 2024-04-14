@@ -10,8 +10,14 @@ library(tidyverse)
 library(leaflet)
 library(plotly)
 library(shinyWidgets)
+library('googleVis')
 
 ####################### Setup #######################
+
+dat <- data.frame(From=c(rep("A",3), rep("B", 3)), 
+                  To=c(rep(c("X", "Y", "Z"),2)), 
+                  Weight=c(5,7,6,2,9,4))
+
 dateInput2 <- function(inputId, label, minview = "days", maxview = "decades", ...) {
   d <- shiny::dateInput(inputId, label, ...)
   d$children[[2L]]$attribs[["data-date-min-view-mode"]] <- minview
@@ -55,6 +61,8 @@ translate_code_to_crash_severity <- function(severity_code) {
 }
 
 plot_1_data <- read.csv("../plot_1_data.csv")
+
+plot_2_data <- read.csv("../plot_2_data.csv")
 
 plot_3_data <- read.csv("../plot_3_data.csv")
 collision_type <- c("0. Any", "1. Rear End", "2. Angle", "3. Head On", "4. Sideswipe - Same Direction",
@@ -119,19 +127,21 @@ ui <- page_navbar(
                
                # Sidebar with a slider input
                sidebarPanel(
-                 sliderInput("obs2",
-                             "Number of observations:",
-                             min = 0,
-                             max = 1000,
-                             value = 500
-                 )
+                 numericInput("plot2_maxSpeedDiff", h4("Over speed limit by at least (MPH):"), 0, min = 0, max = 150),
+                 selectInput("plot2_groupByFactor", h4("Driver condition:"), c("None", "Alcohol", "Drowsy", "Distracted")),
                ),
                
                # Show a plot of the generated distribution
                mainPanel(
-                 plotOutput("distPlot2")
+                 plotlyOutput("distPlot2"),
+                 # DEBUG only
+                 textOutput("test21"),
+                 textOutput("test22"),
+                 textOutput("test23"),
                )
-             )
+             ),
+             
+             
            ) 
   ),
   ######################################################
@@ -378,9 +388,82 @@ server <- function(input, output, session) {
   
   ####################### PLOT 2 #######################
   
-  output$distPlot2 <- renderPlot({
-    hist(rnorm(input$obs2))
+  plot_2_dynamic_data <- reactive({
+    
+    severity_counts <- plot_2_data
+    
+    if(input$plot2_maxSpeedDiff > 0) {
+      severity_counts <- severity_counts %>%
+        filter(Max.Speed.Diff >= input$plot2_maxSpeedDiff)
+    }
+    
+    if(input$plot2_groupByFactor != "None") {
+      severity_counts <- severity_counts %>%
+        group_by(Crash.Severity, !!sym(input$plot2_groupByFactor)) %>%
+        summarise(count = n())
+      print(severity_counts)
+    } else {
+      severity_counts <- severity_counts %>%
+        group_by(Crash.Severity) %>%
+        summarise(count = n())
+    }
+    
+    return(severity_counts)
   })
+  
+  output$distPlot2 <- renderPlotly({
+    
+    plot_2_filtred_data <- plot_2_dynamic_data()
+    
+    if(input$plot2_groupByFactor != "None") {
+      # Alcohol
+      if(input$plot2_groupByFactor == "Alcohol") {
+        fig <- plot_ly(
+          data = plot_2_filtred_data,
+          x = ~Crash.Severity,
+          y = ~count,
+          color = ~Alcohol,
+          type = "bar"
+        )
+      }
+      # Drowsy
+      if(input$plot2_groupByFactor == "Drowsy") {
+        fig <- plot_ly(
+          data = plot_2_filtred_data,
+          x = ~Crash.Severity,
+          y = ~count,
+          color = ~Drowsy,
+          type = "bar"
+        )
+      }
+      # Distracted
+      if(input$plot2_groupByFactor == "Distracted") {
+        fig <- plot_ly(
+          data = plot_2_filtred_data,
+          x = ~Crash.Severity,
+          y = ~count,
+          color = ~Distracted,
+          type = "bar"
+        )
+      }
+    }
+    else {
+      # None
+      fig <- plot_ly(
+        data = plot_2_filtred_data,
+        x = ~Crash.Severity,
+        y = ~count,
+        type = "bar"
+      )
+    }
+    
+    
+    
+    fig
+  })
+  
+  output$test21 <- renderText(input$plot2_maxSpeedDiff)
+  output$test22 <- renderText(input$plot2_groupByFactor)
   
   ######################################################
   
