@@ -248,7 +248,7 @@ ui <- page_navbar(
             
             .irs--shiny .irs-to { background-color: #18BC9C; }
             
-            .irs--shiny .irs-from { background-color: #18BC9C; }
+            .irs--shiny .irs-from { background-color: #ffffff; }
             
             [data-toggle=buttons] > .btn-group > .btn input[type=checkbox] {
               opacity: 0;
@@ -258,6 +258,9 @@ ui <- page_navbar(
               width: 100%;
               height: 100%;
               cursor: pointer;
+            }
+            .btn.checkbtn.btn-success.active {
+              background-color: #18BC9C;
             }
             ')
       )
@@ -281,8 +284,9 @@ server <- function(input, output, session) {
   
   ####################### PLOT 1 #######################
   observe({
-    if (input$plot1_dateSlider[2] < input$plot1_dateSlider[1]) {
-      updateDateRangeInput(session, inputId="plot1_dateSlider", end=input$plot1_dateSlider[1])
+    # Fix
+    if (input$plot1_dateSlider[2] <= input$plot1_dateSlider[1]) {
+      updateDateRangeInput(session, inputId="plot1_dateSlider", start="2015-01", end="2024-01")
     }
   })
   
