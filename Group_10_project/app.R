@@ -248,7 +248,7 @@ ui <- page_navbar(
             
             .irs--shiny .irs-to { background-color: #18BC9C; }
             
-            .irs--shiny .irs-from { background-color: #ffffff; }
+            .irs--shiny .irs-from { background-color: #18BC9C; }
             
             [data-toggle=buttons] > .btn-group > .btn input[type=checkbox] {
               opacity: 0;
