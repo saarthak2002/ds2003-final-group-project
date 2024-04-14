@@ -179,13 +179,22 @@ ui <- page_navbar(
              label = "Belted or Unbelted", 
              choices = c("Belted", "Unbelted"),
              selected = c("Belted", "Unbelted"),
+             status = "success",
+             checkIcon = list(
+               yes = icon("ok", lib = "glyphicon"),
+               no = icon("remove", lib = "glyphicon")
+             )
            ),
            checkboxGroupButtons(
              inputId = "plot3_alcohol",
              label = "Alcohol Involved", 
              choices = c("Yes", "No"),
              selected = c("Yes", "No"),
-             status = "danger"
+             status = "success",
+             checkIcon = list(
+               yes = icon("ok", lib = "glyphicon"),
+               no = icon("remove", lib = "glyphicon")
+             )
            )
          ),
          selectInput("plot3_collisionType", "Collision Type", collision_type),
@@ -229,7 +238,7 @@ ui <- page_navbar(
     success="#2C3E50"
   ),
   tags$head(tags$style
-    (HTML(".irs--shiny .irs-bar {
+    (HTML('.irs--shiny .irs-bar {
               background: #18BC9C;
               border-top: 1px solid #18BC9C;
               border-bottom: 1px solid #18BC9C;
@@ -239,8 +248,32 @@ ui <- page_navbar(
             
             .irs--shiny .irs-to { background-color: #18BC9C; }
             
-            .irs--shiny .irs-from { background-color: #18BC9C; } 
-            ")))
+            .irs--shiny .irs-from { background-color: #18BC9C; }
+            
+            [data-toggle=buttons] > .btn-group > .btn input[type=checkbox] {
+              opacity: 0;
+              position: absolute;
+              left: 0;
+              bottom: 0;
+              width: 100%;
+              height: 100%;
+              cursor: pointer;
+            }
+            ')
+      )
+  ),
+  tags$script(HTML(
+    'const boxes = document.querySelectorAll("[data-toggle=buttons] > .btn-group > .btn");
+     for (var i = 0; i < boxes.length; i++) {
+       boxes[i].addEventListener("click", function() {
+         if (this.className.includes(" active")) {
+            this.className = this.className.replace(" active", "");
+         }
+         else this.className += " active";
+       });
+     } 
+    '
+  ))
 )
 
 # Server logic
