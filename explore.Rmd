@@ -94,7 +94,7 @@ ggplot(arlington_data) +
 ## Data Prep for Plot 2
 
 ```{r}
-export_data <- data[, c("Crash.Severity", "Max.Speed.Diff", "Speed.", "Alcohol.", "Drowsy.", "Distracted.")]
+export_data <- data[, c("Crash.Severity", "Max.Speed.Diff", "Speed.", "Alcohol.", "Drowsy.", "Distracted.", "Senior.", "Young.")]
 
 export_data <- export_data %>%
   rename(Alcohol = `Alcohol.`) %>%
@@ -102,6 +102,26 @@ export_data <- export_data %>%
   rename(Distracted = `Distracted.`)
 
 write.csv(export_data, file = "plot_2_data.csv", row.names = FALSE)
+```
+
+```{r}
+head(export_data)
+```
+
+```{r}
+severity_counts <- export_data 
+severity_counts <- severity_counts %>%
+  filter(Senior. == "Yes")
+
+head(severity_counts)
+```
+
+```{r}
+severity_counts <- export_data 
+severity_counts <- severity_counts %>%
+  filter(Young. == "Yes")
+
+head(severity_counts)
 ```
 
 ## Data Prep for Plot 3

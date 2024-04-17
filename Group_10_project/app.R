@@ -123,6 +123,9 @@ ui <- page_navbar(
                sidebarPanel(
                  numericInput("plot2_maxSpeedDiff", h4("Over speed limit by at least (MPH):"), 0, min = 0, max = 150),
                  selectInput("plot2_groupByFactor", h4("Driver condition:"), c("None", "Alcohol", "Drowsy", "Distracted")),
+                 radioButtons("plot2_ageGroup", label = h4("Driver Age Group"),
+                              choices = list("All" = 1, "Young" = 2, "Senior" = 3), 
+                              selected = 1),
                ),
                
                # Show a plot of the generated distribution
@@ -391,6 +394,19 @@ server <- function(input, output, session) {
         filter(Max.Speed.Diff >= input$plot2_maxSpeedDiff)
     }
     
+    if(input$plot2_ageGroup != 1) {
+      # Young
+      if(input$plot2_ageGroup == 2) {
+        severity_counts <- severity_counts %>%
+          filter(Young. == "Yes")
+      }
+      # Senior
+      if(input$plot2_ageGroup == 3) {
+        severity_counts <- severity_counts %>%
+          filter(Senior. == "Yes")
+      }
+    }
+    
     if(input$plot2_groupByFactor != "None") {
       severity_counts <- severity_counts %>%
         group_by(Crash.Severity, !!sym(input$plot2_groupByFactor)) %>%
@@ -408,6 +424,14 @@ server <- function(input, output, session) {
   output$distPlot2 <- renderPlotly({
     
     plot_2_filtred_data <- plot_2_dynamic_data()
+    
+    label_mapping <- c("O" = "Property Damage Only",
+                       "C" = "Possible Injury",
+                       "B" = "Suspected Minor Injury",
+                       "A" = "Suspected Serious Injury",
+                       "K" = "Fatality")
+    
+    plot_2_filtred_data$Crash.Severity <- label_mapping[as.character(plot_2_filtred_data$Crash.Severity)]
     
     if(input$plot2_groupByFactor != "None") {
       # Alcohol
@@ -448,16 +472,17 @@ server <- function(input, output, session) {
         x = ~Crash.Severity,
         y = ~count,
         type = "bar"
-      )
+      ) %>% 
+        layout(xaxis = list(categoryorder = "array",
+                            categoryarray = c("Property Damage Only", "Possible Injury", "Suspected Minor Injury", "Suspected Serious Injury", "Fatality")))
     }
-    
-    
     
     fig
   })
   
   output$test21 <- renderText(input$plot2_maxSpeedDiff)
   output$test22 <- renderText(input$plot2_groupByFactor)
+  output$test23 <- renderText(input$plot2_ageGroup)
   
   ######################################################
   
