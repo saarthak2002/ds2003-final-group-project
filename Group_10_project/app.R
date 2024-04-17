@@ -54,6 +54,14 @@ translate_code_to_crash_severity <- function(severity_code) {
   return(severity_meaning)
 }
 
+format_num <- function(x) {
+  case_when(
+    x < 1e3 ~ as.character(x),
+    x < 1e6 ~ paste0(as.character(ceiling(x/1e3)), "k"),
+    x < 1e9 ~ paste0(as.character(ceiling(x/1e6)), "mil"),
+  )
+}
+
 plot_1_data <- read.csv("../plot_1_data.csv")
 
 plot_2_data <- read.csv("../plot_2_data.csv")
@@ -114,29 +122,35 @@ ui <- page_navbar(
   
   ####################### PLOT 2 #######################
   tabPanel("Greater Virginia",
-           fluidPage(
-             # Application title
-             titlePanel("Plot 2"),
-             sidebarLayout(
-               
-               # Sidebar with a slider input
-               sidebarPanel(
-                 numericInput("plot2_maxSpeedDiff", h4("Over speed limit by at least (MPH):"), 0, min = 0, max = 150),
-                 selectInput("plot2_groupByFactor", h4("Driver condition:"), c("None", "Alcohol", "Drowsy", "Distracted")),
-               ),
-               
-               # Show a plot of the generated distribution
-               mainPanel(
-                 plotlyOutput("distPlot2"),
-                 # DEBUG only
-                 textOutput("test21"),
-                 textOutput("test22"),
-                 textOutput("test23"),
-               )
-             ),
-             
-             
-           ) 
+     fluidPage(
+       # Application title
+       titlePanel("Factors Affecting Crash Severity"),
+       # Show a plot of the generated distribution
+       mainPanel(
+         plotlyOutput("distPlot2"),
+         width = "100%",
+         # DEBUG only
+         textOutput("test21"),
+         textOutput("test22"),
+         textOutput("test23"),
+       ),
+       layout_columns(
+         card(
+           numericInput("plot2_maxSpeedDiff", h4("Over speed limit by at least (MPH):"), 0, min = 0, max = 150)
+         ),
+         card(
+           selectInput("plot2_groupByFactor", h4("Driver condition:"), c("None", "Alcohol", "Drowsy", "Distracted"))
+         ),
+         card(
+           h4("Display weather conditions:"),
+           switchInput(
+             inputId = "plot2_weather",
+             value = FALSE
+           )
+         )
+       )
+       
+     ) 
   ),
   ######################################################
   
@@ -409,6 +423,15 @@ server <- function(input, output, session) {
     
     plot_2_filtred_data <- plot_2_dynamic_data()
     
+    for(i in 1:length(plot_2_filtred_data$Crash.Severity)){
+      plot_2_filtred_data$Crash.Severity[i] <- translate_code_to_crash_severity(plot_2_filtred_data$Crash.Severity[i])
+    }
+    
+    plot_2_filtred_data$Crash.Severity <- factor(plot_2_filtred_data$Crash.Severity, ordered = T, 
+                                          levels = c("Property Damage", "Possible Injury", "Minor Injury", "Serious Injury", "Fatality"))
+    
+    print(plot_2_filtred_data)
+    
     if(input$plot2_groupByFactor != "None") {
       # Alcohol
       if(input$plot2_groupByFactor == "Alcohol") {
@@ -417,7 +440,8 @@ server <- function(input, output, session) {
           x = ~Crash.Severity,
           y = ~count,
           color = ~Alcohol,
-          type = "bar"
+          type = "bar",
+          hovertemplate = ~paste("~", format_num(count), " crashes", "<extra> Alcohol: ", Alcohol, "</extra>", sep="")
         )
       }
       # Drowsy
@@ -427,7 +451,8 @@ server <- function(input, output, session) {
           x = ~Crash.Severity,
           y = ~count,
           color = ~Drowsy,
-          type = "bar"
+          type = "bar",
+          hovertemplate = ~paste("~", format_num(count), " crashes", "<extra> Drowsy: ", Drowsy, "</extra>", sep="")
         )
       }
       # Distracted
@@ -437,7 +462,8 @@ server <- function(input, output, session) {
           x = ~Crash.Severity,
           y = ~count,
           color = ~Distracted,
-          type = "bar"
+          type = "bar",
+          hovertemplate = ~paste("~", format_num(count), " crashes", "<extra> Distracted: ", Distracted, "</extra>", sep="")
         )
       }
     }
@@ -447,10 +473,12 @@ server <- function(input, output, session) {
         data = plot_2_filtred_data,
         x = ~Crash.Severity,
         y = ~count,
-        type = "bar"
+        type = "bar",
+        hovertemplate = ~paste("~", format_num(count), " crashes", "<extra></extra>", sep="")
       )
     }
     
+    fig <- fig %>% layout(xaxis = list(title="Crash Severity"), yaxis = list(title="Number of Crashes"))
     
     
     fig
