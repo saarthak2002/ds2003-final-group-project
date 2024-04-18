@@ -136,7 +136,7 @@ ui <- tags$div(page_navbar(
        ),
        layout_columns(
          card(
-           numericInput("plot2_maxSpeedDiff", h4("Over Speed Limit by at Least (MPH)"), 0, min = 0, max = 150)
+           numericInput("plot2_maxSpeedDiff", h4("Over Speed Limit by at Least (MPH)"), 0, min = 0, max = 150),
          ),
          card(
            selectInput("plot2_groupByFactor", h4("Driver Condition"), c("None", "Alcohol", "Drowsy", "Distracted")),
@@ -299,6 +299,20 @@ ui <- tags$div(page_navbar(
        });
      }
     '
+  )),
+  
+  tags$script(HTML(
+    "var navElement = document.getElementsByTagName('nav')[0];
+    console.log(navElement);
+    var newElement = document.createElement('p');
+    var newText = document.createTextNode('Group 10');
+    newElement.style.color = 'white';
+    newElement.style.fontWeight = 'bold';
+    newElement.style.padding = '12px';
+    newElement.style.width = '100px';
+    newElement.style.marginBottom = '0';
+    newElement.appendChild(newText);
+    navElement.appendChild(newElement);"
   ))
 ),
   tags$div(
@@ -460,8 +474,20 @@ server <- function(input, output, session) {
                        "#FFFFE0", "#AFEEEE", "#FFB347", "#C9A0DC", "#FFBBFF",
                        "#87CEEB")
     
-    
+    plot2_title <- "Number of Crahses by Severity"
     plot_2_filtred_data <- plot_2_dynamic_data()
+    
+    if(input$plot2_maxSpeedDiff > 0) {
+      plot2_title <- paste(plot2_title, " - Overspeeding (>= ", input$plot2_maxSpeedDiff, " MPH)")
+    }
+    
+    if(input$plot2_ageGroup == 2) {
+      plot2_title <- paste(plot2_title, " - Young Drivers ")
+    }
+    
+    if(input$plot2_ageGroup == 3) {
+      plot2_title <- paste(plot2_title, " - Senior Drivers ")
+    }
     
     for(i in 1:length(plot_2_filtred_data$Crash.Severity)){
       plot_2_filtred_data$Crash.Severity[i] <- translate_code_to_crash_severity(plot_2_filtred_data$Crash.Severity[i])
@@ -496,7 +522,7 @@ server <- function(input, output, session) {
             color = ~Alcohol,
             type = "bar",
             hovertemplate = ~paste("~", format_num(count), " crashes", "<extra> Alcohol: ", Alcohol, "</extra>", sep="")
-          )
+          ) %>% layout(legend=list(title=list(text='<b> Alcohol </b>')))
         }
       }
       # Drowsy
@@ -524,7 +550,7 @@ server <- function(input, output, session) {
             color = ~Drowsy,
             type = "bar",
             hovertemplate = ~paste(format_num(count), " crashes", "<extra> Drowsy: ", Drowsy, "</extra>", sep="")
-          )
+          ) %>% layout(legend=list(title=list(text='<b> Drowsy </b>')))
         }
       }
       # Distracted
@@ -552,7 +578,7 @@ server <- function(input, output, session) {
             color = ~Distracted,
             type = "bar",
             hovertemplate = ~paste(format_num(count), " crashes", "<extra> Distracted: ", Distracted, "</extra>", sep="")
-          )
+          ) %>% layout(legend=list(title=list(text='<b> Distracted </b>')))
         }
       }
     }
@@ -567,11 +593,12 @@ server <- function(input, output, session) {
           hovertemplate = ~paste(Weather.Condition, ": ", format_num(count), " crashes", "<extra></extra>", sep=""),
           color = ~Weather.Condition,
           colors = pastel_colors
-        ) %>% layout(barmode = "stack")
+        ) %>% layout(barmode = "stack", legend=list(title=list(text='<b> Weather condition </b>')))
       }
       else {
         fig <- plot_ly(
           data = plot_2_filtred_data,
+          title = plot2_title,
           x = ~Crash.Severity,
           y = ~count,
           type = "bar",
@@ -582,7 +609,7 @@ server <- function(input, output, session) {
     }
     
     if (!input$plot2_weather) {
-      fig <- fig %>% layout(xaxis = list(title="Crash Severity"), yaxis = list(title="Number of Crashes"))
+      fig <- fig %>% layout(xaxis = list(title="Crash Severity"), yaxis = list(title="Number of Crashes"), title = plot2_title)
       
       if (input$plot2_log) {
         # Log scale y axis
