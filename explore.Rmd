@@ -94,7 +94,7 @@ ggplot(arlington_data) +
 ## Data Prep for Plot 2
 
 ```{r}
-export_data <- data[, c("Crash.Severity", "Max.Speed.Diff", "Speed.", "Alcohol.", "Drowsy.", "Distracted.")]
+export_data <- data[, c("Crash.Severity", "Max.Speed.Diff", "Speed.", "Alcohol.", "Drowsy.", "Distracted.", "Weather.Condition")]
 
 export_data <- export_data %>%
   rename(Alcohol = `Alcohol.`) %>%

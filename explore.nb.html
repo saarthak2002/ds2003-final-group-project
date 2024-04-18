@@ -1758,9 +1758,22 @@ and test visualization steps of our project.</p>
 <h2>Setup</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG4jIFJlYWQgdGhlIENTViBmaWxlXG5kYXRhIDwtIHJlYWQuY3N2KCdHcm91cF8xMF9wcm9qZWN0L0NyYXNoRGF0YS5jc3YnKVxuXG4jIERyb3AgdW5uZWNlc3NhcnkgY29sdW1ucyB3aXRoIG1pc3NpbmcgZGF0YVxuY29sdW1uc190b19kcm9wIDwtIGMoJ1NQRUVEX0RJRkZfTUFYJywgJ0ZVTicsICdGQUMnLCAnTVBPX05BTUUnLCAnTk9ERScsICdPRkZTRVQnLCAnUk5TX01QJywgJ09CSkVDVElEJywgJ0RPQ1VNRU5UX05CUicsICdWU1AnLCAnSlVSSVNfQ09ERScpXG5kYXRhIDwtIGRhdGFbLCAhKG5hbWVzKGRhdGEpICVpbiUgY29sdW1uc190b19kcm9wKV1cblxuIyBEcm9wIHJvd3Mgd2l0aCBtaXNzaW5nIFggb3IgWSB2YWx1ZXNcbmRhdGEgPC0gZGF0YVtjb21wbGV0ZS5jYXNlcyhkYXRhJFgsIGRhdGEkWSksIF1cbmBgYCJ9 -->
-<pre class="r"><code>library(tidyverse)
-# Read the CSV file
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5gYGAifQ== -->
+<pre class="r"><code>library(tidyverse)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoi4pSA4pSAIEF0dGFjaGluZyBjb3JlIHRpZHl2ZXJzZSBwYWNrYWdlcyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAgdGlkeXZlcnNlIDIuMC4wIOKUgOKUgFxu4pyUIGRwbHlyICAgICAxLjEuNCAgICAg4pyUIHJlYWRyICAgICAyLjEuNVxu4pyUIGZvcmNhdHMgICAxLjAuMCAgICAg4pyUIHN0cmluZ3IgICAxLjUuMVxu4pyUIGdncGxvdDIgICAzLjQuNCAgICAg4pyUIHRpYmJsZSAgICAzLjIuMVxu4pyUIGx1YnJpZGF0ZSAxLjkuMyAgICAg4pyUIHRpZHlyICAgICAxLjMuMVxu4pyUIHB1cnJyICAgICAxLjAuMiAgICAg4pSA4pSAIENvbmZsaWN0cyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAgdGlkeXZlcnNlX2NvbmZsaWN0cygpIOKUgOKUgFxu4pyWIGRwbHlyOjpmaWx0ZXIoKSBtYXNrcyBzdGF0czo6ZmlsdGVyKClcbuKcliBkcGx5cjo6bGFnKCkgICAgbWFza3Mgc3RhdHM6OmxhZygpXG7ihLkgVXNlIHRoZSBcdTAwMWJdODs7aHR0cDovL2NvbmZsaWN0ZWQuci1saWIub3JnL1x1MDAwN2NvbmZsaWN0ZWQgcGFja2FnZVx1MDAxYl04OztcdTAwMDcgdG8gZm9yY2UgYWxsIGNvbmZsaWN0cyB0byBiZWNvbWUgZXJyb3JzXG4ifQ== -->
+<pre><code>── Attaching core tidyverse packages ─────────────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     ── Conflicts ───────────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSZWFkIHRoZSBDU1YgZmlsZVxuZGF0YSA8LSByZWFkLmNzdignR3JvdXBfMTBfcHJvamVjdC9DcmFzaERhdGEuY3N2JylcblxuIyBEcm9wIHVubmVjZXNzYXJ5IGNvbHVtbnMgd2l0aCBtaXNzaW5nIGRhdGFcbmNvbHVtbnNfdG9fZHJvcCA8LSBjKCdTUEVFRF9ESUZGX01BWCcsICdGVU4nLCAnRkFDJywgJ01QT19OQU1FJywgJ05PREUnLCAnT0ZGU0VUJywgJ1JOU19NUCcsICdPQkpFQ1RJRCcsICdET0NVTUVOVF9OQlInLCAnVlNQJywgJ0pVUklTX0NPREUnKVxuZGF0YSA8LSBkYXRhWywgIShuYW1lcyhkYXRhKSAlaW4lIGNvbHVtbnNfdG9fZHJvcCldXG5cbiMgRHJvcCByb3dzIHdpdGggbWlzc2luZyBYIG9yIFkgdmFsdWVzXG5kYXRhIDwtIGRhdGFbY29tcGxldGUuY2FzZXMoZGF0YSRYLCBkYXRhJFkpLCBdXG5gYGAifQ== -->
+<pre class="r"><code># Read the CSV file
 data &lt;- read.csv(&#39;Group_10_project/CrashData.csv&#39;)
 
 # Drop unnecessary columns with missing data
@@ -1774,43 +1787,90 @@ data &lt;- data[complete.cases(data$X, data$Y), ]</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChkYXRhKVxuYGBgIn0= -->
-<pre class="r"><code>head(data)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6NjcsInN1bW1hcnkiOnsiRGVzY3JpcHRpb24iOlsiZGYgWzYgw5cgNjddIl19fSwicmRmIjoiSDRzSUFBQUFBQUFBQSsxWlcyd2NTUlZ0Mi9GNzdkaHhIa3NnVVlFZzhhNDg3WGs1anhVb25vY2RaK041N1BUWTNrQkVWTzZwbWFtNHAzcW83ckU5OEVFa0JBSUUybVVsZnVBRGljY0hFbHJCMzBvZ0VlMGZENEdRME80SElFQUlJVmlFQUFrK0VBUnU5MHpWZExkbllqdng3Z2Zha2R0ZGRVL1Z2YmR1M2JxM3FycVFmajQyOXZ5WW9pZ0R5ckdCZm1WZ0VJcks0RnB4T1hSRlVZNzFRNlZQT2FhTU91OWRhRFFEaFJROEUvQU1qVjY0ZUc3MHlTOThaUFJzNWNYUmdaKzlhK1JmNkpzakQ1cC9FN2lpRFArNis2Tk11WGlMOGNsSWRQN3FmRFFjV1VBTHo0VEQ4SWNTR1lGZG5ZOUVXbGk4Q3hhOTFBdUx6OGZDdmJEb2ZEVFdTMTZzV3o4NW5tUGZWNVNSRDBGNUVvejBGeGdMOU9sL0tUQ2V2bHp2UWxJVVVoMUljdS81ZXhTODd3RDkreDZDOSsyRFA0cCsvZTNINFR2Z0tVOHBIZXVOUjFSVUlKaWpKVlpxazBhaUtrcXdpa0hhOWJOWFZiUk1kMGtKNVRidkV0MUdJWlFybDFIQnhLWGVUTHFRemx3SzhLR3N4Y1N2MFFYb21UVlJvclJOdUVWUXltUWxhbE9Ub2RtVUFRem5VNGJaS0RXZmVxVFd3d3VnRmFic3JSUVZzRGNZTjQyYkJxMVU3VGJwL0lKRDRsdU1XQmJZMWpFSnlMSFJxdE9HQ091ZGplOXQ1Vy9SaGZWK0pMOXVRekRBTkc5MnIwRzNEV0lmb3FXZjk5T1JzSXB1TU5zeG5lNWFyVUFNRE1yRFdEYW9YUVZmaUN5RTBUS1JNazZEMjdVUmI3ODJPblBGbVF3VzZnSWRYdFNUTUFNNUJxNXFjOHgwTXIrMFMyMll2RnI5WWNMODQ1dUpxZWc2eHlVQ1FqUmc0N0g0REpoSGtBQmRKZHZFZUR5b3Q2eXBlQWRLTmZnMkNhaUpZSEtTQnRhM2JMTStoeEpXdllvTmV3NGxxZDJvVVdZMnJQK2JkdjV4VDdUV2JwcVVZZmFzdDQ3bzErSU1nTVVkTTdTQm0zUHVFay9UYlZxU0MzZ2YrR0xVQTdlaE9iVEc2dHkwUVJqNGQ0YVVLR2FQMXZ4TTNGa0Q1TkM2N1YwR3hTb25CQ1hxSUFqclZXTHRENTEyaldZamJIZGI2aWRBczJXendRL2JyeGNhbUJQSVNrV095MldxbzFVTTBSVmxJTXFTMHBIQTA3RU9yTkVLdzhiQitwMXFlWkZvQWFuRzVxWVIwSHdLR3QwaVRqTFlNUGtXWlpVanByLzNVamNsd0xXM3FVNVFuaE9MTVB0UWJmMzZEMGFkUG85ZjhYTlZEdncrbW42RE1ZOUc1NkxTbEpCb2tLWlhUYkJDQXZ4dW05ck5iajMycmZpbG5ZOUNic3VZdHNuUk9xbFMzU0RnMjQ3Wm1WVTN1WDJvVnFNUlowdEJiYjM2SmpBZmowRE96R0JxYkpxN1hXSnhyclgxMjhITmh4R2R2WXBXTlJ0R2lmQkRkdzRRL1RvTTNKSkJwRjlhM0VQc2l2ZnZtUTQvZHRCU1lOZVZKRVpuRS9lNHRhUFg3MjBlYi9ONE0zaTRwOVI3OEsvYkUxd2oyVnp4VGlIZHRUWlNTTjhwM0xpK1VqeEEyekZvdTVhOW1jMXRaQU1TcHRmVHVXSzNYVVJQWU1yWld4eEZoNzMwWGdZK1NJRHFOVTM3ZE9nZEVIdXkyYmY0VUVaSE02cnhLODRwQ1RlWUxjMDVEbG10UVBWcXpaUTNEMU53dmx1QjQ1eHR0dktCa0hIeXFwTml1VjBsbktGMXlpdVVVWHdBekxraDBiQkJha3Juc21VWW5xZmgrUlE4cS9DY2cyY3VvTzFNT0h4WlJZbEdwV0haR0RaSm9IWlRRdkdvb3lRenR3bjNRKytNeEdCSUtkaEFJTE1zVlVGSmdtWG1QaHUrREJ1d1BLZHdlb1d0aDJGUVhBdnlqenJYT0pqeU10NzFROVBoT1BCZklZdzNCZUJYKzNROGxJRkRGV3pBT1RncHhRYWFYWm1MaVl1T013dWhETDVyT2tvYkJqZ3dsR1p2ek1VUENMOG5GbkxWcG5WZ0svbUhVTTR4UEpwZG1vdUtsbGVqRDJ1NURBY0xTUE1Xd3F5RWxuYnJzT08wM1Bwc1VqQ1l1QnhhTlhWSCsyZm5MajBWbkpwWXFIMjhnU05TeVhmMGVUUm9PaTRoLzBscUpoSnFuN01PeGk2dzNTdzB1RHhGREs3eFRYbUFPMmlseGNEUDlRazNab0Y1YTFqZTQweTZOSTNvc0k0NjFPbXN5VnpBQ2dEZFdCeUViV0FhM0ZzUGJCTzBzdE5FaVFwaGVuTi82R3hNckErT2l1WU9PMVRudzBKK2hVK2tpSE5yWk1BK2xURHdQUk9MTlRrdGdoQXFrQXBFZFRsckU5MUMwWFN2V05NVG1OZ2dsbzN5bEpSQVNQQnNOYUFsTnRyRlk0VWJxUlZSWGtsazhxS2N6YTBudXBTVkFLdXBRbWc5Z1JCYTA4TGhjQ1NTVFhycEVMVzBWRGg4S1I2VDlCa042QkN5OGdXMGdiSkxxWnRJcGwvQlNpdUV3OUZZWEhaQkhubzRla1ZMSXZkWHlPVERzYWdhRGdkRXhsMlJrZmhTVW5FL0RTaERpNllWYzM3WC92N0M3ZGwvdlByQ3RUZGVIL3RBL1d1dkw3NzdsZWZlK09UNVY2NTkvYU8vdmY3eXlZOWQreDFVZ0NMamR2L1VENVd4WHk3ZGN3WTl2am5qdk8rMVRORGkrOXdYWHdXTy8yeWJSZm40WDUzL3cxOWR6TnN1UTFFWGI5SHZ2dmJkWC93bm85YnVhMnZmKzhQQWhjUjliZURiMGZWUHhPNXJ0emZlLzVWbmpzUDdTMlRqNVovZTEvNzh4OWRxbitWU1h1cmk2ZGQrUTM2MG1Qekp6Mi9mL1B5L0Y1TWYvdE9uUTk5SUw2WUtkMS82MXZ0K3NKZ3lmLytkei8zNFY0dko0cGNybnpsMVBQRE5hSkRobWt5MDRwUEhFMmxUYjlUQVM5WHNwamhGamFVNHRxcnFMWUlEbERRNHU1akhGaVZERFdyRFFsV0x0Q2FneVJha0VjaFZuWFB0eU0wN2VXTFc1WGVEa1VTZ25nelVVLzc2OFR6c2dFeG1xVGZZM1FhWFFmRkVucFRBMHlIYUEzUVRjbHNuWEhvUmY2ZUo5dEZVZFJPYVZCdFNFTFZnTGFyRlpsMkluZDRnMkZsZ3FyelFGL3E0MSt0N3lPOW9ueWhWclFHNVZDZDdHc3k0MTgydUZGUDFuMG1uUmQrRVFTdXMxcmsvT1JsazZsRndVbUN0UzBVcFJWSXRuZE82ZHdmcTNVeDZPWjFzMzgrbzdmc1pMM1k2aURtQlQ5NjNUanRYUStvSFRVYlU5bVc2bUowTzRDUlhqeGFUSGNRalpyeDFKK0xTeFVpV0tiZHNkUVh6V3JsaHFFdmJIYk9jNlFJNWNxU0hHYnBaQlc1aXhoSU1VbzBoVkJUa2lUWEdIVC9CbEhXSWcwbTZSVVJsUEUwZFhQZDBHazV6YzhkcVNoNXAzcWdFR1orNDNzQzhCSHozaUJ4ZW9UWnZNRkVkV2ExQVZkK1M4dHo3RTczcGVLZ2dkWnhaa0lhME91bXduTXpnWGJWRlNkTnlXYWpndUVHYTFERzN3ZjI5bGo3bDg0SUU1SittUmNWOERtdUVVWk5MU2JkZ21WUkViVFFEbGpMQVdCTE91aXRCcmkzSTRLcHJNU3JkY2V6WkJxY1dPRTlKVG11K0NnSmh2Nlcyb0N5VzhXTnF1Y0ZjdFFCTUdkaVNsK2ZMV0hmQ1RkTTdqdEVFSjloTEdOSnVhY1VsOFFsNU5MZkRZSmhWS2o3V1RPY056QmlGNFFSVUhNbmtjMTR0UmdyRkpXOTlxSkRWVkU5NjdBeGx5aW1ydVhMWklyYXFscVVsK25aRm9SbUl4S1BnUEtxSXhrNnE2VytubGFGZ3lOYmQ4YmRDdGlDT2xiQ04xVEozZEZPVUI0RXV3NmE3MktGVC8weUxvNjl6SHc4UWpqZVlvMGtwcEZjYmJDc1VDOEFEZFZaeFpDcWRqOUFUN2ZlUXA1eHFhZEgvWHlWd05DY01kaVhDVW9NRzNwVGZxUVpLWkZzNEw5akROWWRhaHoyOGRCcG5pYW0yYWN1OTBaaHVHb0xpamx4NThEOHdtcGVJTkNFQUFBPT0ifQ== -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Document.Nbr"],"name":[1],"type":["int"],"align":["right"]},{"label":["Crash.Year"],"name":[2],"type":["int"],"align":["right"]},{"label":["Crash.Date"],"name":[3],"type":["chr"],"align":["left"]},{"label":["Crash.Military.Time"],"name":[4],"type":["int"],"align":["right"]},{"label":["Crash.Severity"],"name":[5],"type":["chr"],"align":["left"]},{"label":["K_People"],"name":[6],"type":["int"],"align":["right"]},{"label":["A_People"],"name":[7],"type":["int"],"align":["right"]},{"label":["B_People"],"name":[8],"type":["int"],"align":["right"]},{"label":["C_People"],"name":[9],"type":["int"],"align":["right"]},{"label":["Persons.Injured"],"name":[10],"type":["int"],"align":["right"]},{"label":["Pedestrians.Killed"],"name":[11],"type":["int"],"align":["right"]},{"label":["Pedestrians.Injured"],"name":[12],"type":["int"],"align":["right"]},{"label":["Vehicle.Count"],"name":[13],"type":["int"],"align":["right"]},{"label":["Collision.Type"],"name":[14],"type":["chr"],"align":["left"]},{"label":["Weather.Condition"],"name":[15],"type":["chr"],"align":["left"]},{"label":["Light.Condition"],"name":[16],"type":["chr"],"align":["left"]},{"label":["Roadway.Surface.Condition"],"name":[17],"type":["chr"],"align":["left"]},{"label":["Relation.To.Roadway"],"name":[18],"type":["chr"],"align":["left"]},{"label":["Roadway.Alignment"],"name":[19],"type":["chr"],"align":["left"]},{"label":["Roadway.Surface.Type"],"name":[20],"type":["chr"],"align":["left"]},{"label":["Roadway.Defect"],"name":[21],"type":["chr"],"align":["left"]},{"label":["Roadway.Description"],"name":[22],"type":["chr"],"align":["left"]},{"label":["Intersection.Type"],"name":[23],"type":["chr"],"align":["left"]},{"label":["Traffic.Control.Type"],"name":[24],"type":["chr"],"align":["left"]},{"label":["Traffic.Control.Status"],"name":[25],"type":["chr"],"align":["left"]},{"label":["Work.Zone.Related"],"name":[26],"type":["chr"],"align":["left"]},{"label":["Work.Zone.Location"],"name":[27],"type":["chr"],"align":["left"]},{"label":["Work.Zone.Type"],"name":[28],"type":["chr"],"align":["left"]},{"label":["School.Zone"],"name":[29],"type":["chr"],"align":["left"]},{"label":["First.Harmful.Event"],"name":[30],"type":["chr"],"align":["left"]},{"label":["First.Harmful.Event.Loc"],"name":[31],"type":["chr"],"align":["left"]},{"label":["Alcohol."],"name":[32],"type":["chr"],"align":["left"]},{"label":["Animal.Related."],"name":[33],"type":["chr"],"align":["left"]},{"label":["Unrestrained."],"name":[34],"type":["chr"],"align":["left"]},{"label":["Bike."],"name":[35],"type":["chr"],"align":["left"]},{"label":["Distracted."],"name":[36],"type":["chr"],"align":["left"]},{"label":["Drowsy."],"name":[37],"type":["chr"],"align":["left"]},{"label":["Drug.Related."],"name":[38],"type":["chr"],"align":["left"]},{"label":["Guardrail.Related."],"name":[39],"type":["chr"],"align":["left"]},{"label":["Hitrun."],"name":[40],"type":["chr"],"align":["left"]},{"label":["Lgtruck."],"name":[41],"type":["chr"],"align":["left"]},{"label":["Motorcycle."],"name":[42],"type":["chr"],"align":["left"]},{"label":["Pedestrian."],"name":[43],"type":["chr"],"align":["left"]},{"label":["Speed."],"name":[44],"type":["chr"],"align":["left"]},{"label":["Max.Speed.Diff"],"name":[45],"type":["int"],"align":["right"]},{"label":["RoadDeparture.Type"],"name":[46],"type":["chr"],"align":["left"]},{"label":["Intersection.Analysis"],"name":[47],"type":["chr"],"align":["left"]},{"label":["Senior."],"name":[48],"type":["chr"],"align":["left"]},{"label":["Young."],"name":[49],"type":["chr"],"align":["left"]},{"label":["Mainline."],"name":[50],"type":["chr"],"align":["left"]},{"label":["Night."],"name":[51],"type":["chr"],"align":["left"]},{"label":["VDOT.District"],"name":[52],"type":["chr"],"align":["left"]},{"label":["Juris.Code"],"name":[53],"type":["int"],"align":["right"]},{"label":["Physical.Juris.Name"],"name":[54],"type":["chr"],"align":["left"]},{"label":["Functional.Class"],"name":[55],"type":["chr"],"align":["left"]},{"label":["Facility.Type"],"name":[56],"type":["chr"],"align":["left"]},{"label":["Area.Type"],"name":[57],"type":["chr"],"align":["left"]},{"label":["SYSTEM"],"name":[58],"type":["chr"],"align":["left"]},{"label":["Ownership"],"name":[59],"type":["chr"],"align":["left"]},{"label":["Planning.District"],"name":[60],"type":["chr"],"align":["left"]},{"label":["MPO.Name"],"name":[61],"type":["chr"],"align":["left"]},{"label":["RTE.Name"],"name":[62],"type":["chr"],"align":["left"]},{"label":["RNS.MP"],"name":[63],"type":["dbl"],"align":["right"]},{"label":["Node"],"name":[64],"type":["int"],"align":["right"]},{"label":["Node.Offset..ft."],"name":[65],"type":["dbl"],"align":["right"]},{"label":["x"],"name":[66],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[67],"type":["dbl"],"align":["right"]}],"data":[{"1":"153495325","2":"2015","3":"12/9/2015 5:00:00 AM","4":"1215","5":"O","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"2","14":"1. Rear End","15":"1. No Adverse Condition (Clear/Cloudy)","16":"2. Daylight","17":"1. Dry","18":"10. Intersection Related - Within 150 Feet","19":"3. Grade - Straight","20":"2. Blacktop, Asphalt, Bituminous","21":"1. No Defects","22":"1. Two-Way, Not Divided","23":"3. Three Approaches","24":"6. Traffic Lanes Marked","25":"1. Yes - Working","26":"2. No","27":"","28":"","29":"3. No","30":"20. Motor Vehicle In Transport","31":"1. On Roadway","32":"Yes","33":"No","34":"Belted","35":"No","36":"No","37":"No","38":"No","39":"No","40":"No","41":"No","42":"No","43":"No","44":"No","45":"NA","46":"NOT_RD","47":"VDOT Intersection","48":"No","49":"Yes","50":"Yes","51":"No","52":"8. Staunton","53":"7","54":"007. Augusta County","55":"4-Minor Arterial (H,3)","56":"3-Two-Way Undivided","57":"Rural","58":"VDOT Primary","59":"1. State Hwy Agency","60":"Central Shenandoah","61":"SAW","62":"R-VA   US00011NB","63":"251.60","64":"135370","65":"70.34","66":"-78.93530","67":"38.30538","_rn_":"1"},{"1":"152605041","2":"2015","3":"9/11/2015 4:00:00 AM","4":"2139","5":"O","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"2","14":"2. Angle","15":"1. No Adverse Condition (Clear/Cloudy)","16":"5. Darkness - Road Not Lighted","17":"1. Dry","18":"9. Within Intersection","19":"1. Straight - Level","20":"2. Blacktop, Asphalt, Bituminous","21":"1. No Defects","22":"1. Two-Way, Not Divided","23":"3. Three Approaches","24":"6. Traffic Lanes Marked","25":"1. Yes - Working","26":"2. No","27":"","28":"","29":"2. Yes - With School Activity","30":"20. Motor Vehicle In Transport","31":"1. On Roadway","32":"No","33":"No","34":"Belted","35":"No","36":"No","37":"No","38":"No","39":"No","40":"No","41":"No","42":"No","43":"No","44":"No","45":"NA","46":"NOT_RD","47":"VDOT Intersection","48":"Yes","49":"No","50":"Yes","51":"Yes","52":"4. Richmond","53":"42","54":"042. Hanover County","55":"5-Major Collector (I,4)","56":"3-Two-Way Undivided","57":"Urban","58":"VDOT Secondary","59":"1. State Hwy Agency","60":"Richmond Regional","61":"RICH","62":"R-VA042SC00643NB","63":"1.16","64":"711749","65":"0.00","66":"-77.33965","67":"37.61586","_rn_":"2"},{"1":"152725392","2":"2015","3":"9/26/2015 4:00:00 AM","4":"14","5":"O","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"1","14":"9. Fixed Object - Off Road","15":"5. Rain","16":"4. Darkness - Road Lighted","17":"2. Wet","18":"8. Non-Intersection","19":"1. Straight - Level","20":"2. Blacktop, Asphalt, Bituminous","21":"1. No Defects","22":"2. Two-Way, Divided, Unprotected Median","23":"1. Not at Intersection","24":"6. Traffic Lanes Marked","25":"1. Yes - Working","26":"2. No","27":"","28":"","29":"3. No","30":"14. Ditch","31":"2. Shoulder","32":"Yes","33":"No","34":"Belted","35":"No","36":"No","37":"No","38":"No","39":"No","40":"No","41":"No","42":"No","43":"No","44":"No","45":"NA","46":"RD_RIGHT","47":"Not Intersection","48":"Yes","49":"No","50":"Yes","51":"Yes","52":"5. Hampton Roads","53":"134","54":"134. City of Virginia Beach","55":"5-Major Collector (I,4)","56":"3-Two-Way Undivided","57":"Urban","58":"NonVDOT secondary","59":"3. City or Town Hwy Agency","60":"Hampton Roads","61":"HAMP","62":"S-VA134PR W NECK RD","63":"0.87","64":"NA","65":"NA","66":"-76.05763","67":"36.74153","_rn_":"3"},{"1":"151245084","2":"2015","3":"4/30/2015 4:00:00 AM","4":"1518","5":"B","6":"0","7":"0","8":"1","9":"0","10":"1","11":"0","12":"0","13":"3","14":"1. Rear End","15":"1. No Adverse Condition (Clear/Cloudy)","16":"2. Daylight","17":"1. Dry","18":"10. Intersection Related - Within 150 Feet","19":"1. Straight - Level","20":"2. Blacktop, Asphalt, Bituminous","21":"1. No Defects","22":"2. Two-Way, Divided, Unprotected Median","23":"4. Four Approaches","24":"3. Traffic Signal","25":"1. Yes - Working","26":"2. No","27":"","28":"","29":"3. No","30":"20. Motor Vehicle In Transport","31":"1. On Roadway","32":"Yes","33":"No","34":"Belted","35":"No","36":"No","37":"No","38":"No","39":"No","40":"No","41":"No","42":"No","43":"No","44":"No","45":"NA","46":"NOT_RD","47":"VDOT Intersection","48":"No","49":"Yes","50":"Yes","51":"No","52":"9. Northern Virginia","53":"76","54":"076. Prince William County","55":"3-Principal Arterial - Other (E,2)","56":"4-Two-Way Divided","57":"Urban","58":"VDOT Primary","59":"1. State Hwy Agency","60":"Northern Virginia","61":"NOVA","62":"R-VA   SR00234NB","63":"8.86","64":"746003","65":"65.82","66":"-77.44282","67":"38.64388","_rn_":"4"},{"1":"150610089","2":"2015","3":"2/23/2015 5:00:00 AM","4":"1801","5":"C","6":"0","7":"0","8":"0","9":"1","10":"1","11":"0","12":"0","13":"2","14":"1. Rear End","15":"1. No Adverse Condition (Clear/Cloudy)","16":"2. Daylight","17":"1. Dry","18":"5. On Entrance/Exit Ramp","19":"3. Grade - Straight","20":"2. Blacktop, Asphalt, Bituminous","21":"1. No Defects","22":"4. One-Way, Not Divided","23":"1. Not at Intersection","24":"6. Traffic Lanes Marked","25":"6. No Traffic Control Device Present","26":"2. No","27":"","28":"","29":"3. No","30":"20. Motor Vehicle In Transport","31":"1. On Roadway","32":"No","33":"No","34":"Belted","35":"No","36":"No","37":"No","38":"No","39":"No","40":"No","41":"No","42":"No","43":"No","44":"No","45":"NA","46":"NOT_RD","47":"Not Intersection","48":"No","49":"No","50":"No","51":"No","52":"9. Northern Virginia","53":"29","54":"029. Fairfax County","55":"2-Principal Arterial - Other Freeways and Expressways (B)","56":"1-One-Way Undivided","57":"Urban","58":"VDOT Primary","59":"1. State Hwy Agency","60":"Northern Virginia","61":"NOVA","62":"R-VA   SR00028SB      RMP032.00B","63":"0.04","64":"NA","65":"NA","66":"-77.44692","67":"38.87420","_rn_":"5"},{"1":"150895089","2":"2015","3":"3/30/2015 4:00:00 AM","4":"658","5":"O","6":"0","7":"0","8":"0","9":"0","10":"0","11":"0","12":"0","13":"1","14":"6. Fixed Object in Road","15":"5. Rain","16":"2. Daylight","17":"2. Wet","18":"8. Non-Intersection","19":"4. Grade - Curve","20":"2. Blacktop, Asphalt, Bituminous","21":"1. No Defects","22":"1. Two-Way, Not Divided","23":"1. Not at Intersection","24":"1. No Traffic Control","25":"6. No Traffic Control Device Present","26":"2. No","27":"","28":"","29":"3. No","30":"18. Mailbox","31":"1. On Roadway","32":"No","33":"No","34":"Belted","35":"No","36":"No","37":"No","38":"No","39":"No","40":"No","41":"No","42":"No","43":"No","44":"No","45":"NA","46":"RD_UNKNOWN","47":"Not Intersection","48":"No","49":"Yes","50":"Yes","51":"No","52":"2. Salem","53":"44","54":"044. Henry County","55":"7-Local (J,6)","56":"3-Two-Way Undivided","57":"Rural","58":"VDOT Secondary","59":"1. State Hwy Agency","60":"West Piedmont","61":"","62":"R-VA044SC00614EB","63":"0.61","64":"NA","65":"NA","66":"-79.70177","67":"36.66099","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10],"total":[67]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="data-prep-for-plot-1" class="section level2">
-<h2>Data Prep for Plot 1</h2>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudW5pcXVlKGRhdGEkUGh5c2ljYWwuSnVyaXMuTmFtZSlcbmBgYCJ9 -->
-<pre class="r"><code>unique(data$Physical.Juris.Name)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBDb252ZXJ0IENyYXNoLkRhdGUgdG8gZGF0ZSBmb3JtYXRcbmRhdGEkQ3Jhc2guRGF0ZSA8LSBtZHlfaG1zKGRhdGEkQ3Jhc2guRGF0ZSlcblxuIyBFeHRyYWN0IHllYXIgYW5kIG1vbnRoXG5kYXRhIDwtIG11dGF0ZShkYXRhLCBNTV9ZWVlZID0gZm9ybWF0KENyYXNoLkRhdGUsIFwiJW0tJVlcIikpXG5gYGAifQ== -->
-<pre class="r"><code># Convert Crash.Date to date format
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuaGVhZChkYXRhKVxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+head(data)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjoiZGF0YS5mcmFtZSIsIm5yb3ciOjYsIm5jb2wiOjY3LCJzdW1tYXJ5Ijp7IkRlc2NyaXB0aW9uIjoiZGYgWzYgw5cgNjddIn19LCJyZGYiOiJINHNJQUFBQUFBQUFBKzFaVzJ3Y1NSVnQyL0Y3N2RoeEhrc2dVWUVnOGE0ODdYazVqeFVvbm9jZForTjU3UFRZM2tCRVZPNnBtYW00cDNxbzdyRTk4RUVrQkFJRTJtVWxmdUFEaWNjSEVsckIzMG9nRWUwZkQ0R1EwTzRISUVBSUlWaUVBQWsrRUFSdTkwelZkTGRuWWp2eDdnZmFrZHRkZFUvVnZiZHUzYnEzcXJxUWZqNDI5dnlZb2lnRHlyR0JmbVZnRUlySzRGcHhPWFJGVVk3MVE2VlBPYWFNT3U5ZGFEUURoUlE4RS9BTWpWNjRlRzcweVM5OFpQUnM1Y1hSZ1orOWErUmY2SnNqRDVwL0U3aWlEUCs2KzZOTXVYaUw4Y2xJZFA3cWZEUWNXVUFMejRURDhJY1NHWUZkblk5RVdsaThDeGE5MUF1THo4ZkN2YkRvZkRUV1MxNnNXejg1bm1QZlY1U1JEMEY1RW96MEZ4Z0w5T2wvS1RDZXZsenZRbElVVWgxSWN1LzVleFM4N3dEOSt4NkM5KzJEUDRwKy9lM0g0VHZnS1U4cEhldU5SMVJVSUppakpWWnFrMGFpS2txd2lrSGE5Yk5YVmJSTWQwa0o1VGJ2RXQxR0laUXJsMUhCeEtYZVRMcVF6bHdLOEtHc3hjU3YwUVhvbVRWUm9yUk51RVZReW1RbGFsT1RvZG1VQVF6blU0YlpLRFdmZXFUV3d3dWdGYWJzclJRVnNEY1lONDJiQnExVTdUYnAvSUpENGx1TVdCYlkxakVKeUxIUnF0T0dDT3VkamU5dDVXL1JoZlYrSkw5dVF6REFORzkycjBHM0RXSWZvcVdmOTlPUnNJcHVNTnN4bmU1YXJVQU1ETXJEV0Rhb1hRVmZpQ3lFMFRLUk1rNkQyN1VSYjc4Mk9uUEZtUXdXNmdJZFh0U1RNQU01QnE1cWM4eDBNciswUzIyWXZGcjlZY0w4NDV1SnFlZzZ4eVVDUWpSZzQ3SDRESmhIa0FCZEpkdkVlRHlvdDZ5cGVBZEtOZmcyQ2FpSllIS1NCdGEzYkxNK2h4Sld2WW9OZXc0bHFkMm9VV1kyclArYmR2NXhUN1RXYnBxVVlmYXN0NDdvMStJTWdNVWRNN1NCbTNQdUVrL1RiVnFTQzNnZitHTFVBN2VoT2JURzZ0eTBRUmo0ZDRhVUtHYVAxdnhNM0ZrRDVOQzY3VjBHeFNvbkJDWHFJQWpyVldMdEQ1MTJqV1lqYkhkYjZpZEFzMld6d1EvYnJ4Y2FtQlBJU2tXT3kyV3FvMVVNMFJWbElNcVMwcEhBMDdFT3JORUt3OGJCK3AxcWVaRm9BYW5HNXFZUjBId0tHdDBpVGpMWU1Qa1daWlVqcHIvM1VqY2x3TFczcVU1UW5oT0xNUHRRYmYzNkQwYWRQbzlmOFhOVkR2dyttbjZETVk5RzU2TFNsSkJva0taWFRiQkNBdnh1bTlyTmJqMzJyZmlsblk5Q2JzdVl0c25ST3FsUzNTRGcyNDdabVZVM3VYMm9WcU1SWjB0QmJiMzZKakFmajBET3pHQnFiSnE3WFdKeHJyWDEyOEhOaHhHZHZZcFdOUnRHaWZCRGR3NFEvVG9NM0pKQnBGOWEzRVBzaXZmdm1RNC9kdEJTWU5lVkpFWm5FL2U0dGFQWDcyMGViL040TTNpNHA5Ujc4Sy9iRTF3ajJWenhUaUhkdFRaU1NOOHAzTGkrVWp4QTJ6Rm91NWE5bWMxdFpBTVNwdGZUdVdLM1hVUlBZTXJaV3h4Rmg3MzBYZ1krU0lEcU5VMzdkT2dkRUh1eTJiZjRVRVpITTZyeEs4NHBDVGVZTGMwNURsbXRRUFZxelpRM0QxTnd2bHVCNDV4dHR2S0JrSEh5cXBOaXVWMGxuS0YxeWl1VVVYd0F6TGtoMGJCQmFrcm5zbVVZbnFmaCtSUThxL0NjZzJjdW9PMU1PSHhaUllsR3BXSFpHRFpKb0haVFF2R29veVF6dHduM1ErK014R0JJS2RoQUlMTXNWVUZKZ21YbVBodStEQnV3UEtkd2VvV3RoMkZRWEF2eWp6clhPSmp5TXQ3MVE5UGhPUEJmSVl3M0JlQlgrM1E4bElGREZXekFPVGdweFFhYVhabUxpWXVPTXd1aERMNXJPa29iQmpnd2xHWnZ6TVVQQ0w4bkZuTFZwblZnSy9tSFVNNHhQSnBkbW91S2xsZWpEMnU1REFjTFNQTVd3cXlFbG5icnNPTzAzUHBzVWpDWXVCeGFOWFZIKzJmbkxqMFZuSnBZcUgyOGdTTlN5WGYwZVRSb09pNGgvMGxxSmhKcW43TU94aTZ3M1N3MHVEeEZESzd4VFhtQU8yaWx4Y0RQOVFrM1pvRjVhMWplNDB5Nk5JM29zSTQ2MU9tc3lWekFDZ0RkV0J5RWJXQWEzRnNQYkJPMHN0TkVpUXBoZW5OLzZHeE1yQStPaXVZT08xVG53MEoraFUra2lITnJaTUErbFREd1BST0xOVGt0Z2hBcWtBcEVkVGxyRTkxQzBYU3ZXTk1UbU5nZ2xvM3lsSlJBU1BCc05hQWxOdHJGWTRVYnFSVlJYa2xrOHFLY3phMG51cFNWQUt1cFFtZzlnUkJhMDhMaGNDU1NUWHJwRUxXMFZEaDhLUjZUOUJrTjZCQ3k4Z1cwZ2JKTHFadElwbC9CU2l1RXc5RllYSFpCSG5vNGVrVkxJdmRYeU9URHNhZ2FEZ2RFeGwyUmtmaFNVbkUvRFNoRGk2WVZjMzdYL3Y3QzdkbC92UHJDdFRkZUgvdEEvV3V2TDc3N2xlZmUrT1Q1VjY1OS9hTy92Zjd5eVk5ZCt4MVVnQ0xqZHYvVUQ1V3hYeTdkY3dZOXZqbmp2TysxVE5EaSs5d1hYd1dPLzJ5YlJmbjRYNTMvdzE5ZHpOc3VRMUVYYjlIdnZ2YmRYL3dubzlidWEydmYrOFBBaGNSOWJlRGIwZlZQeE81cnR6ZmUvNVZuanNQN1MyVGo1Wi9lMS83OHg5ZHFuK1ZTWHVyaTZkZCtRMzYwbVB6SnoyL2YvUHkvRjVNZi90T25ROTlJTDZZS2QxLzYxdnQrc0pneWYvK2R6LzM0VjR2SjRwY3JuemwxUFBETmFKRGhta3kwNHBQSEUybFRiOVRBUzlYc3BqaEZqYVU0dHFycUxZSURsRFE0dTVqSEZpVkREV3JEUWxXTHRDYWd5UmFrRWNoVm5YUHR5TTA3ZVdMVzVYZURrVVNnbmd6VVUvNzY4VHpzZ0V4bXFUZlkzUWFYUWZGRW5wVEEweUhhQTNRVGNsc25YSG9SZjZlSjl0RlVkUk9hVkJ0U0VMVmdMYXJGWmwySW5kNGcyRmxncXJ6UUYvcTQxK3Q3eU85b255aFZyUUc1VkNkN0dzeTQxODJ1RkZQMW4wbW5SZCtFUVN1czFyay9PUmxrNmxGd1VtQ3RTMFVwUlZJdG5kTzZkd2ZxM1V4Nk9aMXMzOCtvN2ZzWkwzWTZpRG1CVDk2M1RqdFhRK29IVFViVTltVzZtSjBPNENSWGp4YVRIY1FqWnJ4MUorTFN4VWlXS2Jkc2RRWHpXcmxocUV2YkhiT2M2UUk1Y3FTSEdicFpCVzVpeGhJTVVvMGhWQlRraVRYR0hUL0JsSFdJZzBtNlJVUmxQRTBkWFBkMEdrNXpjOGRxU2g1cDNxZ0VHWis0M3NDOEJIejNpQnhlb1Radk1GRWRXYTFBVmQrUzh0ejdFNzNwZUtnZ2RaeFprSWEwT3Vtd25NemdYYlZGU2ROeVdhamd1RUdhMURHM3dmMjlsajdsODRJRTVKK21SY1Y4RG11RVVaTkxTYmRnbVZSRWJUUURsakxBV0JMT3VpdEJyaTNJNEtwck1TcmRjZXpaQnFjV09FOUpUbXUrQ2dKaHY2VzJvQ3lXOFdOcXVjRmN0UUJNR2RpU2wrZkxXSGZDVGRNN2p0RUVKOWhMR05KdWFjVWw4UWw1TkxmRFlKaFZLajdXVE9jTnpCaUY0UVJVSE1ua2MxNHRSZ3JGSlc5OXFKRFZWRTk2N0F4bHlpbXJ1WExaSXJhcWxxVWwrblpGb1JtSXhLUGdQS3FJeGs2cTZXK25sYUZneU5iZDhiZEN0aUNPbGJDTjFUSjNkRk9VQjRFdXc2YTcyS0ZULzB5TG82OXpIdzhRamplWW8wa3BwRmNiYkNzVUM4QURkVlp4WkNxZGo5QVQ3ZmVRcDV4cWFkSC9YeVZ3TkNjTWRpWENVb01HM3BUZnFRWktaRnM0TDlqRE5ZZGFoejI4ZEJwbmlhbTJhY3U5MFpodUdvTGlqbHg1OEQ4d21wZUlOQ0VBQUE9PSJ9 --&gt;
+
+&lt;div data-pagedtable=&quot;false&quot;&gt;
+  &lt;script data-pagedtable-source type=&quot;application/json&quot;&gt;
+{&quot;columns&quot;:[{&quot;label&quot;:[&quot;&quot;],&quot;name&quot;:[&quot;_rn_&quot;],&quot;type&quot;:[&quot;&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Document.Nbr&quot;],&quot;name&quot;:[1],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;Crash.Year&quot;],&quot;name&quot;:[2],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;Crash.Date&quot;],&quot;name&quot;:[3],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Crash.Military.Time&quot;],&quot;name&quot;:[4],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;Crash.Severity&quot;],&quot;name&quot;:[5],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;K_People&quot;],&quot;name&quot;:[6],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;A_People&quot;],&quot;name&quot;:[7],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;B_People&quot;],&quot;name&quot;:[8],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;C_People&quot;],&quot;name&quot;:[9],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;Persons.Injured&quot;],&quot;name&quot;:[10],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;Pedestrians.Killed&quot;],&quot;name&quot;:[11],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;Pedestrians.Injured&quot;],&quot;name&quot;:[12],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;Vehicle.Count&quot;],&quot;name&quot;:[13],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;Collision.Type&quot;],&quot;name&quot;:[14],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Weather.Condition&quot;],&quot;name&quot;:[15],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Light.Condition&quot;],&quot;name&quot;:[16],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Roadway.Surface.Condition&quot;],&quot;name&quot;:[17],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Relation.To.Roadway&quot;],&quot;name&quot;:[18],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Roadway.Alignment&quot;],&quot;name&quot;:[19],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Roadway.Surface.Type&quot;],&quot;name&quot;:[20],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Roadway.Defect&quot;],&quot;name&quot;:[21],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Roadway.Description&quot;],&quot;name&quot;:[22],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Intersection.Type&quot;],&quot;name&quot;:[23],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Traffic.Control.Type&quot;],&quot;name&quot;:[24],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Traffic.Control.Status&quot;],&quot;name&quot;:[25],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Work.Zone.Related&quot;],&quot;name&quot;:[26],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Work.Zone.Location&quot;],&quot;name&quot;:[27],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Work.Zone.Type&quot;],&quot;name&quot;:[28],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;School.Zone&quot;],&quot;name&quot;:[29],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;First.Harmful.Event&quot;],&quot;name&quot;:[30],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;First.Harmful.Event.Loc&quot;],&quot;name&quot;:[31],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Alcohol.&quot;],&quot;name&quot;:[32],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Animal.Related.&quot;],&quot;name&quot;:[33],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Unrestrained.&quot;],&quot;name&quot;:[34],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Bike.&quot;],&quot;name&quot;:[35],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Distracted.&quot;],&quot;name&quot;:[36],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Drowsy.&quot;],&quot;name&quot;:[37],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Drug.Related.&quot;],&quot;name&quot;:[38],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Guardrail.Related.&quot;],&quot;name&quot;:[39],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Hitrun.&quot;],&quot;name&quot;:[40],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Lgtruck.&quot;],&quot;name&quot;:[41],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Motorcycle.&quot;],&quot;name&quot;:[42],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Pedestrian.&quot;],&quot;name&quot;:[43],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Speed.&quot;],&quot;name&quot;:[44],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Max.Speed.Diff&quot;],&quot;name&quot;:[45],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;RoadDeparture.Type&quot;],&quot;name&quot;:[46],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Intersection.Analysis&quot;],&quot;name&quot;:[47],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Senior.&quot;],&quot;name&quot;:[48],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Young.&quot;],&quot;name&quot;:[49],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Mainline.&quot;],&quot;name&quot;:[50],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Night.&quot;],&quot;name&quot;:[51],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;VDOT.District&quot;],&quot;name&quot;:[52],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Juris.Code&quot;],&quot;name&quot;:[53],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;Physical.Juris.Name&quot;],&quot;name&quot;:[54],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Functional.Class&quot;],&quot;name&quot;:[55],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Facility.Type&quot;],&quot;name&quot;:[56],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Area.Type&quot;],&quot;name&quot;:[57],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;SYSTEM&quot;],&quot;name&quot;:[58],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Ownership&quot;],&quot;name&quot;:[59],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;Planning.District&quot;],&quot;name&quot;:[60],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;MPO.Name&quot;],&quot;name&quot;:[61],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;RTE.Name&quot;],&quot;name&quot;:[62],&quot;type&quot;:[&quot;chr&quot;],&quot;align&quot;:[&quot;left&quot;]},{&quot;label&quot;:[&quot;RNS.MP&quot;],&quot;name&quot;:[63],&quot;type&quot;:[&quot;dbl&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;Node&quot;],&quot;name&quot;:[64],&quot;type&quot;:[&quot;int&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;Node.Offset..ft.&quot;],&quot;name&quot;:[65],&quot;type&quot;:[&quot;dbl&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;x&quot;],&quot;name&quot;:[66],&quot;type&quot;:[&quot;dbl&quot;],&quot;align&quot;:[&quot;right&quot;]},{&quot;label&quot;:[&quot;y&quot;],&quot;name&quot;:[67],&quot;type&quot;:[&quot;dbl&quot;],&quot;align&quot;:[&quot;right&quot;]}],&quot;data&quot;:[{&quot;1&quot;:&quot;153495325&quot;,&quot;2&quot;:&quot;2015&quot;,&quot;3&quot;:&quot;12/9/2015 5:00:00 AM&quot;,&quot;4&quot;:&quot;1215&quot;,&quot;5&quot;:&quot;O&quot;,&quot;6&quot;:&quot;0&quot;,&quot;7&quot;:&quot;0&quot;,&quot;8&quot;:&quot;0&quot;,&quot;9&quot;:&quot;0&quot;,&quot;10&quot;:&quot;0&quot;,&quot;11&quot;:&quot;0&quot;,&quot;12&quot;:&quot;0&quot;,&quot;13&quot;:&quot;2&quot;,&quot;14&quot;:&quot;1. Rear End&quot;,&quot;15&quot;:&quot;1. No Adverse Condition (Clear/Cloudy)&quot;,&quot;16&quot;:&quot;2. Daylight&quot;,&quot;17&quot;:&quot;1. Dry&quot;,&quot;18&quot;:&quot;10. Intersection Related - Within 150 Feet&quot;,&quot;19&quot;:&quot;3. Grade - Straight&quot;,&quot;20&quot;:&quot;2. Blacktop, Asphalt, Bituminous&quot;,&quot;21&quot;:&quot;1. No Defects&quot;,&quot;22&quot;:&quot;1. Two-Way, Not Divided&quot;,&quot;23&quot;:&quot;3. Three Approaches&quot;,&quot;24&quot;:&quot;6. Traffic Lanes Marked&quot;,&quot;25&quot;:&quot;1. Yes - Working&quot;,&quot;26&quot;:&quot;2. No&quot;,&quot;27&quot;:&quot;&quot;,&quot;28&quot;:&quot;&quot;,&quot;29&quot;:&quot;3. No&quot;,&quot;30&quot;:&quot;20. Motor Vehicle In Transport&quot;,&quot;31&quot;:&quot;1. On Roadway&quot;,&quot;32&quot;:&quot;Yes&quot;,&quot;33&quot;:&quot;No&quot;,&quot;34&quot;:&quot;Belted&quot;,&quot;35&quot;:&quot;No&quot;,&quot;36&quot;:&quot;No&quot;,&quot;37&quot;:&quot;No&quot;,&quot;38&quot;:&quot;No&quot;,&quot;39&quot;:&quot;No&quot;,&quot;40&quot;:&quot;No&quot;,&quot;41&quot;:&quot;No&quot;,&quot;42&quot;:&quot;No&quot;,&quot;43&quot;:&quot;No&quot;,&quot;44&quot;:&quot;No&quot;,&quot;45&quot;:&quot;NA&quot;,&quot;46&quot;:&quot;NOT_RD&quot;,&quot;47&quot;:&quot;VDOT Intersection&quot;,&quot;48&quot;:&quot;No&quot;,&quot;49&quot;:&quot;Yes&quot;,&quot;50&quot;:&quot;Yes&quot;,&quot;51&quot;:&quot;No&quot;,&quot;52&quot;:&quot;8. Staunton&quot;,&quot;53&quot;:&quot;7&quot;,&quot;54&quot;:&quot;007. Augusta County&quot;,&quot;55&quot;:&quot;4-Minor Arterial (H,3)&quot;,&quot;56&quot;:&quot;3-Two-Way Undivided&quot;,&quot;57&quot;:&quot;Rural&quot;,&quot;58&quot;:&quot;VDOT Primary&quot;,&quot;59&quot;:&quot;1. State Hwy Agency&quot;,&quot;60&quot;:&quot;Central Shenandoah&quot;,&quot;61&quot;:&quot;SAW&quot;,&quot;62&quot;:&quot;R-VA   US00011NB&quot;,&quot;63&quot;:&quot;251.60&quot;,&quot;64&quot;:&quot;135370&quot;,&quot;65&quot;:&quot;70.34&quot;,&quot;66&quot;:&quot;-78.93530&quot;,&quot;67&quot;:&quot;38.30538&quot;,&quot;_rn_&quot;:&quot;1&quot;},{&quot;1&quot;:&quot;152605041&quot;,&quot;2&quot;:&quot;2015&quot;,&quot;3&quot;:&quot;9/11/2015 4:00:00 AM&quot;,&quot;4&quot;:&quot;2139&quot;,&quot;5&quot;:&quot;O&quot;,&quot;6&quot;:&quot;0&quot;,&quot;7&quot;:&quot;0&quot;,&quot;8&quot;:&quot;0&quot;,&quot;9&quot;:&quot;0&quot;,&quot;10&quot;:&quot;0&quot;,&quot;11&quot;:&quot;0&quot;,&quot;12&quot;:&quot;0&quot;,&quot;13&quot;:&quot;2&quot;,&quot;14&quot;:&quot;2. Angle&quot;,&quot;15&quot;:&quot;1. No Adverse Condition (Clear/Cloudy)&quot;,&quot;16&quot;:&quot;5. Darkness - Road Not Lighted&quot;,&quot;17&quot;:&quot;1. Dry&quot;,&quot;18&quot;:&quot;9. Within Intersection&quot;,&quot;19&quot;:&quot;1. Straight - Level&quot;,&quot;20&quot;:&quot;2. Blacktop, Asphalt, Bituminous&quot;,&quot;21&quot;:&quot;1. No Defects&quot;,&quot;22&quot;:&quot;1. Two-Way, Not Divided&quot;,&quot;23&quot;:&quot;3. Three Approaches&quot;,&quot;24&quot;:&quot;6. Traffic Lanes Marked&quot;,&quot;25&quot;:&quot;1. Yes - Working&quot;,&quot;26&quot;:&quot;2. No&quot;,&quot;27&quot;:&quot;&quot;,&quot;28&quot;:&quot;&quot;,&quot;29&quot;:&quot;2. Yes - With School Activity&quot;,&quot;30&quot;:&quot;20. Motor Vehicle In Transport&quot;,&quot;31&quot;:&quot;1. On Roadway&quot;,&quot;32&quot;:&quot;No&quot;,&quot;33&quot;:&quot;No&quot;,&quot;34&quot;:&quot;Belted&quot;,&quot;35&quot;:&quot;No&quot;,&quot;36&quot;:&quot;No&quot;,&quot;37&quot;:&quot;No&quot;,&quot;38&quot;:&quot;No&quot;,&quot;39&quot;:&quot;No&quot;,&quot;40&quot;:&quot;No&quot;,&quot;41&quot;:&quot;No&quot;,&quot;42&quot;:&quot;No&quot;,&quot;43&quot;:&quot;No&quot;,&quot;44&quot;:&quot;No&quot;,&quot;45&quot;:&quot;NA&quot;,&quot;46&quot;:&quot;NOT_RD&quot;,&quot;47&quot;:&quot;VDOT Intersection&quot;,&quot;48&quot;:&quot;Yes&quot;,&quot;49&quot;:&quot;No&quot;,&quot;50&quot;:&quot;Yes&quot;,&quot;51&quot;:&quot;Yes&quot;,&quot;52&quot;:&quot;4. Richmond&quot;,&quot;53&quot;:&quot;42&quot;,&quot;54&quot;:&quot;042. Hanover County&quot;,&quot;55&quot;:&quot;5-Major Collector (I,4)&quot;,&quot;56&quot;:&quot;3-Two-Way Undivided&quot;,&quot;57&quot;:&quot;Urban&quot;,&quot;58&quot;:&quot;VDOT Secondary&quot;,&quot;59&quot;:&quot;1. State Hwy Agency&quot;,&quot;60&quot;:&quot;Richmond Regional&quot;,&quot;61&quot;:&quot;RICH&quot;,&quot;62&quot;:&quot;R-VA042SC00643NB&quot;,&quot;63&quot;:&quot;1.16&quot;,&quot;64&quot;:&quot;711749&quot;,&quot;65&quot;:&quot;0.00&quot;,&quot;66&quot;:&quot;-77.33965&quot;,&quot;67&quot;:&quot;37.61586&quot;,&quot;_rn_&quot;:&quot;2&quot;},{&quot;1&quot;:&quot;152725392&quot;,&quot;2&quot;:&quot;2015&quot;,&quot;3&quot;:&quot;9/26/2015 4:00:00 AM&quot;,&quot;4&quot;:&quot;14&quot;,&quot;5&quot;:&quot;O&quot;,&quot;6&quot;:&quot;0&quot;,&quot;7&quot;:&quot;0&quot;,&quot;8&quot;:&quot;0&quot;,&quot;9&quot;:&quot;0&quot;,&quot;10&quot;:&quot;0&quot;,&quot;11&quot;:&quot;0&quot;,&quot;12&quot;:&quot;0&quot;,&quot;13&quot;:&quot;1&quot;,&quot;14&quot;:&quot;9. Fixed Object - Off Road&quot;,&quot;15&quot;:&quot;5. Rain&quot;,&quot;16&quot;:&quot;4. Darkness - Road Lighted&quot;,&quot;17&quot;:&quot;2. Wet&quot;,&quot;18&quot;:&quot;8. Non-Intersection&quot;,&quot;19&quot;:&quot;1. Straight - Level&quot;,&quot;20&quot;:&quot;2. Blacktop, Asphalt, Bituminous&quot;,&quot;21&quot;:&quot;1. No Defects&quot;,&quot;22&quot;:&quot;2. Two-Way, Divided, Unprotected Median&quot;,&quot;23&quot;:&quot;1. Not at Intersection&quot;,&quot;24&quot;:&quot;6. Traffic Lanes Marked&quot;,&quot;25&quot;:&quot;1. Yes - Working&quot;,&quot;26&quot;:&quot;2. No&quot;,&quot;27&quot;:&quot;&quot;,&quot;28&quot;:&quot;&quot;,&quot;29&quot;:&quot;3. No&quot;,&quot;30&quot;:&quot;14. Ditch&quot;,&quot;31&quot;:&quot;2. Shoulder&quot;,&quot;32&quot;:&quot;Yes&quot;,&quot;33&quot;:&quot;No&quot;,&quot;34&quot;:&quot;Belted&quot;,&quot;35&quot;:&quot;No&quot;,&quot;36&quot;:&quot;No&quot;,&quot;37&quot;:&quot;No&quot;,&quot;38&quot;:&quot;No&quot;,&quot;39&quot;:&quot;No&quot;,&quot;40&quot;:&quot;No&quot;,&quot;41&quot;:&quot;No&quot;,&quot;42&quot;:&quot;No&quot;,&quot;43&quot;:&quot;No&quot;,&quot;44&quot;:&quot;No&quot;,&quot;45&quot;:&quot;NA&quot;,&quot;46&quot;:&quot;RD_RIGHT&quot;,&quot;47&quot;:&quot;Not Intersection&quot;,&quot;48&quot;:&quot;Yes&quot;,&quot;49&quot;:&quot;No&quot;,&quot;50&quot;:&quot;Yes&quot;,&quot;51&quot;:&quot;Yes&quot;,&quot;52&quot;:&quot;5. Hampton Roads&quot;,&quot;53&quot;:&quot;134&quot;,&quot;54&quot;:&quot;134. City of Virginia Beach&quot;,&quot;55&quot;:&quot;5-Major Collector (I,4)&quot;,&quot;56&quot;:&quot;3-Two-Way Undivided&quot;,&quot;57&quot;:&quot;Urban&quot;,&quot;58&quot;:&quot;NonVDOT secondary&quot;,&quot;59&quot;:&quot;3. City or Town Hwy Agency&quot;,&quot;60&quot;:&quot;Hampton Roads&quot;,&quot;61&quot;:&quot;HAMP&quot;,&quot;62&quot;:&quot;S-VA134PR W NECK RD&quot;,&quot;63&quot;:&quot;0.87&quot;,&quot;64&quot;:&quot;NA&quot;,&quot;65&quot;:&quot;NA&quot;,&quot;66&quot;:&quot;-76.05763&quot;,&quot;67&quot;:&quot;36.74153&quot;,&quot;_rn_&quot;:&quot;3&quot;},{&quot;1&quot;:&quot;151245084&quot;,&quot;2&quot;:&quot;2015&quot;,&quot;3&quot;:&quot;4/30/2015 4:00:00 AM&quot;,&quot;4&quot;:&quot;1518&quot;,&quot;5&quot;:&quot;B&quot;,&quot;6&quot;:&quot;0&quot;,&quot;7&quot;:&quot;0&quot;,&quot;8&quot;:&quot;1&quot;,&quot;9&quot;:&quot;0&quot;,&quot;10&quot;:&quot;1&quot;,&quot;11&quot;:&quot;0&quot;,&quot;12&quot;:&quot;0&quot;,&quot;13&quot;:&quot;3&quot;,&quot;14&quot;:&quot;1. Rear End&quot;,&quot;15&quot;:&quot;1. No Adverse Condition (Clear/Cloudy)&quot;,&quot;16&quot;:&quot;2. Daylight&quot;,&quot;17&quot;:&quot;1. Dry&quot;,&quot;18&quot;:&quot;10. Intersection Related - Within 150 Feet&quot;,&quot;19&quot;:&quot;1. Straight - Level&quot;,&quot;20&quot;:&quot;2. Blacktop, Asphalt, Bituminous&quot;,&quot;21&quot;:&quot;1. No Defects&quot;,&quot;22&quot;:&quot;2. Two-Way, Divided, Unprotected Median&quot;,&quot;23&quot;:&quot;4. Four Approaches&quot;,&quot;24&quot;:&quot;3. Traffic Signal&quot;,&quot;25&quot;:&quot;1. Yes - Working&quot;,&quot;26&quot;:&quot;2. No&quot;,&quot;27&quot;:&quot;&quot;,&quot;28&quot;:&quot;&quot;,&quot;29&quot;:&quot;3. No&quot;,&quot;30&quot;:&quot;20. Motor Vehicle In Transport&quot;,&quot;31&quot;:&quot;1. On Roadway&quot;,&quot;32&quot;:&quot;Yes&quot;,&quot;33&quot;:&quot;No&quot;,&quot;34&quot;:&quot;Belted&quot;,&quot;35&quot;:&quot;No&quot;,&quot;36&quot;:&quot;No&quot;,&quot;37&quot;:&quot;No&quot;,&quot;38&quot;:&quot;No&quot;,&quot;39&quot;:&quot;No&quot;,&quot;40&quot;:&quot;No&quot;,&quot;41&quot;:&quot;No&quot;,&quot;42&quot;:&quot;No&quot;,&quot;43&quot;:&quot;No&quot;,&quot;44&quot;:&quot;No&quot;,&quot;45&quot;:&quot;NA&quot;,&quot;46&quot;:&quot;NOT_RD&quot;,&quot;47&quot;:&quot;VDOT Intersection&quot;,&quot;48&quot;:&quot;No&quot;,&quot;49&quot;:&quot;Yes&quot;,&quot;50&quot;:&quot;Yes&quot;,&quot;51&quot;:&quot;No&quot;,&quot;52&quot;:&quot;9. Northern Virginia&quot;,&quot;53&quot;:&quot;76&quot;,&quot;54&quot;:&quot;076. Prince William County&quot;,&quot;55&quot;:&quot;3-Principal Arterial - Other (E,2)&quot;,&quot;56&quot;:&quot;4-Two-Way Divided&quot;,&quot;57&quot;:&quot;Urban&quot;,&quot;58&quot;:&quot;VDOT Primary&quot;,&quot;59&quot;:&quot;1. State Hwy Agency&quot;,&quot;60&quot;:&quot;Northern Virginia&quot;,&quot;61&quot;:&quot;NOVA&quot;,&quot;62&quot;:&quot;R-VA   SR00234NB&quot;,&quot;63&quot;:&quot;8.86&quot;,&quot;64&quot;:&quot;746003&quot;,&quot;65&quot;:&quot;65.82&quot;,&quot;66&quot;:&quot;-77.44282&quot;,&quot;67&quot;:&quot;38.64388&quot;,&quot;_rn_&quot;:&quot;4&quot;},{&quot;1&quot;:&quot;150610089&quot;,&quot;2&quot;:&quot;2015&quot;,&quot;3&quot;:&quot;2/23/2015 5:00:00 AM&quot;,&quot;4&quot;:&quot;1801&quot;,&quot;5&quot;:&quot;C&quot;,&quot;6&quot;:&quot;0&quot;,&quot;7&quot;:&quot;0&quot;,&quot;8&quot;:&quot;0&quot;,&quot;9&quot;:&quot;1&quot;,&quot;10&quot;:&quot;1&quot;,&quot;11&quot;:&quot;0&quot;,&quot;12&quot;:&quot;0&quot;,&quot;13&quot;:&quot;2&quot;,&quot;14&quot;:&quot;1. Rear End&quot;,&quot;15&quot;:&quot;1. No Adverse Condition (Clear/Cloudy)&quot;,&quot;16&quot;:&quot;2. Daylight&quot;,&quot;17&quot;:&quot;1. Dry&quot;,&quot;18&quot;:&quot;5. On Entrance/Exit Ramp&quot;,&quot;19&quot;:&quot;3. Grade - Straight&quot;,&quot;20&quot;:&quot;2. Blacktop, Asphalt, Bituminous&quot;,&quot;21&quot;:&quot;1. No Defects&quot;,&quot;22&quot;:&quot;4. One-Way, Not Divided&quot;,&quot;23&quot;:&quot;1. Not at Intersection&quot;,&quot;24&quot;:&quot;6. Traffic Lanes Marked&quot;,&quot;25&quot;:&quot;6. No Traffic Control Device Present&quot;,&quot;26&quot;:&quot;2. No&quot;,&quot;27&quot;:&quot;&quot;,&quot;28&quot;:&quot;&quot;,&quot;29&quot;:&quot;3. No&quot;,&quot;30&quot;:&quot;20. Motor Vehicle In Transport&quot;,&quot;31&quot;:&quot;1. On Roadway&quot;,&quot;32&quot;:&quot;No&quot;,&quot;33&quot;:&quot;No&quot;,&quot;34&quot;:&quot;Belted&quot;,&quot;35&quot;:&quot;No&quot;,&quot;36&quot;:&quot;No&quot;,&quot;37&quot;:&quot;No&quot;,&quot;38&quot;:&quot;No&quot;,&quot;39&quot;:&quot;No&quot;,&quot;40&quot;:&quot;No&quot;,&quot;41&quot;:&quot;No&quot;,&quot;42&quot;:&quot;No&quot;,&quot;43&quot;:&quot;No&quot;,&quot;44&quot;:&quot;No&quot;,&quot;45&quot;:&quot;NA&quot;,&quot;46&quot;:&quot;NOT_RD&quot;,&quot;47&quot;:&quot;Not Intersection&quot;,&quot;48&quot;:&quot;No&quot;,&quot;49&quot;:&quot;No&quot;,&quot;50&quot;:&quot;No&quot;,&quot;51&quot;:&quot;No&quot;,&quot;52&quot;:&quot;9. Northern Virginia&quot;,&quot;53&quot;:&quot;29&quot;,&quot;54&quot;:&quot;029. Fairfax County&quot;,&quot;55&quot;:&quot;2-Principal Arterial - Other Freeways and Expressways (B)&quot;,&quot;56&quot;:&quot;1-One-Way Undivided&quot;,&quot;57&quot;:&quot;Urban&quot;,&quot;58&quot;:&quot;VDOT Primary&quot;,&quot;59&quot;:&quot;1. State Hwy Agency&quot;,&quot;60&quot;:&quot;Northern Virginia&quot;,&quot;61&quot;:&quot;NOVA&quot;,&quot;62&quot;:&quot;R-VA   SR00028SB      RMP032.00B&quot;,&quot;63&quot;:&quot;0.04&quot;,&quot;64&quot;:&quot;NA&quot;,&quot;65&quot;:&quot;NA&quot;,&quot;66&quot;:&quot;-77.44692&quot;,&quot;67&quot;:&quot;38.87420&quot;,&quot;_rn_&quot;:&quot;5&quot;},{&quot;1&quot;:&quot;150895089&quot;,&quot;2&quot;:&quot;2015&quot;,&quot;3&quot;:&quot;3/30/2015 4:00:00 AM&quot;,&quot;4&quot;:&quot;658&quot;,&quot;5&quot;:&quot;O&quot;,&quot;6&quot;:&quot;0&quot;,&quot;7&quot;:&quot;0&quot;,&quot;8&quot;:&quot;0&quot;,&quot;9&quot;:&quot;0&quot;,&quot;10&quot;:&quot;0&quot;,&quot;11&quot;:&quot;0&quot;,&quot;12&quot;:&quot;0&quot;,&quot;13&quot;:&quot;1&quot;,&quot;14&quot;:&quot;6. Fixed Object in Road&quot;,&quot;15&quot;:&quot;5. Rain&quot;,&quot;16&quot;:&quot;2. Daylight&quot;,&quot;17&quot;:&quot;2. Wet&quot;,&quot;18&quot;:&quot;8. Non-Intersection&quot;,&quot;19&quot;:&quot;4. Grade - Curve&quot;,&quot;20&quot;:&quot;2. Blacktop, Asphalt, Bituminous&quot;,&quot;21&quot;:&quot;1. No Defects&quot;,&quot;22&quot;:&quot;1. Two-Way, Not Divided&quot;,&quot;23&quot;:&quot;1. Not at Intersection&quot;,&quot;24&quot;:&quot;1. No Traffic Control&quot;,&quot;25&quot;:&quot;6. No Traffic Control Device Present&quot;,&quot;26&quot;:&quot;2. No&quot;,&quot;27&quot;:&quot;&quot;,&quot;28&quot;:&quot;&quot;,&quot;29&quot;:&quot;3. No&quot;,&quot;30&quot;:&quot;18. Mailbox&quot;,&quot;31&quot;:&quot;1. On Roadway&quot;,&quot;32&quot;:&quot;No&quot;,&quot;33&quot;:&quot;No&quot;,&quot;34&quot;:&quot;Belted&quot;,&quot;35&quot;:&quot;No&quot;,&quot;36&quot;:&quot;No&quot;,&quot;37&quot;:&quot;No&quot;,&quot;38&quot;:&quot;No&quot;,&quot;39&quot;:&quot;No&quot;,&quot;40&quot;:&quot;No&quot;,&quot;41&quot;:&quot;No&quot;,&quot;42&quot;:&quot;No&quot;,&quot;43&quot;:&quot;No&quot;,&quot;44&quot;:&quot;No&quot;,&quot;45&quot;:&quot;NA&quot;,&quot;46&quot;:&quot;RD_UNKNOWN&quot;,&quot;47&quot;:&quot;Not Intersection&quot;,&quot;48&quot;:&quot;No&quot;,&quot;49&quot;:&quot;Yes&quot;,&quot;50&quot;:&quot;Yes&quot;,&quot;51&quot;:&quot;No&quot;,&quot;52&quot;:&quot;2. Salem&quot;,&quot;53&quot;:&quot;44&quot;,&quot;54&quot;:&quot;044. Henry County&quot;,&quot;55&quot;:&quot;7-Local (J,6)&quot;,&quot;56&quot;:&quot;3-Two-Way Undivided&quot;,&quot;57&quot;:&quot;Rural&quot;,&quot;58&quot;:&quot;VDOT Secondary&quot;,&quot;59&quot;:&quot;1. State Hwy Agency&quot;,&quot;60&quot;:&quot;West Piedmont&quot;,&quot;61&quot;:&quot;&quot;,&quot;62&quot;:&quot;R-VA044SC00614EB&quot;,&quot;63&quot;:&quot;0.61&quot;,&quot;64&quot;:&quot;NA&quot;,&quot;65&quot;:&quot;NA&quot;,&quot;66&quot;:&quot;-79.70177&quot;,&quot;67&quot;:&quot;36.66099&quot;,&quot;_rn_&quot;:&quot;6&quot;}],&quot;options&quot;:{&quot;columns&quot;:{&quot;min&quot;:{},&quot;max&quot;:[10],&quot;total&quot;:[67]},&quot;rows&quot;:{&quot;min&quot;:[10],&quot;max&quot;:[10],&quot;total&quot;:[6]},&quot;pages&quot;:{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+&lt;!-- rnb-frame-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+
+## Data Prep for Plot 1
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudW5pcXVlKGRhdGEkUGh5c2ljYWwuSnVyaXMuTmFtZSlcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+unique(data$Physical.Juris.Name)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBDb252ZXJ0IENyYXNoLkRhdGUgdG8gZGF0ZSBmb3JtYXRcbmRhdGEkQ3Jhc2guRGF0ZSA8LSBtZHlfaG1zKGRhdGEkQ3Jhc2guRGF0ZSlcblxuIyBFeHRyYWN0IHllYXIgYW5kIG1vbnRoXG5kYXRhIDwtIG11dGF0ZShkYXRhLCBNTV9ZWVlZID0gZm9ybWF0KENyYXNoLkRhdGUsIFxcJW0tJVlcXCkpXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+# Convert Crash.Date to date format
 data$Crash.Date &lt;- mdy_hms(data$Crash.Date)
 
 # Extract year and month
-data &lt;- mutate(data, MM_YYYY = format(Crash.Date, &quot;%m-%Y&quot;))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkcGx5cilcblxuIyBHcm91cCBieSBDcmFzaC5ZZWFyIGFuZCBQaHlzaWNhbC5KdXJpcy5OYW1lLCBhbmQgdGhlbiBhZ2dyZWdhdGUgYnkgc3VtbWluZyBLX3Blb3BsZSBhbmQgUGVyc29uc19Jbmp1cmVkLCBldGMuXG5zdW1tYXJpemVkX2RhdGEgPC0gZGF0YSAlPiVcbiAgZ3JvdXBfYnkoTU1fWVlZWSwgUGh5c2ljYWwuSnVyaXMuTmFtZSkgJT4lXG4gIHN1bW1hcmlzZShcbiAgICBLX3Blb3BsZV9zdW0gPSBzdW0oS19QZW9wbGUsIG5hLnJtID0gVFJVRSksXG4gICAgUGVyc29uc19Jbmp1cmVkX3N1bSA9IHN1bShQZXJzb25zLkluanVyZWQsIG5hLnJtID0gVFJVRSksXG4gICAgUGVkZXN0cmlhbnNfS2lsbGVkX3N1bSA9IHN1bShQZWRlc3RyaWFucy5LaWxsZWQsIG5hLnJtID0gVFJVRSksXG4gICAgUGVkZXN0cmlhbnNfSW5qdXJlZF9zdW0gPSBzdW0oUGVkZXN0cmlhbnMuSW5qdXJlZCwgbmEucm0gPSBUUlVFKSxcbiAgKVxuXG5gYGAifQ== -->
-<pre class="r"><code>library(dplyr)
+data &lt;- mutate(data, MM_YYYY = format(Crash.Date, \%m-%Y\))</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubGlicmFyeShkcGx5cilcblxuIyBHcm91cCBieSBDcmFzaC5ZZWFyIGFuZCBQaHlzaWNhbC5KdXJpcy5OYW1lLCBhbmQgdGhlbiBhZ2dyZWdhdGUgYnkgc3VtbWluZyBLX3Blb3BsZSBhbmQgUGVyc29uc19Jbmp1cmVkLCBldGMuXG5zdW1tYXJpemVkX2RhdGEgPC0gZGF0YSAlPiVcbiAgZ3JvdXBfYnkoTU1fWVlZWSwgUGh5c2ljYWwuSnVyaXMuTmFtZSkgJT4lXG4gIHN1bW1hcmlzZShcbiAgICBLX3Blb3BsZV9zdW0gPSBzdW0oS19QZW9wbGUsIG5hLnJtID0gVFJVRSksXG4gICAgUGVyc29uc19Jbmp1cmVkX3N1bSA9IHN1bShQZXJzb25zLkluanVyZWQsIG5hLnJtID0gVFJVRSksXG4gICAgUGVkZXN0cmlhbnNfS2lsbGVkX3N1bSA9IHN1bShQZWRlc3RyaWFucy5LaWxsZWQsIG5hLnJtID0gVFJVRSksXG4gICAgUGVkZXN0cmlhbnNfSW5qdXJlZF9zdW0gPSBzdW0oUGVkZXN0cmlhbnMuSW5qdXJlZCwgbmEucm0gPSBUUlVFKSxcbiAgKVxuXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+library(dplyr)
 
 # Group by Crash.Year and Physical.Juris.Name, and then aggregate by summing K_people and Persons_Injured, etc.
 summarized_data &lt;- data %&gt;%
@@ -1822,62 +1882,114 @@ summarized_data &lt;- data %&gt;%
     Pedestrians_Injured_sum = sum(Pedestrians.Injured, na.rm = TRUE),
   )
 </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyaXplZF9kYXRhXG5gYGAifQ== -->
-<pre class="r"><code>summarized_data</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGUuY3N2KHN1bW1hcml6ZWRfZGF0YSwgZmlsZSA9IFwicGxvdF8xX2RhdGEuY3N2XCIsIHJvdy5uYW1lcyA9IEZBTFNFKVxuYGBgIn0= -->
-<pre class="r"><code>write.csv(summarized_data, file = &quot;plot_1_data.csv&quot;, row.names = FALSE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<div id="sample-plot" class="section level4">
-<h4>Sample plot</h4>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkcGx5cilcbmxpYnJhcnkoZ2dwbG90MilcbmxpYnJhcnkobHVicmlkYXRlKVxuXG4jIEFzc3VtaW5nIHlvdSBoYXZlIGFscmVhZHkgZGVmaW5lZCBcInN1bW1hcml6ZWRfZGF0YVwiXG5cbmFybGluZ3Rvbl9kYXRhIDwtIHN1bW1hcml6ZWRfZGF0YSAlPiVcbiAgZmlsdGVyKFBoeXNpY2FsLkp1cmlzLk5hbWUgPT0gXCIwMDAuIEFybGluZ3RvbiBDb3VudHlcIikgJT4lXG4gIG11dGF0ZShNTV9ZWVlZID0gZG15KHBhc3RlKFwiMDEtXCIsIE1NX1lZWVksIHNlcCA9IFwiXCIpKSkgJT4lICMgQ29udmVydCBNTV9ZWVlZIHRvIGRhdGV0aW1lIGZvcm1hdFxuICBhcnJhbmdlKE1NX1lZWVkpICMgU29ydCBieSBNTV9ZWVlZXG5cbiMgUGxvdCBhIHRpbWUgc2VyaWVzXG5nZ3Bsb3QoYXJsaW5ndG9uX2RhdGEpICtcbiAgZ2VvbV9saW5lKGFlcyh4ID0gTU1fWVlZWSwgeSA9IFBlcnNvbnNfSW5qdXJlZF9zdW0sIGNvbG9yID0gXCJQZXJzb25zIEluanVyZWRcIikpICtcbiAgZ2VvbV9saW5lKGFlcyh4ID0gTU1fWVlZWSwgeSA9IEtfcGVvcGxlX3N1bSwgY29sb3IgPSBcIlBlcnNvbnMgS2lsbGVkXCIpKSArXG4gIHNjYWxlX2NvbG9yX21hbnVhbCh2YWx1ZXMgPSBjKFwiUGVyc29ucyBJbmp1cmVkXCIgPSBcInJlZFwiLCBcIlBlcnNvbnMgS2lsbGVkXCIgPSBcImJsdWVcIikpICtcbiAgbGFicyh0aXRsZSA9IFwiUGVyc29ucyBJbmp1cmVkIFRpbWUgU2VyaWVzIGluIDAwMC4gQXJsaW5ndG9uIENvdW50eVwiLFxuICAgICAgIHggPSBcIkRhdGVcIixcbiAgICAgICB5ID0gXCJQZXJzb25zIEluanVyZWRcIixcbiAgICAgICBjb2xvciA9IFwiT3V0Y29tZVwiXG4gICkgK1xuICB0aGVtZV9taW5pbWFsKClcblxuYGBgIn0= -->
-<pre class="r"><code>library(dplyr)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc3VtbWFyaXplZF9kYXRhXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+summarized_data</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxud3JpdGUuY3N2KHN1bW1hcml6ZWRfZGF0YSwgZmlsZSA9IFxccGxvdF8xX2RhdGEuY3N2XFwsIHJvdy5uYW1lcyA9IEZBTFNFKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+write.csv(summarized_data, file = \plot_1_data.csv\, row.names = FALSE)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+#### Sample plot
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubGlicmFyeShkcGx5cilcbmxpYnJhcnkoZ2dwbG90MilcbmxpYnJhcnkobHVicmlkYXRlKVxuXG4jIEFzc3VtaW5nIHlvdSBoYXZlIGFscmVhZHkgZGVmaW5lZCBcXHN1bW1hcml6ZWRfZGF0YVxcXG5cbmFybGluZ3Rvbl9kYXRhIDwtIHN1bW1hcml6ZWRfZGF0YSAlPiVcbiAgZmlsdGVyKFBoeXNpY2FsLkp1cmlzLk5hbWUgPT0gXFwwMDAuIEFybGluZ3RvbiBDb3VudHlcXCkgJT4lXG4gIG11dGF0ZShNTV9ZWVlZID0gZG15KHBhc3RlKFxcMDEtXFwsIE1NX1lZWVksIHNlcCA9IFxcXFwpKSkgJT4lICMgQ29udmVydCBNTV9ZWVlZIHRvIGRhdGV0aW1lIGZvcm1hdFxuICBhcnJhbmdlKE1NX1lZWVkpICMgU29ydCBieSBNTV9ZWVlZXG5cbiMgUGxvdCBhIHRpbWUgc2VyaWVzXG5nZ3Bsb3QoYXJsaW5ndG9uX2RhdGEpICtcbiAgZ2VvbV9saW5lKGFlcyh4ID0gTU1fWVlZWSwgeSA9IFBlcnNvbnNfSW5qdXJlZF9zdW0sIGNvbG9yID0gXFxQZXJzb25zIEluanVyZWRcXCkpICtcbiAgZ2VvbV9saW5lKGFlcyh4ID0gTU1fWVlZWSwgeSA9IEtfcGVvcGxlX3N1bSwgY29sb3IgPSBcXFBlcnNvbnMgS2lsbGVkXFwpKSArXG4gIHNjYWxlX2NvbG9yX21hbnVhbCh2YWx1ZXMgPSBjKFxcUGVyc29ucyBJbmp1cmVkXFwgPSBcXHJlZFxcLCBcXFBlcnNvbnMgS2lsbGVkXFwgPSBcXGJsdWVcXCkpICtcbiAgbGFicyh0aXRsZSA9IFxcUGVyc29ucyBJbmp1cmVkIFRpbWUgU2VyaWVzIGluIDAwMC4gQXJsaW5ndG9uIENvdW50eVxcLFxuICAgICAgIHggPSBcXERhdGVcXCxcbiAgICAgICB5ID0gXFxQZXJzb25zIEluanVyZWRcXCxcbiAgICAgICBjb2xvciA9IFxcT3V0Y29tZVxcXG4gICkgK1xuICB0aGVtZV9taW5pbWFsKClcblxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+library(dplyr)
 library(ggplot2)
 library(lubridate)
 
-# Assuming you have already defined &quot;summarized_data&quot;
+# Assuming you have already defined \summarized_data\
 
 arlington_data &lt;- summarized_data %&gt;%
-  filter(Physical.Juris.Name == &quot;000. Arlington County&quot;) %&gt;%
-  mutate(MM_YYYY = dmy(paste(&quot;01-&quot;, MM_YYYY, sep = &quot;&quot;))) %&gt;% # Convert MM_YYYY to datetime format
+  filter(Physical.Juris.Name == \000. Arlington County\) %&gt;%
+  mutate(MM_YYYY = dmy(paste(\01-\, MM_YYYY, sep = \\))) %&gt;% # Convert MM_YYYY to datetime format
   arrange(MM_YYYY) # Sort by MM_YYYY
 
 # Plot a time series
 ggplot(arlington_data) +
-  geom_line(aes(x = MM_YYYY, y = Persons_Injured_sum, color = &quot;Persons Injured&quot;)) +
-  geom_line(aes(x = MM_YYYY, y = K_people_sum, color = &quot;Persons Killed&quot;)) +
-  scale_color_manual(values = c(&quot;Persons Injured&quot; = &quot;red&quot;, &quot;Persons Killed&quot; = &quot;blue&quot;)) +
-  labs(title = &quot;Persons Injured Time Series in 000. Arlington County&quot;,
-       x = &quot;Date&quot;,
-       y = &quot;Persons Injured&quot;,
-       color = &quot;Outcome&quot;
+  geom_line(aes(x = MM_YYYY, y = Persons_Injured_sum, color = \Persons Injured\)) +
+  geom_line(aes(x = MM_YYYY, y = K_people_sum, color = \Persons Killed\)) +
+  scale_color_manual(values = c(\Persons Injured\ = \red\, \Persons Killed\ = \blue\)) +
+  labs(title = \Persons Injured Time Series in 000. Arlington County\,
+       x = \Date\,
+       y = \Persons Injured\,
+       color = \Outcome\
   ) +
   theme_minimal()
 </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-</div>
-<div id="data-prep-for-plot-2" class="section level2">
-<h2>Data Prep for Plot 2</h2>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXhwb3J0X2RhdGEgPC0gZGF0YVssIGMoXCJDcmFzaC5TZXZlcml0eVwiLCBcIk1heC5TcGVlZC5EaWZmXCIsIFwiU3BlZWQuXCIsIFwiQWxjb2hvbC5cIiwgXCJEcm93c3kuXCIsIFwiRGlzdHJhY3RlZC5cIildXG5cbmV4cG9ydF9kYXRhIDwtIGV4cG9ydF9kYXRhICU+JVxuICByZW5hbWUoQWxjb2hvbCA9IGBBbGNvaG9sLmApICU+JVxuICByZW5hbWUoRHJvd3N5ID0gYERyb3dzeS5gKSAlPiVcbiAgcmVuYW1lKERpc3RyYWN0ZWQgPSBgRGlzdHJhY3RlZC5gKVxuXG53cml0ZS5jc3YoZXhwb3J0X2RhdGEsIGZpbGUgPSBcInBsb3RfMl9kYXRhLmNzdlwiLCByb3cubmFtZXMgPSBGQUxTRSlcbmBgYCJ9 -->
-<pre class="r"><code>export_data &lt;- data[, c(&quot;Crash.Severity&quot;, &quot;Max.Speed.Diff&quot;, &quot;Speed.&quot;, &quot;Alcohol.&quot;, &quot;Drowsy.&quot;, &quot;Distracted.&quot;)]
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+## Data Prep for Plot 2
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXhwb3J0X2RhdGEgPC0gZGF0YVssIGMoXCJDcmFzaC5TZXZlcml0eVwiLCBcIk1heC5TcGVlZC5EaWZmXCIsIFwiU3BlZWQuXCIsIFwiQWxjb2hvbC5cIiwgXCJEcm93c3kuXCIsIFwiRGlzdHJhY3RlZC5cIiwgXCJXZWF0aGVyLkNvbmRpdGlvblwiKV1cblxuZXhwb3J0X2RhdGEgPC0gZXhwb3J0X2RhdGEgJT4lXG4gIHJlbmFtZShBbGNvaG9sID0gYEFsY29ob2wuYCkgJT4lXG4gIHJlbmFtZShEcm93c3kgPSBgRHJvd3N5LmApICU+JVxuICByZW5hbWUoRGlzdHJhY3RlZCA9IGBEaXN0cmFjdGVkLmApXG5cbndyaXRlLmNzdihleHBvcnRfZGF0YSwgZmlsZSA9IFwicGxvdF8yX2RhdGEuY3N2XCIsIHJvdy5uYW1lcyA9IEZBTFNFKVxuYGBgIn0= --&gt;
+
+```r
+export_data &lt;- data[, c(&quot;Crash.Severity&quot;, &quot;Max.Speed.Diff&quot;, &quot;Speed.&quot;, &quot;Alcohol.&quot;, &quot;Drowsy.&quot;, &quot;Distracted.&quot;, &quot;Weather.Condition&quot;)]
 
 export_data &lt;- export_data %&gt;%
   rename(Alcohol = `Alcohol.`) %&gt;%
@@ -1893,130 +2005,296 @@ write.csv(export_data, file = &quot;plot_2_data.csv&quot;, row.names = FALSE)</c
 <h2>Data Prep for Plot 3</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXhwb3J0X2RhdGEgPC0gZGF0YVssIGMoXCJ4XCIsIFwieVwiLCBcIkNyYXNoLlNldmVyaXR5XCIsIFwiUGh5c2ljYWwuSnVyaXMuTmFtZVwiLCBcIkNyYXNoLk1pbGl0YXJ5LlRpbWVcIiwgXCJQZXJzb25zLkluanVyZWRcIiwgXCJLX1Blb3BsZVwiLCBcIlBlZGVzdHJpYW5zLkluanVyZWRcIiwgXCJQZWRlc3RyaWFucy5LaWxsZWRcIiwgXCJWZWhpY2xlLkNvdW50XCIsIFwiQ29sbGlzaW9uLlR5cGVcIiwgXCJXZWF0aGVyLkNvbmRpdGlvblwiLCBcIkxpZ2h0LkNvbmRpdGlvblwiLCBcIlJvYWR3YXkuU3VyZmFjZS5Db25kaXRpb25cIiwgXCJSb2Fkd2F5LkRlZmVjdFwiLCBcIlJvYWR3YXkuRGVzY3JpcHRpb25cIiwgXCJJbnRlcnNlY3Rpb24uVHlwZVwiLCBcIkFsY29ob2wuXCIsIFwiVW5yZXN0cmFpbmVkLlwiLCBcIkRpc3RyYWN0ZWQuXCIsIFwiUlRFLk5hbWVcIiwgXCJDcmFzaC5EYXRlXCIpXVxuXG5leHBvcnRfZGF0YSA8LSBleHBvcnRfZGF0YSAlPiVcbiAgZmlsdGVyKFBoeXNpY2FsLkp1cmlzLk5hbWUgPT0gXCIxMDQuIENpdHkgb2YgQ2hhcmxvdHRlc3ZpbGxlXCIpXG5cbiMgRXhwb3J0IHRoZSBzZWxlY3RlZCBjb2x1bW5zIHRvIGEgQ1NWIGZpbGVcbndyaXRlLmNzdihleHBvcnRfZGF0YSwgZmlsZSA9IFwicGxvdF8zX2RhdGEuY3N2XCIsIHJvdy5uYW1lcyA9IEZBTFNFKVxuYGBgIn0= -->
-<pre class="r"><code>export_data &lt;- data[, c(&quot;x&quot;, &quot;y&quot;, &quot;Crash.Severity&quot;, &quot;Physical.Juris.Name&quot;, &quot;Crash.Military.Time&quot;, &quot;Persons.Injured&quot;, &quot;K_People&quot;, &quot;Pedestrians.Injured&quot;, &quot;Pedestrians.Killed&quot;, &quot;Vehicle.Count&quot;, &quot;Collision.Type&quot;, &quot;Weather.Condition&quot;, &quot;Light.Condition&quot;, &quot;Roadway.Surface.Condition&quot;, &quot;Roadway.Defect&quot;, &quot;Roadway.Description&quot;, &quot;Intersection.Type&quot;, &quot;Alcohol.&quot;, &quot;Unrestrained.&quot;, &quot;Distracted.&quot;, &quot;RTE.Name&quot;, &quot;Crash.Date&quot;)]
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZXhwb3J0X2RhdGEgPC0gZGF0YVssIGMoXFx4XFwsIFxceVxcLCBcXENyYXNoLlNldmVyaXR5XFwsIFxcUGh5c2ljYWwuSnVyaXMuTmFtZVxcLCBcXENyYXNoLk1pbGl0YXJ5LlRpbWVcXCwgXFxQZXJzb25zLkluanVyZWRcXCwgXFxLX1Blb3BsZVxcLCBcXFBlZGVzdHJpYW5zLkluanVyZWRcXCwgXFxQZWRlc3RyaWFucy5LaWxsZWRcXCwgXFxWZWhpY2xlLkNvdW50XFwsIFxcQ29sbGlzaW9uLlR5cGVcXCwgXFxXZWF0aGVyLkNvbmRpdGlvblxcLCBcXExpZ2h0LkNvbmRpdGlvblxcLCBcXFJvYWR3YXkuU3VyZmFjZS5Db25kaXRpb25cXCwgXFxSb2Fkd2F5LkRlZmVjdFxcLCBcXFJvYWR3YXkuRGVzY3JpcHRpb25cXCwgXFxJbnRlcnNlY3Rpb24uVHlwZVxcLCBcXEFsY29ob2wuXFwsIFxcVW5yZXN0cmFpbmVkLlxcLCBcXERpc3RyYWN0ZWQuXFwsIFxcUlRFLk5hbWVcXCwgXFxDcmFzaC5EYXRlXFwpXVxuXG5leHBvcnRfZGF0YSA8LSBleHBvcnRfZGF0YSAlPiVcbiAgZmlsdGVyKFBoeXNpY2FsLkp1cmlzLk5hbWUgPT0gXFwxMDQuIENpdHkgb2YgQ2hhcmxvdHRlc3ZpbGxlXFwpXG5cbiMgRXhwb3J0IHRoZSBzZWxlY3RlZCBjb2x1bW5zIHRvIGEgQ1NWIGZpbGVcbndyaXRlLmNzdihleHBvcnRfZGF0YSwgZmlsZSA9IFxccGxvdF8zX2RhdGEuY3N2XFwsIHJvdy5uYW1lcyA9IEZBTFNFKVxuYGBgXG5gYGAifQ== -->
+<pre class="r"><code>```r
+export_data &lt;- data[, c(\x\, \y\, \Crash.Severity\, \Physical.Juris.Name\, \Crash.Military.Time\, \Persons.Injured\, \K_People\, \Pedestrians.Injured\, \Pedestrians.Killed\, \Vehicle.Count\, \Collision.Type\, \Weather.Condition\, \Light.Condition\, \Roadway.Surface.Condition\, \Roadway.Defect\, \Roadway.Description\, \Intersection.Type\, \Alcohol.\, \Unrestrained.\, \Distracted.\, \RTE.Name\, \Crash.Date\)]
 
 export_data &lt;- export_data %&gt;%
-  filter(Physical.Juris.Name == &quot;104. City of Charlottesville&quot;)
+  filter(Physical.Juris.Name == \104. City of Charlottesville\)
 
 # Export the selected columns to a CSV file
-write.csv(export_data, file = &quot;plot_3_data.csv&quot;, row.names = FALSE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXhwb3J0X2RhdGFcbmBgYCJ9 -->
-<pre class="r"><code>export_data</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWxjIDwtIHVuaXF1ZShkYXRhJEFsY29ob2wuKVxuYWxjXG5gYGAifQ== -->
-<pre class="r"><code>alc &lt;- unique(data$Alcohol.)
+write.csv(export_data, file = \plot_3_data.csv\, row.names = FALSE)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZXhwb3J0X2RhdGFcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+export_data</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYWxjIDwtIHVuaXF1ZShkYXRhJEFsY29ob2wuKVxuYWxjXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+alc &lt;- unique(data$Alcohol.)
 alc</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmVsdGVkIDwtIHVuaXF1ZShkYXRhJFVucmVzdHJhaW5lZC4pXG5iZWx0ZWRcbmBgYCJ9 -->
-<pre class="r"><code>belted &lt;- unique(data$Unrestrained.)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYmVsdGVkIDwtIHVuaXF1ZShkYXRhJFVucmVzdHJhaW5lZC4pXG5iZWx0ZWRcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+belted &lt;- unique(data$Unrestrained.)
 belted</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQ29sbGlzaW9uX1R5cGUgPC0gdW5pcXVlKGRhdGEkQ29sbGlzaW9uLlR5cGUpXG5Db2xsaXNpb25fVHlwZVxuYGBgIn0= -->
-<pre class="r"><code>Collision_Type &lt;- unique(data$Collision.Type)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuQ29sbGlzaW9uX1R5cGUgPC0gdW5pcXVlKGRhdGEkQ29sbGlzaW9uLlR5cGUpXG5Db2xsaXNpb25fVHlwZVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+Collision_Type &lt;- unique(data$Collision.Type)
 Collision_Type</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuV2VhdGhlcl9Db25kaXRpb24gPC0gdW5pcXVlKGV4cG9ydF9kYXRhJFdlYXRoZXIuQ29uZGl0aW9uKVxuV2VhdGhlcl9Db25kaXRpb25cbmBgYCJ9 -->
-<pre class="r"><code>Weather_Condition &lt;- unique(export_data$Weather.Condition)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuV2VhdGhlcl9Db25kaXRpb24gPC0gdW5pcXVlKGV4cG9ydF9kYXRhJFdlYXRoZXIuQ29uZGl0aW9uKVxuV2VhdGhlcl9Db25kaXRpb25cbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+Weather_Condition &lt;- unique(export_data$Weather.Condition)
 Weather_Condition</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTGlnaHRfQ29uZGl0aW9uIDwtIHVuaXF1ZShleHBvcnRfZGF0YSRMaWdodC5Db25kaXRpb24pXG5MaWdodF9Db25kaXRpb25cbmBgYCJ9 -->
-<pre class="r"><code>Light_Condition &lt;- unique(export_data$Light.Condition)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuTGlnaHRfQ29uZGl0aW9uIDwtIHVuaXF1ZShleHBvcnRfZGF0YSRMaWdodC5Db25kaXRpb24pXG5MaWdodF9Db25kaXRpb25cbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+Light_Condition &lt;- unique(export_data$Light.Condition)
 Light_Condition</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuSW50ZXJzZWN0aW9uX1R5cGUgPC0gdW5pcXVlKGV4cG9ydF9kYXRhJEludGVyc2VjdGlvbi5UeXBlKVxuSW50ZXJzZWN0aW9uX1R5cGVcbmBgYCJ9 -->
-<pre class="r"><code>Intersection_Type &lt;- unique(export_data$Intersection.Type)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuSW50ZXJzZWN0aW9uX1R5cGUgPC0gdW5pcXVlKGV4cG9ydF9kYXRhJEludGVyc2VjdGlvbi5UeXBlKVxuSW50ZXJzZWN0aW9uX1R5cGVcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+Intersection_Type &lt;- unique(export_data$Intersection.Type)
 Intersection_Type</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuUm9hZHdheV9TdXJmYWNlX0NvbmRpdGlvbiA8LSB1bmlxdWUoZXhwb3J0X2RhdGEkUm9hZHdheS5TdXJmYWNlLkNvbmRpdGlvbilcblJvYWR3YXlfU3VyZmFjZV9Db25kaXRpb25cbmBgYCJ9 -->
-<pre class="r"><code>Roadway_Surface_Condition &lt;- unique(export_data$Roadway.Surface.Condition)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuUm9hZHdheV9TdXJmYWNlX0NvbmRpdGlvbiA8LSB1bmlxdWUoZXhwb3J0X2RhdGEkUm9hZHdheS5TdXJmYWNlLkNvbmRpdGlvbilcblJvYWR3YXlfU3VyZmFjZV9Db25kaXRpb25cbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+Roadway_Surface_Condition &lt;- unique(export_data$Roadway.Surface.Condition)
 Roadway_Surface_Condition</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuUm9hZHdheV9EZXNjcmlwdGlvbiA8LSB1bmlxdWUoZXhwb3J0X2RhdGEkUm9hZHdheS5EZXNjcmlwdGlvbilcblJvYWR3YXlfRGVzY3JpcHRpb25cbmBgYCJ9 -->
-<pre class="r"><code>Roadway_Description &lt;- unique(export_data$Roadway.Description)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuUm9hZHdheV9EZXNjcmlwdGlvbiA8LSB1bmlxdWUoZXhwb3J0X2RhdGEkUm9hZHdheS5EZXNjcmlwdGlvbilcblJvYWR3YXlfRGVzY3JpcHRpb25cbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+Roadway_Description &lt;- unique(export_data$Roadway.Description)
 Roadway_Description</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuUm9hZHdheV9EZWZlY3QgPC0gdW5pcXVlKGV4cG9ydF9kYXRhJFJvYWR3YXkuRGVmZWN0KVxuUm9hZHdheV9EZWZlY3RcbmBgYCJ9 -->
-<pre class="r"><code>Roadway_Defect &lt;- unique(export_data$Roadway.Defect)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuUm9hZHdheV9EZWZlY3QgPC0gdW5pcXVlKGV4cG9ydF9kYXRhJFJvYWR3YXkuRGVmZWN0KVxuUm9hZHdheV9EZWZlY3RcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+Roadway_Defect &lt;- unique(export_data$Roadway.Defect)
 Roadway_Defect</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWluX3ZhbHVlIDwtIG1pbihkYXRhJENyYXNoLk1pbGl0YXJ5LlRpbWUpXG5tYXhfdmFsdWUgPC0gbWF4KGRhdGEkQ3Jhc2guTWlsaXRhcnkuVGltZSlcblxucHJpbnQobWluX3ZhbHVlKVxucHJpbnQobWF4X3ZhbHVlKVxuYGBgIn0= -->
-<pre class="r"><code>min_value &lt;- min(data$Crash.Military.Time)
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubWluX3ZhbHVlIDwtIG1pbihkYXRhJENyYXNoLk1pbGl0YXJ5LlRpbWUpXG5tYXhfdmFsdWUgPC0gbWF4KGRhdGEkQ3Jhc2guTWlsaXRhcnkuVGltZSlcblxucHJpbnQobWluX3ZhbHVlKVxucHJpbnQobWF4X3ZhbHVlKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+min_value &lt;- min(data$Crash.Military.Time)
 max_value &lt;- max(data$Crash.Military.Time)
 
 print(min_value)
 print(max_value)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="other" class="section level2">
-<h2>Other</h2>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBMb2FkIHRoZSByZXF1aXJlZCBsaWJyYXJ5XG5saWJyYXJ5KGdncGxvdDIpXG5cbiMgQ3JlYXRlIHRoZSBzY2F0dGVyIHBsb3RcbmdncGxvdChkYXRhLCBhZXMoeCA9IHgsIHkgPSB5LCBjb2xvciA9IENyYXNoLlNldmVyaXR5KSkgK1xuICBnZW9tX3BvaW50KHNpemUgPSAxKSArXG4gIGxhYnModGl0bGUgPSBcIlNjYXR0ZXIgUGxvdCBvZiBYIGFuZCBZIGNvbG9yZWQgYnkgQ3Jhc2ggU2V2ZXJpdHlcIixcbiAgICAgICB4ID0gXCJ4XCIsXG4gICAgICAgeSA9IFwieVwiLFxuICAgICAgIGNvbG9yID0gXCJDcmFzaCBTZXZlcml0eVwiKSArXG4gIHRoZW1lX21pbmltYWwoKVxuXG5gYGAifQ== -->
-<pre class="r"><code># Load the required library
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+## Other
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBMb2FkIHRoZSByZXF1aXJlZCBsaWJyYXJ5XG5saWJyYXJ5KGdncGxvdDIpXG5cbiMgQ3JlYXRlIHRoZSBzY2F0dGVyIHBsb3RcbmdncGxvdChkYXRhLCBhZXMoeCA9IHgsIHkgPSB5LCBjb2xvciA9IENyYXNoLlNldmVyaXR5KSkgK1xuICBnZW9tX3BvaW50KHNpemUgPSAxKSArXG4gIGxhYnModGl0bGUgPSBcXFNjYXR0ZXIgUGxvdCBvZiBYIGFuZCBZIGNvbG9yZWQgYnkgQ3Jhc2ggU2V2ZXJpdHlcXCxcbiAgICAgICB4ID0gXFx4XFwsXG4gICAgICAgeSA9IFxceVxcLFxuICAgICAgIGNvbG9yID0gXFxDcmFzaCBTZXZlcml0eVxcKSArXG4gIHRoZW1lX21pbmltYWwoKVxuXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+# Load the required library
 library(ggplot2)
 
 # Create the scatter plot
 ggplot(data, aes(x = x, y = y, color = Crash.Severity)) +
   geom_point(size = 1) +
-  labs(title = &quot;Scatter Plot of X and Y colored by Crash Severity&quot;,
-       x = &quot;x&quot;,
-       y = &quot;y&quot;,
-       color = &quot;Crash Severity&quot;) +
+  labs(title = \Scatter Plot of X and Y colored by Crash Severity\,
+       x = \x\,
+       y = \y\,
+       color = \Crash Severity\) +
   theme_minimal()
 </code></pre>
+<p>```</p>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCmdyb3VwOiAxMAotLS0KClRoaXMgaXMgYW4gUiBNYXJrZG93biBub3RlYm9vayBmb3IgdGhlIGRhdGEgY2xlYW5pbmcsIGVuZ2luZWVyaW5nLCBhbmQgdGVzdCB2aXN1YWxpemF0aW9uIHN0ZXBzIG9mIG91ciBwcm9qZWN0LgoKIyMgU2V0dXAKCmBgYHtyfQpsaWJyYXJ5KHRpZHl2ZXJzZSkKIyBSZWFkIHRoZSBDU1YgZmlsZQpkYXRhIDwtIHJlYWQuY3N2KCdHcm91cF8xMF9wcm9qZWN0L0NyYXNoRGF0YS5jc3YnKQoKIyBEcm9wIHVubmVjZXNzYXJ5IGNvbHVtbnMgd2l0aCBtaXNzaW5nIGRhdGEKY29sdW1uc190b19kcm9wIDwtIGMoJ1NQRUVEX0RJRkZfTUFYJywgJ0ZVTicsICdGQUMnLCAnTVBPX05BTUUnLCAnTk9ERScsICdPRkZTRVQnLCAnUk5TX01QJywgJ09CSkVDVElEJywgJ0RPQ1VNRU5UX05CUicsICdWU1AnLCAnSlVSSVNfQ09ERScpCmRhdGEgPC0gZGF0YVssICEobmFtZXMoZGF0YSkgJWluJSBjb2x1bW5zX3RvX2Ryb3ApXQoKIyBEcm9wIHJvd3Mgd2l0aCBtaXNzaW5nIFggb3IgWSB2YWx1ZXMKZGF0YSA8LSBkYXRhW2NvbXBsZXRlLmNhc2VzKGRhdGEkWCwgZGF0YSRZKSwgXQpgYGAKCmBgYHtyfQpoZWFkKGRhdGEpCmBgYAoKCgojIyBEYXRhIFByZXAgZm9yIFBsb3QgMQoKYGBge3J9CnVuaXF1ZShkYXRhJFBoeXNpY2FsLkp1cmlzLk5hbWUpCmBgYAoKYGBge3J9CiMgQ29udmVydCBDcmFzaC5EYXRlIHRvIGRhdGUgZm9ybWF0CmRhdGEkQ3Jhc2guRGF0ZSA8LSBtZHlfaG1zKGRhdGEkQ3Jhc2guRGF0ZSkKCiMgRXh0cmFjdCB5ZWFyIGFuZCBtb250aApkYXRhIDwtIG11dGF0ZShkYXRhLCBNTV9ZWVlZID0gZm9ybWF0KENyYXNoLkRhdGUsICIlbS0lWSIpKQpgYGAKCmBgYHtyfQpsaWJyYXJ5KGRwbHlyKQoKIyBHcm91cCBieSBDcmFzaC5ZZWFyIGFuZCBQaHlzaWNhbC5KdXJpcy5OYW1lLCBhbmQgdGhlbiBhZ2dyZWdhdGUgYnkgc3VtbWluZyBLX3Blb3BsZSBhbmQgUGVyc29uc19Jbmp1cmVkLCBldGMuCnN1bW1hcml6ZWRfZGF0YSA8LSBkYXRhICU+JQogIGdyb3VwX2J5KE1NX1lZWVksIFBoeXNpY2FsLkp1cmlzLk5hbWUpICU+JQogIHN1bW1hcmlzZSgKICAgIEtfcGVvcGxlX3N1bSA9IHN1bShLX1Blb3BsZSwgbmEucm0gPSBUUlVFKSwKICAgIFBlcnNvbnNfSW5qdXJlZF9zdW0gPSBzdW0oUGVyc29ucy5Jbmp1cmVkLCBuYS5ybSA9IFRSVUUpLAogICAgUGVkZXN0cmlhbnNfS2lsbGVkX3N1bSA9IHN1bShQZWRlc3RyaWFucy5LaWxsZWQsIG5hLnJtID0gVFJVRSksCiAgICBQZWRlc3RyaWFuc19Jbmp1cmVkX3N1bSA9IHN1bShQZWRlc3RyaWFucy5Jbmp1cmVkLCBuYS5ybSA9IFRSVUUpLAogICkKCmBgYAoKYGBge3J9CnN1bW1hcml6ZWRfZGF0YQpgYGAKCmBgYHtyfQp3cml0ZS5jc3Yoc3VtbWFyaXplZF9kYXRhLCBmaWxlID0gInBsb3RfMV9kYXRhLmNzdiIsIHJvdy5uYW1lcyA9IEZBTFNFKQpgYGAKCiMjIyMgU2FtcGxlIHBsb3QKYGBge3J9CmxpYnJhcnkoZHBseXIpCmxpYnJhcnkoZ2dwbG90MikKbGlicmFyeShsdWJyaWRhdGUpCgojIEFzc3VtaW5nIHlvdSBoYXZlIGFscmVhZHkgZGVmaW5lZCAic3VtbWFyaXplZF9kYXRhIgoKYXJsaW5ndG9uX2RhdGEgPC0gc3VtbWFyaXplZF9kYXRhICU+JQogIGZpbHRlcihQaHlzaWNhbC5KdXJpcy5OYW1lID09ICIwMDAuIEFybGluZ3RvbiBDb3VudHkiKSAlPiUKICBtdXRhdGUoTU1fWVlZWSA9IGRteShwYXN0ZSgiMDEtIiwgTU1fWVlZWSwgc2VwID0gIiIpKSkgJT4lICMgQ29udmVydCBNTV9ZWVlZIHRvIGRhdGV0aW1lIGZvcm1hdAogIGFycmFuZ2UoTU1fWVlZWSkgIyBTb3J0IGJ5IE1NX1lZWVkKCiMgUGxvdCBhIHRpbWUgc2VyaWVzCmdncGxvdChhcmxpbmd0b25fZGF0YSkgKwogIGdlb21fbGluZShhZXMoeCA9IE1NX1lZWVksIHkgPSBQZXJzb25zX0luanVyZWRfc3VtLCBjb2xvciA9ICJQZXJzb25zIEluanVyZWQiKSkgKwogIGdlb21fbGluZShhZXMoeCA9IE1NX1lZWVksIHkgPSBLX3Blb3BsZV9zdW0sIGNvbG9yID0gIlBlcnNvbnMgS2lsbGVkIikpICsKICBzY2FsZV9jb2xvcl9tYW51YWwodmFsdWVzID0gYygiUGVyc29ucyBJbmp1cmVkIiA9ICJyZWQiLCAiUGVyc29ucyBLaWxsZWQiID0gImJsdWUiKSkgKwogIGxhYnModGl0bGUgPSAiUGVyc29ucyBJbmp1cmVkIFRpbWUgU2VyaWVzIGluIDAwMC4gQXJsaW5ndG9uIENvdW50eSIsCiAgICAgICB4ID0gIkRhdGUiLAogICAgICAgeSA9ICJQZXJzb25zIEluanVyZWQiLAogICAgICAgY29sb3IgPSAiT3V0Y29tZSIKICApICsKICB0aGVtZV9taW5pbWFsKCkKCmBgYAoKIyMgRGF0YSBQcmVwIGZvciBQbG90IDIKCmBgYHtyfQpleHBvcnRfZGF0YSA8LSBkYXRhWywgYygiQ3Jhc2guU2V2ZXJpdHkiLCAiTWF4LlNwZWVkLkRpZmYiLCAiU3BlZWQuIiwgIkFsY29ob2wuIiwgIkRyb3dzeS4iLCAiRGlzdHJhY3RlZC4iKV0KCmV4cG9ydF9kYXRhIDwtIGV4cG9ydF9kYXRhICU+JQogIHJlbmFtZShBbGNvaG9sID0gYEFsY29ob2wuYCkgJT4lCiAgcmVuYW1lKERyb3dzeSA9IGBEcm93c3kuYCkgJT4lCiAgcmVuYW1lKERpc3RyYWN0ZWQgPSBgRGlzdHJhY3RlZC5gKQoKd3JpdGUuY3N2KGV4cG9ydF9kYXRhLCBmaWxlID0gInBsb3RfMl9kYXRhLmNzdiIsIHJvdy5uYW1lcyA9IEZBTFNFKQpgYGAKCiMjIERhdGEgUHJlcCBmb3IgUGxvdCAzCgpgYGB7cn0KZXhwb3J0X2RhdGEgPC0gZGF0YVssIGMoIngiLCAieSIsICJDcmFzaC5TZXZlcml0eSIsICJQaHlzaWNhbC5KdXJpcy5OYW1lIiwgIkNyYXNoLk1pbGl0YXJ5LlRpbWUiLCAiUGVyc29ucy5Jbmp1cmVkIiwgIktfUGVvcGxlIiwgIlBlZGVzdHJpYW5zLkluanVyZWQiLCAiUGVkZXN0cmlhbnMuS2lsbGVkIiwgIlZlaGljbGUuQ291bnQiLCAiQ29sbGlzaW9uLlR5cGUiLCAiV2VhdGhlci5Db25kaXRpb24iLCAiTGlnaHQuQ29uZGl0aW9uIiwgIlJvYWR3YXkuU3VyZmFjZS5Db25kaXRpb24iLCAiUm9hZHdheS5EZWZlY3QiLCAiUm9hZHdheS5EZXNjcmlwdGlvbiIsICJJbnRlcnNlY3Rpb24uVHlwZSIsICJBbGNvaG9sLiIsICJVbnJlc3RyYWluZWQuIiwgIkRpc3RyYWN0ZWQuIiwgIlJURS5OYW1lIiwgIkNyYXNoLkRhdGUiKV0KCmV4cG9ydF9kYXRhIDwtIGV4cG9ydF9kYXRhICU+JQogIGZpbHRlcihQaHlzaWNhbC5KdXJpcy5OYW1lID09ICIxMDQuIENpdHkgb2YgQ2hhcmxvdHRlc3ZpbGxlIikKCiMgRXhwb3J0IHRoZSBzZWxlY3RlZCBjb2x1bW5zIHRvIGEgQ1NWIGZpbGUKd3JpdGUuY3N2KGV4cG9ydF9kYXRhLCBmaWxlID0gInBsb3RfM19kYXRhLmNzdiIsIHJvdy5uYW1lcyA9IEZBTFNFKQpgYGAKCmBgYHtyfQpleHBvcnRfZGF0YQpgYGAKCgpgYGB7cn0KYWxjIDwtIHVuaXF1ZShkYXRhJEFsY29ob2wuKQphbGMKYGBgCgpgYGB7cn0KYmVsdGVkIDwtIHVuaXF1ZShkYXRhJFVucmVzdHJhaW5lZC4pCmJlbHRlZApgYGAKCmBgYHtyfQpDb2xsaXNpb25fVHlwZSA8LSB1bmlxdWUoZGF0YSRDb2xsaXNpb24uVHlwZSkKQ29sbGlzaW9uX1R5cGUKYGBgCmBgYHtyfQpXZWF0aGVyX0NvbmRpdGlvbiA8LSB1bmlxdWUoZXhwb3J0X2RhdGEkV2VhdGhlci5Db25kaXRpb24pCldlYXRoZXJfQ29uZGl0aW9uCmBgYAoKYGBge3J9CkxpZ2h0X0NvbmRpdGlvbiA8LSB1bmlxdWUoZXhwb3J0X2RhdGEkTGlnaHQuQ29uZGl0aW9uKQpMaWdodF9Db25kaXRpb24KYGBgCgpgYGB7cn0KSW50ZXJzZWN0aW9uX1R5cGUgPC0gdW5pcXVlKGV4cG9ydF9kYXRhJEludGVyc2VjdGlvbi5UeXBlKQpJbnRlcnNlY3Rpb25fVHlwZQpgYGAKCmBgYHtyfQpSb2Fkd2F5X1N1cmZhY2VfQ29uZGl0aW9uIDwtIHVuaXF1ZShleHBvcnRfZGF0YSRSb2Fkd2F5LlN1cmZhY2UuQ29uZGl0aW9uKQpSb2Fkd2F5X1N1cmZhY2VfQ29uZGl0aW9uCmBgYAoKYGBge3J9ClJvYWR3YXlfRGVzY3JpcHRpb24gPC0gdW5pcXVlKGV4cG9ydF9kYXRhJFJvYWR3YXkuRGVzY3JpcHRpb24pClJvYWR3YXlfRGVzY3JpcHRpb24KYGBgCgoKYGBge3J9ClJvYWR3YXlfRGVmZWN0IDwtIHVuaXF1ZShleHBvcnRfZGF0YSRSb2Fkd2F5LkRlZmVjdCkKUm9hZHdheV9EZWZlY3QKYGBgCgoKYGBge3J9Cm1pbl92YWx1ZSA8LSBtaW4oZGF0YSRDcmFzaC5NaWxpdGFyeS5UaW1lKQptYXhfdmFsdWUgPC0gbWF4KGRhdGEkQ3Jhc2guTWlsaXRhcnkuVGltZSkKCnByaW50KG1pbl92YWx1ZSkKcHJpbnQobWF4X3ZhbHVlKQpgYGAKCiMjIE90aGVyCmBgYHtyfQojIExvYWQgdGhlIHJlcXVpcmVkIGxpYnJhcnkKbGlicmFyeShnZ3Bsb3QyKQoKIyBDcmVhdGUgdGhlIHNjYXR0ZXIgcGxvdApnZ3Bsb3QoZGF0YSwgYWVzKHggPSB4LCB5ID0geSwgY29sb3IgPSBDcmFzaC5TZXZlcml0eSkpICsKICBnZW9tX3BvaW50KHNpemUgPSAxKSArCiAgbGFicyh0aXRsZSA9ICJTY2F0dGVyIFBsb3Qgb2YgWCBhbmQgWSBjb2xvcmVkIGJ5IENyYXNoIFNldmVyaXR5IiwKICAgICAgIHggPSAieCIsCiAgICAgICB5ID0gInkiLAogICAgICAgY29sb3IgPSAiQ3Jhc2ggU2V2ZXJpdHkiKSArCiAgdGhlbWVfbWluaW1hbCgpCgpgYGAKCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCmdyb3VwOiAxMA0KLS0tDQoNClRoaXMgaXMgYW4gUiBNYXJrZG93biBub3RlYm9vayBmb3IgdGhlIGRhdGEgY2xlYW5pbmcsIGVuZ2luZWVyaW5nLCBhbmQgdGVzdCB2aXN1YWxpemF0aW9uIHN0ZXBzIG9mIG91ciBwcm9qZWN0Lg0KDQojIyBTZXR1cA0KDQpgYGB7cn0NCmxpYnJhcnkodGlkeXZlcnNlKQ0KIyBSZWFkIHRoZSBDU1YgZmlsZQ0KZGF0YSA8LSByZWFkLmNzdignR3JvdXBfMTBfcHJvamVjdC9DcmFzaERhdGEuY3N2JykNCg0KIyBEcm9wIHVubmVjZXNzYXJ5IGNvbHVtbnMgd2l0aCBtaXNzaW5nIGRhdGENCmNvbHVtbnNfdG9fZHJvcCA8LSBjKCdTUEVFRF9ESUZGX01BWCcsICdGVU4nLCAnRkFDJywgJ01QT19OQU1FJywgJ05PREUnLCAnT0ZGU0VUJywgJ1JOU19NUCcsICdPQkpFQ1RJRCcsICdET0NVTUVOVF9OQlInLCAnVlNQJywgJ0pVUklTX0NPREUnKQ0KZGF0YSA8LSBkYXRhWywgIShuYW1lcyhkYXRhKSAlaW4lIGNvbHVtbnNfdG9fZHJvcCldDQoNCiMgRHJvcCByb3dzIHdpdGggbWlzc2luZyBYIG9yIFkgdmFsdWVzDQpkYXRhIDwtIGRhdGFbY29tcGxldGUuY2FzZXMoZGF0YSRYLCBkYXRhJFkpLCBdDQpgYGANCg0KYGBge3J9DQpoZWFkKGRhdGEpDQpgYGANCg0KDQoNCiMjIERhdGEgUHJlcCBmb3IgUGxvdCAxDQoNCmBgYHtyfQ0KdW5pcXVlKGRhdGEkUGh5c2ljYWwuSnVyaXMuTmFtZSkNCmBgYA0KDQpgYGB7cn0NCiMgQ29udmVydCBDcmFzaC5EYXRlIHRvIGRhdGUgZm9ybWF0DQpkYXRhJENyYXNoLkRhdGUgPC0gbWR5X2htcyhkYXRhJENyYXNoLkRhdGUpDQoNCiMgRXh0cmFjdCB5ZWFyIGFuZCBtb250aA0KZGF0YSA8LSBtdXRhdGUoZGF0YSwgTU1fWVlZWSA9IGZvcm1hdChDcmFzaC5EYXRlLCAiJW0tJVkiKSkNCmBgYA0KDQpgYGB7cn0NCmxpYnJhcnkoZHBseXIpDQoNCiMgR3JvdXAgYnkgQ3Jhc2guWWVhciBhbmQgUGh5c2ljYWwuSnVyaXMuTmFtZSwgYW5kIHRoZW4gYWdncmVnYXRlIGJ5IHN1bW1pbmcgS19wZW9wbGUgYW5kIFBlcnNvbnNfSW5qdXJlZCwgZXRjLg0Kc3VtbWFyaXplZF9kYXRhIDwtIGRhdGEgJT4lDQogIGdyb3VwX2J5KE1NX1lZWVksIFBoeXNpY2FsLkp1cmlzLk5hbWUpICU+JQ0KICBzdW1tYXJpc2UoDQogICAgS19wZW9wbGVfc3VtID0gc3VtKEtfUGVvcGxlLCBuYS5ybSA9IFRSVUUpLA0KICAgIFBlcnNvbnNfSW5qdXJlZF9zdW0gPSBzdW0oUGVyc29ucy5Jbmp1cmVkLCBuYS5ybSA9IFRSVUUpLA0KICAgIFBlZGVzdHJpYW5zX0tpbGxlZF9zdW0gPSBzdW0oUGVkZXN0cmlhbnMuS2lsbGVkLCBuYS5ybSA9IFRSVUUpLA0KICAgIFBlZGVzdHJpYW5zX0luanVyZWRfc3VtID0gc3VtKFBlZGVzdHJpYW5zLkluanVyZWQsIG5hLnJtID0gVFJVRSksDQogICkNCg0KYGBgDQoNCmBgYHtyfQ0Kc3VtbWFyaXplZF9kYXRhDQpgYGANCg0KYGBge3J9DQp3cml0ZS5jc3Yoc3VtbWFyaXplZF9kYXRhLCBmaWxlID0gInBsb3RfMV9kYXRhLmNzdiIsIHJvdy5uYW1lcyA9IEZBTFNFKQ0KYGBgDQoNCiMjIyMgU2FtcGxlIHBsb3QNCmBgYHtyfQ0KbGlicmFyeShkcGx5cikNCmxpYnJhcnkoZ2dwbG90MikNCmxpYnJhcnkobHVicmlkYXRlKQ0KDQojIEFzc3VtaW5nIHlvdSBoYXZlIGFscmVhZHkgZGVmaW5lZCAic3VtbWFyaXplZF9kYXRhIg0KDQphcmxpbmd0b25fZGF0YSA8LSBzdW1tYXJpemVkX2RhdGEgJT4lDQogIGZpbHRlcihQaHlzaWNhbC5KdXJpcy5OYW1lID09ICIwMDAuIEFybGluZ3RvbiBDb3VudHkiKSAlPiUNCiAgbXV0YXRlKE1NX1lZWVkgPSBkbXkocGFzdGUoIjAxLSIsIE1NX1lZWVksIHNlcCA9ICIiKSkpICU+JSAjIENvbnZlcnQgTU1fWVlZWSB0byBkYXRldGltZSBmb3JtYXQNCiAgYXJyYW5nZShNTV9ZWVlZKSAjIFNvcnQgYnkgTU1fWVlZWQ0KDQojIFBsb3QgYSB0aW1lIHNlcmllcw0KZ2dwbG90KGFybGluZ3Rvbl9kYXRhKSArDQogIGdlb21fbGluZShhZXMoeCA9IE1NX1lZWVksIHkgPSBQZXJzb25zX0luanVyZWRfc3VtLCBjb2xvciA9ICJQZXJzb25zIEluanVyZWQiKSkgKw0KICBnZW9tX2xpbmUoYWVzKHggPSBNTV9ZWVlZLCB5ID0gS19wZW9wbGVfc3VtLCBjb2xvciA9ICJQZXJzb25zIEtpbGxlZCIpKSArDQogIHNjYWxlX2NvbG9yX21hbnVhbCh2YWx1ZXMgPSBjKCJQZXJzb25zIEluanVyZWQiID0gInJlZCIsICJQZXJzb25zIEtpbGxlZCIgPSAiYmx1ZSIpKSArDQogIGxhYnModGl0bGUgPSAiUGVyc29ucyBJbmp1cmVkIFRpbWUgU2VyaWVzIGluIDAwMC4gQXJsaW5ndG9uIENvdW50eSIsDQogICAgICAgeCA9ICJEYXRlIiwNCiAgICAgICB5ID0gIlBlcnNvbnMgSW5qdXJlZCIsDQogICAgICAgY29sb3IgPSAiT3V0Y29tZSINCiAgKSArDQogIHRoZW1lX21pbmltYWwoKQ0KDQpgYGANCg0KIyMgRGF0YSBQcmVwIGZvciBQbG90IDINCg0KYGBge3J9DQpleHBvcnRfZGF0YSA8LSBkYXRhWywgYygiQ3Jhc2guU2V2ZXJpdHkiLCAiTWF4LlNwZWVkLkRpZmYiLCAiU3BlZWQuIiwgIkFsY29ob2wuIiwgIkRyb3dzeS4iLCAiRGlzdHJhY3RlZC4iLCAiV2VhdGhlci5Db25kaXRpb24iKV0NCg0KZXhwb3J0X2RhdGEgPC0gZXhwb3J0X2RhdGEgJT4lDQogIHJlbmFtZShBbGNvaG9sID0gYEFsY29ob2wuYCkgJT4lDQogIHJlbmFtZShEcm93c3kgPSBgRHJvd3N5LmApICU+JQ0KICByZW5hbWUoRGlzdHJhY3RlZCA9IGBEaXN0cmFjdGVkLmApDQoNCndyaXRlLmNzdihleHBvcnRfZGF0YSwgZmlsZSA9ICJwbG90XzJfZGF0YS5jc3YiLCByb3cubmFtZXMgPSBGQUxTRSkNCmBgYA0KDQojIyBEYXRhIFByZXAgZm9yIFBsb3QgMw0KDQpgYGB7cn0NCmV4cG9ydF9kYXRhIDwtIGRhdGFbLCBjKCJ4IiwgInkiLCAiQ3Jhc2guU2V2ZXJpdHkiLCAiUGh5c2ljYWwuSnVyaXMuTmFtZSIsICJDcmFzaC5NaWxpdGFyeS5UaW1lIiwgIlBlcnNvbnMuSW5qdXJlZCIsICJLX1Blb3BsZSIsICJQZWRlc3RyaWFucy5Jbmp1cmVkIiwgIlBlZGVzdHJpYW5zLktpbGxlZCIsICJWZWhpY2xlLkNvdW50IiwgIkNvbGxpc2lvbi5UeXBlIiwgIldlYXRoZXIuQ29uZGl0aW9uIiwgIkxpZ2h0LkNvbmRpdGlvbiIsICJSb2Fkd2F5LlN1cmZhY2UuQ29uZGl0aW9uIiwgIlJvYWR3YXkuRGVmZWN0IiwgIlJvYWR3YXkuRGVzY3JpcHRpb24iLCAiSW50ZXJzZWN0aW9uLlR5cGUiLCAiQWxjb2hvbC4iLCAiVW5yZXN0cmFpbmVkLiIsICJEaXN0cmFjdGVkLiIsICJSVEUuTmFtZSIsICJDcmFzaC5EYXRlIildDQoNCmV4cG9ydF9kYXRhIDwtIGV4cG9ydF9kYXRhICU+JQ0KICBmaWx0ZXIoUGh5c2ljYWwuSnVyaXMuTmFtZSA9PSAiMTA0LiBDaXR5IG9mIENoYXJsb3R0ZXN2aWxsZSIpDQoNCiMgRXhwb3J0IHRoZSBzZWxlY3RlZCBjb2x1bW5zIHRvIGEgQ1NWIGZpbGUNCndyaXRlLmNzdihleHBvcnRfZGF0YSwgZmlsZSA9ICJwbG90XzNfZGF0YS5jc3YiLCByb3cubmFtZXMgPSBGQUxTRSkNCmBgYA0KDQpgYGB7cn0NCmV4cG9ydF9kYXRhDQpgYGANCg0KDQpgYGB7cn0NCmFsYyA8LSB1bmlxdWUoZGF0YSRBbGNvaG9sLikNCmFsYw0KYGBgDQoNCmBgYHtyfQ0KYmVsdGVkIDwtIHVuaXF1ZShkYXRhJFVucmVzdHJhaW5lZC4pDQpiZWx0ZWQNCmBgYA0KDQpgYGB7cn0NCkNvbGxpc2lvbl9UeXBlIDwtIHVuaXF1ZShkYXRhJENvbGxpc2lvbi5UeXBlKQ0KQ29sbGlzaW9uX1R5cGUNCmBgYA0KYGBge3J9DQpXZWF0aGVyX0NvbmRpdGlvbiA8LSB1bmlxdWUoZXhwb3J0X2RhdGEkV2VhdGhlci5Db25kaXRpb24pDQpXZWF0aGVyX0NvbmRpdGlvbg0KYGBgDQoNCmBgYHtyfQ0KTGlnaHRfQ29uZGl0aW9uIDwtIHVuaXF1ZShleHBvcnRfZGF0YSRMaWdodC5Db25kaXRpb24pDQpMaWdodF9Db25kaXRpb24NCmBgYA0KDQpgYGB7cn0NCkludGVyc2VjdGlvbl9UeXBlIDwtIHVuaXF1ZShleHBvcnRfZGF0YSRJbnRlcnNlY3Rpb24uVHlwZSkNCkludGVyc2VjdGlvbl9UeXBlDQpgYGANCg0KYGBge3J9DQpSb2Fkd2F5X1N1cmZhY2VfQ29uZGl0aW9uIDwtIHVuaXF1ZShleHBvcnRfZGF0YSRSb2Fkd2F5LlN1cmZhY2UuQ29uZGl0aW9uKQ0KUm9hZHdheV9TdXJmYWNlX0NvbmRpdGlvbg0KYGBgDQoNCmBgYHtyfQ0KUm9hZHdheV9EZXNjcmlwdGlvbiA8LSB1bmlxdWUoZXhwb3J0X2RhdGEkUm9hZHdheS5EZXNjcmlwdGlvbikNClJvYWR3YXlfRGVzY3JpcHRpb24NCmBgYA0KDQoNCmBgYHtyfQ0KUm9hZHdheV9EZWZlY3QgPC0gdW5pcXVlKGV4cG9ydF9kYXRhJFJvYWR3YXkuRGVmZWN0KQ0KUm9hZHdheV9EZWZlY3QNCmBgYA0KDQoNCmBgYHtyfQ0KbWluX3ZhbHVlIDwtIG1pbihkYXRhJENyYXNoLk1pbGl0YXJ5LlRpbWUpDQptYXhfdmFsdWUgPC0gbWF4KGRhdGEkQ3Jhc2guTWlsaXRhcnkuVGltZSkNCg0KcHJpbnQobWluX3ZhbHVlKQ0KcHJpbnQobWF4X3ZhbHVlKQ0KYGBgDQoNCiMjIE90aGVyDQpgYGB7cn0NCiMgTG9hZCB0aGUgcmVxdWlyZWQgbGlicmFyeQ0KbGlicmFyeShnZ3Bsb3QyKQ0KDQojIENyZWF0ZSB0aGUgc2NhdHRlciBwbG90DQpnZ3Bsb3QoZGF0YSwgYWVzKHggPSB4LCB5ID0geSwgY29sb3IgPSBDcmFzaC5TZXZlcml0eSkpICsNCiAgZ2VvbV9wb2ludChzaXplID0gMSkgKw0KICBsYWJzKHRpdGxlID0gIlNjYXR0ZXIgUGxvdCBvZiBYIGFuZCBZIGNvbG9yZWQgYnkgQ3Jhc2ggU2V2ZXJpdHkiLA0KICAgICAgIHggPSAieCIsDQogICAgICAgeSA9ICJ5IiwNCiAgICAgICBjb2xvciA9ICJDcmFzaCBTZXZlcml0eSIpICsNCiAgdGhlbWVfbWluaW1hbCgpDQoNCmBgYA0KDQo=</div>
 
 
 
