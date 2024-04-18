@@ -94,6 +94,7 @@ ui <- tags$div(page_navbar(
         htmlOutput("dateRangeText"),
         width = "100%"
       ),
+      p("Monthly time series of pedestrians or motorists killed or injured in different Virginia counties. Data obtained from VDOT.", style = "color: #808080; font-weight: 100; font-style: italic; font-size: 14px; text-align: right; margin-top: 0.5rem;"),
       layout_columns(
         card(
           dateRangeInput2("plot1_dateSlider", h4("Select Date Range"), startview = "year", minview = "months", maxview = "decades", start = "2015-01", end = "2024-01", format = "yyyy-mm", min = "2015-01", max="2024-01"),
@@ -111,6 +112,7 @@ ui <- tags$div(page_navbar(
         ),
         height = "200px"
       ),
+      
       # DEBUG Info comment out
       textOutput("test11"),
       textOutput("test12"),
@@ -132,6 +134,7 @@ ui <- tags$div(page_navbar(
          plotlyOutput("distPlot2"),
          width = "100%",
          # DEBUG only
+         p("Number of crashes across Virginia by severity category and speed, driver, or weather conditions. Data obtained from VDOT.", style = "color: #808080; font-weight: 100; font-style: italic; font-size: 14px; text-align: right; margin-top: 0.5rem;"),
          textOutput("test21"),
          textOutput("test22"),
          textOutput("test23"),
@@ -176,6 +179,7 @@ ui <- tags$div(page_navbar(
      titlePanel("Dangerous Roads in Charlottesville, VA"),
      h5("Which intersections/streets around UVA are dangerous, and what factors lead to severe crashes?", style = "color: #808080; text-align: center;"),
      leafletOutput("mymap"),
+     p("Map of crash locations in Charlottesville, VA with environment, road, and crash parameters. Marker color shows severity and size shows vehicles involved. Data obtained from VDOT.", style = "color: #808080; font-weight: 100; font-style: italic; font-size: 14px; text-align: center; margin-top: 0.5rem;"),
      layout_columns(
        card(
          h4("Crash Parameters"),
@@ -242,6 +246,7 @@ ui <- tags$div(page_navbar(
          selectInput("plot3_roadwayDefects", "Roadway Defect", roadway_defects),
        ),
      ),
+
      # DEBUG Info comment out
      textOutput("test31"),
      textOutput("test32"),
@@ -357,10 +362,23 @@ server <- function(input, output, session) {
   output$distPlot1 <- renderPlotly({
     filtered_data <- plot_1_dynamic_data()
     
+    label_start_date <- input$plot1_dateSlider[1]
+    label_end_date <- input$plot1_dateSlider[2]
+    label_start_month <- month(label_start_date, label = TRUE)
+    label_start_year <- year(label_start_date)
+    label_end_month <- month(label_end_date, label = TRUE)
+    label_end_year <- year(label_end_date)
+
+    formatted_date_text <- paste(
+      paste(label_start_month, label_start_year, sep = " "),
+      "-",
+      paste(label_end_month, label_end_year, sep = " ")
+    )
+    
     p <- ggplot(filtered_data) +
       scale_color_manual(values = c("Motorists Injured" = "deepskyblue", "Motorists Killed" = "darkred", "Pedestrians Injured" = "dodgerblue4", "Pedestrians Killed" = "coral")) +
       labs(title = paste("Persons Injured/Killed in", trimws(gsub("[^[:alpha:] ]", "", input$plot1_countyInput)), "Crashes"),
-           x = "Date",
+           x = paste0("Date (", formatted_date_text, ")"),
            y = "Persons Affected",
            color = "Outcome"
       ) +
@@ -393,26 +411,27 @@ server <- function(input, output, session) {
     else {
       p <- p
     }
-    ggplotly(p, tooltip="text")
+    ggplotly(p, tooltip="text") %>%
+      layout(title = paste("Persons Injured/Killed in", trimws(gsub("[^[:alpha:] ]", "", input$plot1_countyInput)), "Crashes"), font = list(size = 12))
   })
   
-  output$dateRangeText <- renderText({
-    label_start_date <- input$plot1_dateSlider[1]
-    label_end_date <- input$plot1_dateSlider[2]
-    label_start_month <- month(label_start_date, label = TRUE)
-    label_start_year <- year(label_start_date)
-    label_end_month <- month(label_end_date, label = TRUE)
-    label_end_year <- year(label_end_date)
-    
-    formatted_text <- paste(
-      "Between",
-      paste(label_start_month, label_start_year, sep = " "),
-      "and",
-      paste(label_end_month, label_end_year, sep = " ")
-    )
-    HTML(paste("<p style='text-align:center; color:#888888;'>", formatted_text, "</p>"))
-    
-  })
+  # output$dateRangeText <- renderText({
+  #   label_start_date <- input$plot1_dateSlider[1]
+  #   label_end_date <- input$plot1_dateSlider[2]
+  #   label_start_month <- month(label_start_date, label = TRUE)
+  #   label_start_year <- year(label_start_date)
+  #   label_end_month <- month(label_end_date, label = TRUE)
+  #   label_end_year <- year(label_end_date)
+  #   
+  #   formatted_text <- paste(
+  #     "Between",
+  #     paste(label_start_month, label_start_year, sep = " "),
+  #     "and",
+  #     paste(label_end_month, label_end_year, sep = " ")
+  #   )
+  #   HTML(paste("<p style='text-align:center; color:#888888;'>", formatted_text, "</p>"))
+  #   
+  # })
   
   # DEBUG Info Comment Out
   # output$test13 <- renderText(input$plot1_crashAffect)
