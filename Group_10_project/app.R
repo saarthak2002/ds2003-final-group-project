@@ -133,13 +133,23 @@ ui <- page_navbar(
          textOutput("test21"),
          textOutput("test22"),
          textOutput("test23"),
+         textOutput("test24"),
        ),
        layout_columns(
          card(
-           numericInput("plot2_maxSpeedDiff", h4("Over speed limit by at least (MPH):"), 0, min = 0, max = 150)
+           numericInput("plot2_maxSpeedDiff", h4("Over speed limit by at least (MPH):"), 0, min = 0, max = 150),
+           h5("Y-axis Scale"),
+           switchInput(
+             label = "Log scale",
+             inputId = "plot2_log",
+             value = FALSE
+           )
          ),
          card(
-           selectInput("plot2_groupByFactor", h4("Driver condition:"), c("None", "Alcohol", "Drowsy", "Distracted"))
+           selectInput("plot2_groupByFactor", h4("Driver condition:"), c("None", "Alcohol", "Drowsy", "Distracted")),
+           radioButtons("plot2_ageGroup", label = h4("Driver Age Group"),
+                        choices = list("All" = 1, "Young" = 2, "Senior" = 3), 
+                        selected = 1)
          ),
          card(
            h4("Display weather conditions:"),
@@ -244,12 +254,13 @@ ui <- page_navbar(
      textOutput("test311"),
    )
   ),
+  
   ######################################################
   
-  # footer=tags$footer(
-  #   style = "background-color: #2C3E50; padding: 0px; text-align: center; position: fixed; bottom: 0; width: 100%; color: white",
-  #   "DS 2003 \u00A0 | \u00A0 Group 10 \u00A0 | \u00A0 Gabe Silverstein, Saarthak Gupta, Hasita Nalluri"
-  # ),
+  header=tags$footer(
+    style = "background-color: #2C3E50; padding: 0px; text-align: center; width: 100%; color: white",
+    "\u00A0 Group 10 \u00A0 | \u00A0 Gabe Silverstein, Saarthak Gupta, Hasita Nalluri, Cindy Dong"
+  ),
   theme = bs_theme(
     bootswatch="flatly",
     primary="#18BC9C",
@@ -405,6 +416,19 @@ server <- function(input, output, session) {
         filter(Max.Speed.Diff >= input$plot2_maxSpeedDiff)
     }
     
+    if(input$plot2_ageGroup != 1) {
+      # Young
+      if(input$plot2_ageGroup == 2) {
+        severity_counts <- severity_counts %>%
+          filter(Young. == "Yes")
+      }
+      # Senior
+      if(input$plot2_ageGroup == 3) {
+        severity_counts <- severity_counts %>%
+          filter(Senior. == "Yes")
+      }
+    }
+    
     if(input$plot2_groupByFactor != "None") {
       severity_counts <- severity_counts %>%
         group_by(Crash.Severity, !!sym(input$plot2_groupByFactor)) %>%
@@ -423,14 +447,13 @@ server <- function(input, output, session) {
     
     plot_2_filtred_data <- plot_2_dynamic_data()
     
-    for(i in 1:length(plot_2_filtred_data$Crash.Severity)){
-      plot_2_filtred_data$Crash.Severity[i] <- translate_code_to_crash_severity(plot_2_filtred_data$Crash.Severity[i])
-    }
+    label_mapping <- c("O" = "Property Damage Only",
+                       "C" = "Possible Injury",
+                       "B" = "Suspected Minor Injury",
+                       "A" = "Suspected Serious Injury",
+                       "K" = "Fatality")
     
-    plot_2_filtred_data$Crash.Severity <- factor(plot_2_filtred_data$Crash.Severity, ordered = T, 
-                                          levels = c("Property Damage", "Possible Injury", "Minor Injury", "Serious Injury", "Fatality"))
-    
-    print(plot_2_filtred_data)
+    plot_2_filtred_data$Crash.Severity <- label_mapping[as.character(plot_2_filtred_data$Crash.Severity)]
     
     if(input$plot2_groupByFactor != "None") {
       # Alcohol
@@ -478,14 +501,32 @@ server <- function(input, output, session) {
       )
     }
     
-    fig <- fig %>% layout(xaxis = list(title="Crash Severity"), yaxis = list(title="Number of Crashes"))
+    fig <- fig %>% 
+      layout(
+        xaxis = list(
+          title="Crash Severity", 
+          categoryorder = "array",
+          categoryarray = c("Property Damage Only", "Possible Injury", "Suspected Minor Injury", "Suspected Serious Injury", "Fatality")
+        ), 
+        yaxis = list(
+          title="Number of Crashes"
+        )
+      )
     
-    
+    if(input$plot2_log) {
+      # Log scale y axis
+      fig <- fig %>% 
+        layout(yaxis = list(type = "log", title="Number of Crashes (log)"))
+    }
+
     fig
   })
   
-  output$test21 <- renderText(input$plot2_maxSpeedDiff)
-  output$test22 <- renderText(input$plot2_groupByFactor)
+  # Debug Comment Out
+  # output$test21 <- renderText(input$plot2_maxSpeedDiff)
+  # output$test22 <- renderText(input$plot2_groupByFactor)
+  # output$test23 <- renderText(input$plot2_ageGroup)
+  # output$test24 <- renderText(input$plot2_log)
   
   ######################################################
   
