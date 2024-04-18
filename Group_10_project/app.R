@@ -88,6 +88,7 @@ ui <- tags$div(page_navbar(
   tabPanel("County Level",
     fluidPage(
       titlePanel("Accident Time Series"),
+      h5("How have crash outcomes changed over time and across counties? ", style = "color: #808080; text-align: center;"),
       mainPanel(
         plotlyOutput("distPlot1"),
         htmlOutput("dateRangeText"),
@@ -125,6 +126,7 @@ ui <- tags$div(page_navbar(
      fluidPage(
        # Application title
        titlePanel("Factors Affecting Crash Severity"),
+       h5("How do overspeeding, driver age and alertness, and weather affect crash severity?", style = "color: #808080; text-align: center;"),
        # Show a plot of the generated distribution
        mainPanel(
          plotlyOutput("distPlot2"),
@@ -172,6 +174,7 @@ ui <- tags$div(page_navbar(
         }
      ")),
      titlePanel("Dangerous Roads in Charlottesville, VA"),
+     h5("Which intersections/streets around UVA are dangerous, and what factors lead to severe crashes?", style = "color: #808080; text-align: center;"),
      leafletOutput("mymap"),
      layout_columns(
        card(
@@ -629,8 +632,9 @@ server <- function(input, output, session) {
     fig
   })
   
-  output$test21 <- renderText(input$plot2_maxSpeedDiff)
-  output$test22 <- renderText(input$plot2_groupByFactor)
+  # Debug comment out
+  # output$test21 <- renderText(input$plot2_maxSpeedDiff)
+  # output$test22 <- renderText(input$plot2_groupByFactor)
   
   ######################################################
   
