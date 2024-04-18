@@ -10,7 +10,6 @@ library(tidyverse)
 library(leaflet)
 library(plotly)
 library(shinyWidgets)
-library(purrr)
 
 ####################### Setup #######################
 dateInput2 <- function(inputId, label, minview = "days", maxview = "decades", ...) {
@@ -137,16 +136,25 @@ ui <- page_navbar(
        ),
        layout_columns(
          card(
-           numericInput("plot2_maxSpeedDiff", h4("Over speed limit by at least (MPH):"), 0, min = 0, max = 150)
+           numericInput("plot2_maxSpeedDiff", h4("Over Speed Limit by at Least (MPH)"), 0, min = 0, max = 150)
          ),
          card(
-           selectInput("plot2_groupByFactor", h4("Driver condition:"), c("None", "Alcohol", "Drowsy", "Distracted"))
+           selectInput("plot2_groupByFactor", h4("Driver Condition"), c("None", "Alcohol", "Drowsy", "Distracted")),
+           radioButtons("plot2_ageGroup", label = h4("Driver Age Group"),
+                        choices = list("All" = 1, "Young" = 2, "Senior" = 3), 
+                        selected = 1)
          ),
          card(
-           h4("Display weather conditions:"),
+           h4("Display Weather Conditions"),
            switchInput(
              inputId = "plot2_weather",
-             value = FALSE
+             value = F
+           ),
+           h4("Y-Axis Scale"),
+           switchInput(
+             label = "Log transform",
+             inputId = "plot2_log",
+             value = F
            )
          )
        )
@@ -167,7 +175,7 @@ ui <- page_navbar(
      leafletOutput("mymap"),
      layout_columns(
        card(
-         "Crash Parameters",
+         h4("Crash Parameters"),
          sliderTextInput(
            inputId = "plot3_crashSeverity", 
            label = "Crash Severity:", 
@@ -219,12 +227,12 @@ ui <- page_navbar(
          selectInput("plot3_collisionType", "Collision Type", collision_type),
        ),
        card(
-         "Environment Conditions",
+         h4("Environment Conditions"),
          selectInput("plot3_weatherCondition", "Weather", weather_conditions),
          selectInput("plot3_lightCondition", "Light", light_conditions),
        ),
        card(
-         "Road Conditions",
+         h4("Road Conditions"),
          selectInput("plot3_intersectionType", "Intersection Type", intersection_types),
          selectInput("plot3_roadwayDescription", "Roadway Type", roadway_descriptions),
          selectInput("plot3_roadSurfaceCondition", "Roadway Surface Condition", road_surface_conditions),
@@ -247,10 +255,10 @@ ui <- page_navbar(
   ),
   ######################################################
   
-  # footer=tags$footer(
-  #   style = "background-color: #2C3E50; padding: 0px; text-align: center; position: fixed; bottom: 0; width: 100%; color: white",
-  #   "DS 2003 \u00A0 | \u00A0 Group 10 \u00A0 | \u00A0 Gabe Silverstein, Saarthak Gupta, Hasita Nalluri"
-  # ),
+  footer=tags$footer(
+    style = "background-color: #2C3E50; padding: 0px; text-align: center; position: fixed; bottom: 0; width: 100%; color: white",
+    "DS 2003 \u00A0 | \u00A0 Group 10 \u00A0 | \u00A0 Gabe Silverstein, Saarthak Gupta, Hasita Nalluri, Cindy Dong"
+  ),
   theme = bs_theme(
     bootswatch="flatly",
     primary="#18BC9C",
@@ -284,6 +292,7 @@ ui <- page_navbar(
             ')
       )
   ),
+
   tags$script(HTML(
     'const boxes = document.querySelectorAll("[data-toggle=buttons] > .btn-group > .btn");
      for (var i = 0; i < boxes.length; i++) {
@@ -406,6 +415,19 @@ server <- function(input, output, session) {
         filter(Max.Speed.Diff >= input$plot2_maxSpeedDiff)
     }
     
+    if(input$plot2_ageGroup != 1) {
+      # Young
+      if(input$plot2_ageGroup == 2) {
+        severity_counts <- severity_counts %>%
+          filter(Young. == "Yes")
+      }
+      # Senior
+      if(input$plot2_ageGroup == 3) {
+        severity_counts <- severity_counts %>%
+          filter(Senior. == "Yes")
+      }
+    }
+    
     if(input$plot2_groupByFactor != "None") {
       if (input$plot2_weather) {
         severity_counts <- severity_counts %>%
@@ -454,11 +476,15 @@ server <- function(input, output, session) {
       if(input$plot2_groupByFactor == "Alcohol") {
         if (input$plot2_weather) {
           p <- ggplot(plot_2_filtred_data) + 
-            geom_bar(aes(x = Alcohol, y = log(count), fill = Weather.Condition, text=paste("Crashes: ", format_num(count), "\nWeather Condition: ", Weather.Condition, "\nAlcohol: ", Alcohol, sep="")),
+            geom_bar(aes(x = Alcohol, y = count, fill = Weather.Condition, text=paste("Crashes: ", format_num(count), "\nWeather Condition: ", Weather.Condition, "\nAlcohol: ", Alcohol, sep="")),
                      position = "stack", stat = "identity") +
             facet_grid(~Crash.Severity, switch = "x") +
-            theme_minimal() + scale_fill_manual(values=pastel_colors) + labs(title = "Crash Severity", y = "Number of Crashes (Log Transform)", fill = "Weather Condition") +
+            theme_minimal() + scale_fill_manual(values=pastel_colors) + labs(title = "Crash Severity", y = "Number of Crashes", fill = "Weather Condition") +
             theme(plot.title = element_text(hjust = 0.5, size=11))
+          
+          if (input$plot2_log) {
+            p <- p + scale_y_log10() + ylab("Number of Crashes (Log Transform)")
+          }
           
           fig <- ggplotly(p, tooltip = "text")
         }
@@ -466,7 +492,7 @@ server <- function(input, output, session) {
           fig <- plot_ly(
             data = plot_2_filtred_data,
             x = ~Crash.Severity,
-            y = ~log(count),
+            y = ~count,
             color = ~Alcohol,
             type = "bar",
             hovertemplate = ~paste("~", format_num(count), " crashes", "<extra> Alcohol: ", Alcohol, "</extra>", sep="")
@@ -477,11 +503,15 @@ server <- function(input, output, session) {
       if(input$plot2_groupByFactor == "Drowsy") {
         if (input$plot2_weather) {
           p <- ggplot(plot_2_filtred_data) + 
-            geom_bar(aes(x = Drowsy, y = log(count), fill = Weather.Condition, text=paste("Crashes: ", format_num(count), "\nWeather Condition: ", Weather.Condition, "\nDrowsy: ", Drowsy, sep="")),
+            geom_bar(aes(x = Drowsy, y = count, fill = Weather.Condition, text=paste("Crashes: ", format_num(count), "\nWeather Condition: ", Weather.Condition, "\nDrowsy: ", Drowsy, sep="")),
                           position = "stack", stat = "identity") +
             facet_grid(~Crash.Severity, switch = "x") +
-            theme_minimal() + scale_fill_manual(values=pastel_colors) + labs(title = "Crash Severity", y = "Number of Crashes (Log Transform)", fill = "Weather Condition") +
+            theme_minimal() + scale_fill_manual(values=pastel_colors) + labs(title = "Crash Severity", y = "Number of Crashes", fill = "Weather Condition") +
             theme(plot.title = element_text(hjust = 0.5, size=11))
+          
+          if (input$plot2_log) {
+            p <- p + scale_y_log10() + ylab("Number of Crashes (Log Transform)")
+          }
           
           fig <- ggplotly(p, tooltip = "text")
           
@@ -490,7 +520,7 @@ server <- function(input, output, session) {
           fig <- plot_ly(
             data = plot_2_filtred_data,
             x = ~Crash.Severity,
-            y = ~log(count),
+            y = ~count,
             color = ~Drowsy,
             type = "bar",
             hovertemplate = ~paste(format_num(count), " crashes", "<extra> Drowsy: ", Drowsy, "</extra>", sep="")
@@ -501,50 +531,24 @@ server <- function(input, output, session) {
       if(input$plot2_groupByFactor == "Distracted") {
         if (input$plot2_weather) {
           p <- ggplot(plot_2_filtred_data) + 
-            geom_bar(aes(x = Distracted, y = log(count), fill = Weather.Condition, text=paste("Crashes: ", format_num(count), "\nWeather Condition: ", Weather.Condition, "\nDistracted: ", Distracted, sep="")),
+            geom_bar(aes(x = Distracted, y = count, fill = Weather.Condition, text=paste("Crashes: ", format_num(count), "\nWeather Condition: ", Weather.Condition, "\nDistracted: ", Distracted, sep="")),
                      position = "stack", stat = "identity") +
             facet_grid(~Crash.Severity, switch = "x") +
-            theme_minimal() + scale_fill_manual(values=pastel_colors) + labs(title = "Crash Severity", y = "Number of Crashes (Log Transform)", fill = "Weather Condition") +
+            theme_minimal() + scale_fill_manual(values=pastel_colors) + labs(title = "Crash Severity", y = "Number of Crashes", fill = "Weather Condition") +
             theme(plot.title = element_text(hjust = 0.5, size=11))
           
+          if (input$plot2_log) {
+            p <- p + scale_y_log10() + ylab("Number of Crashes (Log Transform)")
+          }
+          
           fig <- ggplotly(p, tooltip = "text")
-          
-          
-          
-          # POSSIBLE PLOTLY ALTERNATIVE BUT NEEDS AXIS REORDER + LEGEND COLORS DONT MATCH BARS 
-          
-          #fig <- subplot(
-            #map(plot_2_filtred_data$Crash.Severity %>% unique(), function(.x){
-              
-              #purr_data <- plot_2_filtred_data %>% filter(Crash.Severity == .x) %>%
-                #group_by(Weather.Condition)
-              
-              #purr_data$Crash.Severity <- factor(purr_data$Crash.Severity, ordered = T, 
-                                                           #levels = c("Property Damage", "Possible Injury", "Minor Injury", "Serious Injury", "Fatality"))
-              
-              #x_title <- purr_data$Crash.Severity %>% unique()  
-              #show_legend_once = ifelse(x_title == "Property Damage", T, F)
-              
-              #plot_ly(data = purr_data, 
-                      #x = ~Distracted, 
-                      #y = ~count, 
-                      #color= ~Weather.Condition,
-                      #colors = pastel_colors,
-                      #type = 'bar', 
-                      #legendgroup= ~Weather.Condition,
-                      #showlegend=show_legend_once
-              #) %>% 
-                #layout(xaxis = list(title = x_title))
-              
-            #}),
-            #titleX = T, shareY = T) %>% layout(barmode = 'stack', showlegend = T)
           
         }
         else {
           fig <- plot_ly(
             data = plot_2_filtred_data,
             x = ~Crash.Severity,
-            y = ~log(count),
+            y = ~count,
             color = ~Distracted,
             type = "bar",
             hovertemplate = ~paste(format_num(count), " crashes", "<extra> Distracted: ", Distracted, "</extra>", sep="")
@@ -558,7 +562,7 @@ server <- function(input, output, session) {
         fig <- plot_ly(
           data = plot_2_filtred_data,
           x = ~Crash.Severity,
-          y = ~log(count),
+          y = ~count,
           type = "bar",
           hovertemplate = ~paste(Weather.Condition, ": ", format_num(count), " crashes", "<extra></extra>", sep=""),
           color = ~Weather.Condition,
@@ -578,17 +582,22 @@ server <- function(input, output, session) {
     }
     
     if (!input$plot2_weather) {
-      if (input$plot2_groupByFactor == "None") {
-        fig <- fig %>% layout(xaxis = list(title="Crash Severity"), yaxis = list(title="Number of Crashes"))
+      fig <- fig %>% layout(xaxis = list(title="Crash Severity"), yaxis = list(title="Number of Crashes"))
+      
+      if (input$plot2_log) {
+        # Log scale y axis
+        fig <- fig %>% layout(yaxis = list(type = "log", title="Number of Crashes (Log Transform)"))
       }
-      else {
-        fig <- fig %>% layout(xaxis = list(title="Crash Severity"), yaxis = list(title="Number of Crashes (Log Transform)"))
-      }
+      
     }
     else if (input$plot2_groupByFactor == "None") {
-      fig <- fig %>% layout(xaxis = list(title="Crash Severity"), yaxis = list(title="Number of Crashes (Log Transform)"))
+      fig <- fig %>% layout(xaxis = list(title="Crash Severity"), yaxis = list(title="Number of Crashes"))
+      
+      if (input$plot2_log) {
+        # Log scale y axis
+        fig <- fig %>% layout(yaxis = list(type = "log", title="Number of Crashes (Log Transform)"))
+      }
     }
-
 
     fig
   })
