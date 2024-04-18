@@ -80,7 +80,7 @@ roadway_descriptions <- c("0. Any", "1. Two-Way, Not Divided", "2. Two-Way, Divi
 roadway_defects <- c("0. Any", "1. No Defects", "2. Holes, Ruts, Bumps", "3. Slick Pavement", "4. Under Repair", "5. Loose Material", "6. Restricted Width", "7. Roadway Obstructed", "8. Edge Pavement Drop Off", "9. Other")
 ######################################################
 
-ui <- page_navbar(
+ui <- tags$div(page_navbar(
   title="Virginia Car Crash Data",
   underline=T,
   
@@ -251,14 +251,9 @@ ui <- page_navbar(
      textOutput("test39"),
      textOutput("test310"),
      textOutput("test311"),
-   )
+   ),
   ),
   ######################################################
-  
-  footer=tags$footer(
-    style = "background-color: #2C3E50; padding: 0px; text-align: center; position: fixed; bottom: 0; width: 100%; color: white",
-    "DS 2003 \u00A0 | \u00A0 Group 10 \u00A0 | \u00A0 Gabe Silverstein, Saarthak Gupta, Hasita Nalluri, Cindy Dong"
-  ),
   theme = bs_theme(
     bootswatch="flatly",
     primary="#18BC9C",
@@ -305,6 +300,11 @@ ui <- page_navbar(
      }
     '
   ))
+),
+  tags$div(
+    style = "background-color: #2C3E50; padding: 0px; text-align: center; width: 100%; color: white;",
+    "DS 2003 \u00A0 | \u00A0 Group 10 \u00A0 | \u00A0 Gabe Silverstein, Saarthak Gupta, Hasita Nalluri, Cindy Dong"
+  )
 )
 
 # Server logic
