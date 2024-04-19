@@ -179,7 +179,7 @@ ui <- tags$div(page_navbar(
      titlePanel("Dangerous Roads in Charlottesville, VA"),
      h5("Which intersections/streets around UVA are dangerous, and what factors lead to severe crashes?", style = "color: #808080; text-align: center;"),
      leafletOutput("mymap"),
-     p("Map of crash locations in Charlottesville, VA with environment, road, and crash parameters. Marker color shows severity and size shows vehicles involved. Data obtained from VDOT.", style = "color: #808080; font-weight: 100; font-style: italic; font-size: 14px; text-align: center; margin-top: 0.5rem;"),
+     p("Map of crash locations in Charlottesville, VA with environment, road, and crash parameters. Individual marker color shows severity and size shows vehicles involved. Data obtained from VDOT.", style = "color: #808080; font-weight: 100; font-style: italic; font-size: 14px; text-align: center; margin-top: 0.5rem;"),
      layout_columns(
        card(
          h4("Crash Parameters"),
@@ -496,7 +496,7 @@ server <- function(input, output, session) {
                        "#FFFFE0", "#AFEEEE", "#FFB347", "#C9A0DC", "#FFBBFF",
                        "#87CEEB")
     
-    plot2_title <- "Number of Crahses by Severity"
+    plot2_title <- "Number of Crashes by Severity"
     plot_2_filtred_data <- plot_2_dynamic_data()
     
     if(input$plot2_maxSpeedDiff > 0) {
