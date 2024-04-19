@@ -313,7 +313,7 @@ ui <- tags$div(page_navbar(
     "var navElement = document.getElementsByTagName('nav')[0];
     console.log(navElement);
     var newElement = document.createElement('p');
-    var newText = document.createTextNode('Group 10');
+    var newText = document.createTextNode('Group 6');
     newElement.style.color = 'white';
     newElement.style.fontWeight = 'bold';
     newElement.style.padding = '12px';
@@ -325,7 +325,7 @@ ui <- tags$div(page_navbar(
 ),
   tags$div(
     style = "background-color: #2C3E50; padding: 0px; text-align: center; width: 100%; color: white;",
-    "DS 2003 \u00A0 | \u00A0 Group 10 \u00A0 | \u00A0 Gabe Silverstein, Saarthak Gupta, Hasita Nalluri, Cindy Dong"
+    "DS 2003 \u00A0 | \u00A0 Group 6 \u00A0 | \u00A0 Gabe Silverstein, Saarthak Gupta, Hasita Nalluri, Cindy Dong"
   )
 )
 
