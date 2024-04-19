@@ -543,7 +543,7 @@ server <- function(input, output, session) {
             y = ~count,
             color = ~Alcohol,
             type = "bar",
-            hovertemplate = ~paste("~", format_num(count), " crashes", "<extra> Alcohol: ", Alcohol, "</extra>", sep="")
+            hovertemplate = ~paste(format_num(count), " crashes", "<extra> Alcohol: ", Alcohol, "</extra>", sep="")
           ) %>% layout(legend=list(title=list(text='<b> Alcohol </b>')))
         }
       }
